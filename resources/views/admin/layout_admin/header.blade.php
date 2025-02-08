@@ -3,7 +3,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
-                <img src="/admin/assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
+                <img src="/admin-assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
                     height="20" />
             </a>
             <div class="nav-toggle">
@@ -65,7 +65,7 @@
                                 <div class="notif-center">
                                     <a href="#">
                                         <div class="notif-img">
-                                            <img src="/admin/assets/img/jm_denis.jpg" alt="Img Profile" />
+                                            <img src="/admin-assets/img/jm_denis.jpg" alt="Img Profile" />
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Jimmy Denis</span>
@@ -75,7 +75,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-img">
-                                            <img src="/admin/assets/img/chadengle.jpg" alt="Img Profile" />
+                                            <img src="/admin-assets/img/chadengle.jpg" alt="Img Profile" />
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Chad</span>
@@ -85,7 +85,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-img">
-                                            <img src="/admin/assets/img/mlane.jpg" alt="Img Profile" />
+                                            <img src="/admin-assets/img/mlane.jpg" alt="Img Profile" />
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Jhon Doe</span>
@@ -97,7 +97,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-img">
-                                            <img src="/admin/assets/img/talha.jpg" alt="Img Profile" />
+                                            <img src="/admin-assets/img/talha.jpg" alt="Img Profile" />
                                         </div>
                                         <div class="notif-content">
                                             <span class="subject">Talha</span>
@@ -152,7 +152,7 @@
                                     </a>
                                     <a href="#">
                                         <div class="notif-img">
-                                            <img src="/admin/assets/img/profile2.jpg" alt="Img Profile" />
+                                            <img src="/admin-assets/img/profile2.jpg" alt="Img Profile" />
                                         </div>
                                         <div class="notif-content">
                                             <span class="block">
@@ -250,7 +250,7 @@
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                         aria-expanded="false">
                         <div class="avatar-sm">
-                            <img src="/admin/assets/img/profile.jpg" alt="..."
+                            <img src="/admin-assets/img/profile.jpg" alt="..."
                                 class="avatar-img rounded-circle" />
                         </div>
                         <span class="profile-username">
@@ -263,7 +263,7 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        <img src="/admin/assets/img/profile.jpg" alt="image profile"
+                                        <img src="/admin-assets/img/profile.jpg" alt="image profile"
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
