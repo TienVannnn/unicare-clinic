@@ -10,7 +10,7 @@
 <script src="/admin-assets/js/plugin/datatables/datatables.min.js"></script>
 
 <script src="/admin-assets/js/kaiadmin.min.js"></script>
-<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+<script src="/admin-assets/js/toastr.min.js"></script>
 
 {!! Toastr::message() !!}
 <script>

@@ -30,5 +30,5 @@
 <link rel="stylesheet" href="/admin-assets/css/plugins.min.css" />
 <link rel="stylesheet" href="/admin-assets/css/kaiadmin.min.css" />
 <link rel="stylesheet" href="/admin-assets/css/custom.css" />
-<link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+<link rel="stylesheet" href="/admin-assets/css/toastr.min.css" />
 <meta name="csrf-token" content="{{ csrf_token() }}">
