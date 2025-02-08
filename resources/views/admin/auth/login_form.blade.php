@@ -54,7 +54,8 @@
                                                 Ghi nhớ đăng nhập
                                             </label>
                                         </div>
-                                        <a class="text-primary fw-bold" href="#">Quên mật khẩu?</a>
+                                        <a class="text-primary fw-bold" href="{{ route('admin.forgotpassword') }}">Quên
+                                            mật khẩu?</a>
                                     </div>
                                     <button type="submit" class="btn btn-primary w-100 py-8 mb-4 text-uppercase">Đăng
                                         nhập quản

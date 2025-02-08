@@ -17,6 +17,8 @@ class Admin extends Authenticatable
         'password',
         'avatar',
         'phone',
-        'address'
+        'address',
+        'token_reset_password',
+        'token_duration'
     ];
 }
