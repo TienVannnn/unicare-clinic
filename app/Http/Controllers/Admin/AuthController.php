@@ -87,4 +87,11 @@ class AuthController extends Controller
         Session::flash('error', 'Token không hợp lệ!');
         return redirect()->back();
     }
+
+    public function logout()
+    {
+        auth()->guard('admin')->logout();
+        Session::flash('success', 'Đăng xuất quản trị thành công');
+        return redirect()->route('login');
+    }
 }

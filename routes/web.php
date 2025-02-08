@@ -28,4 +28,5 @@ Route::post('/admin/recovery-password', [AuthController::class, 'hanle_recovery_
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 });
