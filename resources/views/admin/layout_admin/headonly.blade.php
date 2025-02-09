@@ -32,3 +32,4 @@
 <link rel="stylesheet" href="/admin-assets/css/custom.css" />
 <link rel="stylesheet" href="/admin-assets/css/toastr.min.css" />
 <meta name="csrf-token" content="{{ csrf_token() }}">
+@routes
