@@ -20,6 +20,7 @@
             @include('admin.layout_admin.footer')
         </div>
     </div>
+    @routes
     @include('admin.layout_admin.script')
     @yield('js')
 

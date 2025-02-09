@@ -10,6 +10,7 @@ use App\Jobs\ForgotPasswordJob;
 use App\Models\Admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -37,7 +38,7 @@ class AuthController extends Controller
 
     public function forgot_password()
     {
-        $title = 'Quên mật khẩu | Unicare';
+        $title = 'Quên mật khẩu';
         return view('admin.auth.forgot_password', compact('title'));
     }
 
@@ -60,7 +61,7 @@ class AuthController extends Controller
     public function recovery_password()
     {
         $email = session('email');
-        $title = 'Khôi phục mật khẩu - Unicare';
+        $title = 'Khôi phục mật khẩu';
         return view('admin.auth.recovery_password', compact('title', 'email'));
     }
 
@@ -93,5 +94,36 @@ class AuthController extends Controller
         auth()->guard('admin')->logout();
         Session::flash('success', 'Đăng xuất quản trị thành công');
         return redirect()->route('login');
+    }
+
+    public function profile()
+    {
+        $title = 'Thông tin cá nhân';
+        return view('admin.auth.profile', compact('title'));
+    }
+
+    public function change_avatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $admin = Auth::guard('admin')->user();
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $filename = time() . '_' . Str::slug($originalName) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/avatars'), $filename);
+
+            if ($admin->avatar && file_exists(public_path($admin->avatar))) {
+                unlink(public_path($admin->avatar));
+            }
+            $admin->avatar = '/uploads/avatars/' . $filename;
+            $admin->save();
+
+            return response()->json(['success' => true, 'avatar_url' => $admin->avatar]);
+        }
+
+        return response()->json(['success' => false], 500);
     }
 }

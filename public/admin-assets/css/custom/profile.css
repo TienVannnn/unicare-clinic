@@ -1,0 +1,28 @@
+.profile-card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.profile-header {
+    background-color: #eef3ff;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.camera-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 5px;
+    right: -12px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -250,12 +250,11 @@
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                         aria-expanded="false">
                         <div class="avatar-sm">
-                            <img src="/admin-assets/img/profile.jpg" alt="..."
-                                class="avatar-img rounded-circle" />
+                            <img src="{{ Auth::guard('admin')->user()->avatar ? Auth::guard('admin')->user()->avatar : '/uploads/avatars/avatar.png' }}"
+                                alt="..." class="avatar-img rounded-circle">
                         </div>
                         <span class="profile-username">
-                            <span class="op-7">Hi,</span>
-                            <span class="fw-bold">Hizrian</span>
+                            <span class="fw-bold">{{ auth()->guard('admin')->user()->name }}</span>
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -263,26 +262,28 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        <img src="/admin-assets/img/profile.jpg" alt="image profile"
-                                            class="avatar-img rounded" />
+                                        <img src="{{ Auth::guard('admin')->user()->avatar ? Auth::guard('admin')->user()->avatar : '/uploads/avatars/avatar.png' }}"
+                                            alt="..." class="avatar-img rounded-circle">
                                     </div>
                                     <div class="u-text">
-                                        <h4>Hizrian</h4>
-                                        <p class="text-muted">hello@example.com</p>
-                                        <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View
-                                            Profile</a>
+                                        <h4>{{ auth()->guard('admin')->user()->name }}</h4>
+                                        <p class="text-muted">{{ auth()->guard('admin')->user()->email }}</p>
+                                        <a href="{{ route('admin.profile') }}"
+                                            class="btn btn-xs btn-secondary btn-sm">Thông tin cá
+                                            nhân</a>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">My Profile</a>
-                                <a class="dropdown-item" href="#">My Balance</a>
-                                <a class="dropdown-item" href="#">Inbox</a>
+                                <a class="dropdown-item" href="#"><i class="icon-pencil me-2"></i>Cài đặt tài
+                                    khoản</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Account Setting</a>
+                                <a class="dropdown-item" href="#"><i class="icon-lock-open me-2"></i>Đổi mật
+                                    khẩu</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
+                                <a class="dropdown-item" href="{{ route('admin.logout') }}"><i
+                                        class="icon-logout me-2"></i>Đăng xuất</a>
                             </li>
                         </div>
                     </ul>
