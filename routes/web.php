@@ -29,6 +29,12 @@ Route::post('/admin/recovery-password', [AuthController::class, 'hanle_recovery_
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
-    Route::get('/profile', [AuthController::class, 'profile'])->name('admin.profile');
-    Route::post('profile/change-avatar', [AuthController::class, 'change_avatar'])->name('admin.change-avatar');
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [AuthController::class, 'profile'])->name('admin.profile');
+        Route::post('/change-avatar', [AuthController::class, 'change_avatar'])->name('admin.change-avatar');
+        Route::get('/edit-account', [AuthController::class, 'edit_account'])->name('admin.edit-account');
+        Route::post('/edit-account', [AuthController::class, 'handle_edit_account'])->name('admin.handle_edit-account');
+        Route::get('/change-password', [AuthController::class, 'change_password'])->name('admin.change-password');
+        Route::post('/change-password', [AuthController::class, 'handle_change_password'])->name('admin.handle_change-password');
+    });
 });

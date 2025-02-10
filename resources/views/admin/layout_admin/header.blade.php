@@ -279,7 +279,8 @@
                                 <a class="dropdown-item" href="#"><i class="icon-pencil me-2"></i>Cài đặt tài
                                     khoản</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i class="icon-lock-open me-2"></i>Đổi mật
+                                <a class="dropdown-item" href="{{ route('admin.change-password') }}"><i
+                                        class="icon-lock-open me-2"></i>Đổi mật
                                     khẩu</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('admin.logout') }}"><i

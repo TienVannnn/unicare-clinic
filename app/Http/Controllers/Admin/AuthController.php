@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ChangePasswordRequest;
 use App\Http\Requests\Admin\ForgotPasswordRequest;
 use App\Http\Requests\Admin\LoginRequest;
+use App\Http\Requests\EditAccountRequest;
 use App\Http\Requests\RecoveryPasswordRequest;
 use App\Jobs\ForgotPasswordJob;
 use App\Models\Admin;
@@ -125,5 +127,54 @@ class AuthController extends Controller
         }
 
         return response()->json(['success' => false], 500);
+    }
+
+    public function edit_account()
+    {
+        $title = 'Cài đặt tài khoản';
+        $data = auth()->guard('admin')->user();
+        return view('admin.auth.edit-account', compact('title', 'data'));
+    }
+
+    public function handle_edit_account(EditAccountRequest $request)
+    {
+        try {
+            $admin = Auth::guard('admin')->user();
+            $data = array_filter([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'gender' => $request->gender,
+            ]);
+            $admin->update($data);
+            Session::flash('success', 'Thay đổi hồ sơ thành công');
+            return redirect()->route('admin.profile');
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi xảy ra ' . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function change_password()
+    {
+        $title = 'Đổi mật khẩu';
+        return view('admin.auth.change-password', compact('title'));
+    }
+
+    public function handle_change_password(ChangePasswordRequest $request)
+    {
+        $admin = auth()->guard('admin')->user();
+        try {
+            if (Hash::check($request->old_pass, $admin->password)) {
+                $admin->password = Hash::make($request->password);
+                Session::flash('success', 'Đổi mật khẩu thành công');
+                return redirect()->route('admin.dashboard');
+            } else {
+                Session::flash('error', 'Mật khẩu hiện tại không hợp lệ');
+            }
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi xảy ra');
+        }
+        return redirect()->back();
     }
 }

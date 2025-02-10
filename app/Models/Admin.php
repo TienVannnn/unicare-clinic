@@ -18,6 +18,7 @@ class Admin extends Authenticatable
         'avatar',
         'phone',
         'address',
+        'gender',
         'token_reset_password',
         'token_duration'
     ];

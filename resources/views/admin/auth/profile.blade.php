@@ -8,7 +8,8 @@
         <div class="row m-2">
             <div class="d-flex justify-content-between align-items-center my-2">
                 <p class="text-uppercase fw-bold">Thông tin cá nhân</p>
-                <a class="btn btn-secondary" href=""><i class="icon-pencil me-2"></i>Cài đặt tài khoản</a>
+                <a class="btn btn-secondary" href="{{ route('admin.edit-account') }}"><i class="icon-pencil me-2"></i>Cài đặt
+                    tài khoản</a>
             </div>
             <div class="col-md-4">
                 <div class="card profile-card shadow-sm">
@@ -41,7 +42,7 @@
                             </div>
                             <div class="col-md-6 col-6 text-center">
                                 <p class="fw-bold mb-0">Giới tính</p>
-                                <p class="text-muted">Nam</p>
+                                <p class="text-muted">{{ auth()->guard('admin')->user()->gender == 1 ? 'Nam' : 'Nữ' }}</p>
                             </div>
                         </div>
                     </div>
