@@ -22,9 +22,8 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item active">
-                    <a data-bs-toggle="collapse" href="{{ route('admin.dashboard') }}" class="collapsed"
-                        aria-expanded="false">
+                <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Trang chủ</p>
                     </a>
@@ -34,6 +33,20 @@
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
                     <h4 class="text-section">Quản lý</h4>
+                </li>
+
+                <li class="nav-item {{ request()->routeIs('permission.*') ? 'active' : '' }}">
+                    <a href="{{ route('permission.index') }}">
+                        <i class="icon-user-following"></i>
+                        <p>Quyền truy cập</p>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ request()->routeIs('role.*') ? 'active' : '' }}">
+                    <a href="{{ route('role.index') }}">
+                        <i class="fas fa-users-cog"></i>
+                        <p>Vai trò</p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#base">

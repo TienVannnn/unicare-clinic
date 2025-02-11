@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +40,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
         Route::get('/change-password', [AuthController::class, 'change_password'])->name('admin.change-password');
         Route::post('/change-password', [AuthController::class, 'handle_change_password'])->name('admin.handle_change-password');
     });
+    Route::get('/{type}/search', [SearchController::class, 'search'])->name('admin.search');
+    Route::resource('/permission', PermissionController::class);
+    Route::resource('/role', RoleController::class);
 });
