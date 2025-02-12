@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ManagerRequest;
+use App\Jobs\MailAccountJob;
+use App\Models\Admin;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Role;
+
+class AdminController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $title = 'Danh sách người quản lý';
+        $managers = Admin::orderByDesc('id')->paginate(15);
+        return view('admin.manager.list', compact('title', 'managers'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $title = 'Thêm mới người quản lý';
+        $roles = Role::orderByDesc('id')->get();
+        return view('admin.manager.create', compact('title', 'roles'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(ManagerRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $rand = rand(100000, 999999);
+            $admin = Admin::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($rand)
+            ]);
+
+            if ($request->has('role')) {
+                $admin->assignRole($request->role);
+            }
+            DB::commit();
+            Session::flash('success', 'Tạo nhân viên thành công');
+            MailAccountJob::dispatch($admin, $rand)->delay(now()->addSecond(10));
+            return redirect()->route('manager.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Session::flash('error', 'Có lỗi khi tạo: ' . $e->getMessage());
+        }
+        return redirect()->back();
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        // $this->authorize('edit admin');
+        $manager = Admin::find($id);
+        if (!$manager) {
+            abort('404');
+        }
+        $title = 'Chỉnh sửa người quản lý';
+        $rolesChecked = $manager->roless->pluck('id')->toArray();
+        $roles = Role::orderByDesc('id')->get();
+        return view('admin.manager.edit', compact('title', 'manager', 'rolesChecked', 'roles'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(ManagerRequest $request, string $id)
+    {
+        $manager = Admin::find($id);
+        if (!$manager) {
+            abort('404');
+        }
+        try {
+            DB::beginTransaction();
+            $manager->fill([
+                'name' => $request->name,
+                'email' => $request->email
+            ]);
+            if ($request->password) {
+                $manager->password = Hash::make($request->password);
+            }
+            $manager->save();
+            $manager->syncRoles($request->role ?? []);
+            DB::commit();
+            Session::flash('success', 'Cập nhật nhân viên thành công');
+            return redirect()->route('manager.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Session::flash('error', 'Có lỗi khi chỉnh sửa: ' . $e->getMessage());
+        }
+        return redirect()->back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $manager = Admin::find($id);
+        if (!$manager) {
+            abort('404');
+        }
+        $manager->delete();
+        return redirect()->back();
+    }
+}

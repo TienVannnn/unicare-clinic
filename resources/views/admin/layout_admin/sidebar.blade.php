@@ -48,6 +48,12 @@
                         <p>Vai trò</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
+                    <a href="{{ route('manager.index') }}">
+                        <i class="fas fa-users"></i>
+                        <p>Người quản lý</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>
