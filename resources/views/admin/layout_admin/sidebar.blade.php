@@ -54,6 +54,12 @@
                         <p>Người quản lý</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->routeIs('medicine-category.*') ? 'active' : '' }}">
+                    <a href="{{ route('medicine-category.index') }}">
+                        <i class="fas fa-th-list"></i>
+                        <p>Loại thuốc</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>

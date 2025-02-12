@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MedicineCategoryController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
@@ -45,4 +46,5 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/permission', PermissionController::class);
     Route::resource('/role', RoleController::class);
     Route::resource('/manager', AdminController::class);
+    Route::resource('/medicine-category', MedicineCategoryController::class);
 });
