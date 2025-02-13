@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Medicine;
 use App\Models\MedicineCategory;
 use App\Models\Permission;
 use Illuminate\Http\Request;
@@ -38,6 +39,12 @@ class SearchController extends Controller
             $categories = MedicineCategory::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm loại thuốc';
             return view('admin.medicine-category.list', compact('categories', 'title'));
+        }
+
+        if ($type === 'medicine') {
+            $medicines = Medicine::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm thuốc';
+            return view('admin.medicine.list', compact('medicines', 'title'));
         }
 
         return abort(404);

@@ -13,7 +13,7 @@
                             <input type="text" placeholder="Nhập tên nhân viên" name="name">
                         </form>
                     </div>
-                    @can('them-vai-tro')
+                    @can('them-nhan-vien')
                         <a href="{{ route('manager.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
                             Thêm nhân viên</a>
                     @endcan
@@ -36,7 +36,7 @@
                                     <th scope="col">Email</th>
                                     <th scope="col">SĐT</th>
                                     <th scope="col">Giới tính</th>
-                                    @can(['chinh-sua-vai-tro', 'xoa-vai-tro'])
+                                    @can(['chinh-sua-nhan-vien', 'xoa-nhan-vien'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
                                 </tr>
@@ -60,12 +60,12 @@
                                             @endif
                                         </td>
                                         <td class="d-flex align-items-center">
-                                            @can('chinh-sua-vai-tro')
+                                            @can('chinh-sua-nhan-vien')
                                                 <a href="{{ route('manager.edit', $manager->id) }}"
                                                     class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
                                                         class="fas fa-edit"></i></a>
                                             @endcan
-                                            @can('xoa-vai-tro')
+                                            @can('xoa-nhan-vien')
                                                 <form action="{{ route('manager.destroy', $manager->id) }}" method="POST"
                                                     class="delete-form">
                                                     @method('DELETE')

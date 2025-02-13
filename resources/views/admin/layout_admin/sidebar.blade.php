@@ -34,32 +34,46 @@
                     </span>
                     <h4 class="text-section">Quản lý</h4>
                 </li>
-
-                <li class="nav-item {{ request()->routeIs('permission.*') ? 'active' : '' }}">
-                    <a href="{{ route('permission.index') }}">
-                        <i class="icon-user-following"></i>
-                        <p>Quyền truy cập</p>
-                    </a>
-                </li>
-
-                <li class="nav-item {{ request()->routeIs('role.*') ? 'active' : '' }}">
-                    <a href="{{ route('role.index') }}">
-                        <i class="fas fa-users-cog"></i>
-                        <p>Vai trò</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
-                    <a href="{{ route('manager.index') }}">
-                        <i class="fas fa-users"></i>
-                        <p>Người quản lý</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('medicine-category.*') ? 'active' : '' }}">
-                    <a href="{{ route('medicine-category.index') }}">
-                        <i class="fas fa-th-list"></i>
-                        <p>Loại thuốc</p>
-                    </a>
-                </li>
+                @can('xem-danh-sach-quyen')
+                    <li class="nav-item {{ request()->routeIs('permission.*') ? 'active' : '' }}">
+                        <a href="{{ route('permission.index') }}">
+                            <i class="icon-user-following"></i>
+                            <p>Quyền truy cập</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-vai-tro')
+                    <li class="nav-item {{ request()->routeIs('role.*') ? 'active' : '' }}">
+                        <a href="{{ route('role.index') }}">
+                            <i class="fas fa-users-cog"></i>
+                            <p>Vai trò</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-nhan-vien')
+                    <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
+                        <a href="{{ route('manager.index') }}">
+                            <i class="fas fa-users"></i>
+                            <p>Người quản lý</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-loai-thuoc')
+                    <li class="nav-item {{ request()->routeIs('medicine-category.*') ? 'active' : '' }}">
+                        <a href="{{ route('medicine-category.index') }}">
+                            <i class="fas fa-th-list"></i>
+                            <p>Loại thuốc</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-thuoc')
+                    <li class="nav-item {{ request()->routeIs('medicine.*') ? 'active' : '' }}">
+                        <a href="{{ route('medicine.index') }}">
+                            <i class="fas fa-capsules"></i>
+                            <p>Thuốc</p>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>

@@ -8,20 +8,19 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="search-container">
-                        <form action="{{ route('admin.search', ['type' => 'category']) }}" method="GET">
+                        <form action="{{ route('admin.search', ['type' => 'medicine']) }}" method="GET">
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tên loại thuốc" name="name">
+                            <input type="text" placeholder="Nhập tên thuốc" name="name">
                         </form>
                     </div>
-                    @can('them-loai-thuoc')
-                        <a href="{{ route('medicine-category.create') }}" class="btn btn-secondary"><i
-                                class="fas fa-plus me-1"></i>
-                            Thêm loại thuốc</a>
+                    @can('them-thuoc')
+                        <a href="{{ route('medicine.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
+                            Thêm thuốc</a>
                     @endcan
                 </div>
             </div>
             <div class="card-body">
-                @if ($categories->count() > 0)
+                @if ($medicines->count() > 0)
                     @if (request()->has('name') && request()->input('name') != '')
                         <p class="alert alert-info">
                             Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
@@ -32,28 +31,40 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th scope="col">STT</th>
-                                    <th scope="col">Tên loại thuốc</th>
+                                    <th scope="col">Tên thuốc</th>
                                     <th scope="col">Mô tả</th>
-                                    @can(['chinh-sua-loai-thuoc', 'xoa-loai-thuoc'])
+                                    <th scope="col">Loại thuốc</th>
+                                    <th scope="col">Đơn vị</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Số lượng</th>
+                                    @can(['chinh-sua-thuoc', 'xoa-thuoc'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $key => $category)
+                                @foreach ($medicines as $key => $medicine)
                                     <tr>
-                                        <td>{{ $categories->firstItem() + $key }}</td>
-                                        <td>{{ $category->name }}</td>
-                                        <td>{{ $category->description }}</td>
+                                        <td>{{ $medicines->firstItem() + $key }}</td>
+                                        <td>{{ $medicine->name }}</td>
+                                        <td>{{ $medicine->description }}</td>
+                                        <td>
+                                            @foreach ($medicine->medicineCategories as $category)
+                                                <span class="badge bg-primary">{{ $category->name }}</span>
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $medicine->unit }}</td>
+                                        <td>{{ $medicine->price }}</td>
+                                        <td>{{ $medicine->quantity }}</td>
                                         <td class="d-flex align-items-center">
-                                            @can('chinh-sua-loai-thuoc')
-                                                <a href="{{ route('medicine-category.edit', $category->id) }}"
+                                            @can('chinh-sua-thuoc')
+                                                <a href="{{ route('medicine.edit', $medicine->id) }}"
                                                     class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
                                                         class="fas fa-edit"></i></a>
                                             @endcan
-                                            @can('xoa-loai-thuoc')
-                                                <form action="{{ route('medicine-category.destroy', $category->id) }}"
-                                                    method="POST" class="delete-form">
+                                            @can('xoa-thuoc')
+                                                <form action="{{ route('medicine.destroy', $medicine->id) }}" method="POST"
+                                                    class="delete-form">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button type="button" title="Delete"
@@ -69,16 +80,16 @@
                     </div>
                 @else
                     @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-danger">Không tìm thấy loại thuốc nào cho từ khóa
+                        <p class="alert alert-danger">Không tìm thấy thuốc nào cho từ khóa
                             <strong>{{ request()->input('name') }}</strong>!
                         </p>
                     @else
-                        <p class="alert alert-danger">Chưa có loại thuốc nào!</p>
+                        <p class="alert alert-danger">Chưa có thuốc nào!</p>
                     @endif
                 @endif
             </div>
             <div class="d-flex justify-content-center ">
-                {{ $categories->links() }}
+                {{ $medicines->links() }}
             </div>
         </div>
     </div>

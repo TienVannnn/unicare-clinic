@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MedicineCategoryRequest;
 use App\Models\MedicineCategory;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class MedicineCategoryController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('xem-danh-sach-loai-thuoc');
         $title = 'Danh sách loại thuốc';
         $categories = MedicineCategory::orderByDesc('id')->paginate(15);
         return view('admin.medicine-category.list', compact('title', 'categories'));
@@ -25,6 +28,7 @@ class MedicineCategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('them-loai-thuoc');
         $title = 'Thêm mới loại thuốc';
         return view('admin.medicine-category.create', compact('title'));
     }
@@ -34,6 +38,7 @@ class MedicineCategoryController extends Controller
      */
     public function store(MedicineCategoryRequest $request)
     {
+        $this->authorize('them-loai-thuoc');
         try {
             MedicineCategory::create([
                 'name' => $request->name,
@@ -60,6 +65,7 @@ class MedicineCategoryController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('chinh-sua-loai-thuoc');
         $category = MedicineCategory::find($id);
         if (!$category) abort(404);
         $title = 'Chỉnh sửa loại thuốc';
@@ -71,6 +77,7 @@ class MedicineCategoryController extends Controller
      */
     public function update(MedicineCategoryRequest $request, string $id)
     {
+        $this->authorize('chinh-sua-loai-thuoc');
         $category = MedicineCategory::find($id);
         if (!$category) abort(404);
         try {
@@ -91,6 +98,7 @@ class MedicineCategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('xoa-loai-thuoc');
         $category = MedicineCategory::find($id);
         if (!$category) abort(404);
         $category->delete();

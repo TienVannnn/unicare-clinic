@@ -12,4 +12,8 @@ class MedicineCategory extends Model
         'name',
         'description'
     ];
+    public function medicines()
+    {
+        return $this->belongsToMany(Medicine::class, 'medicine_category_medicine', 'medicine_category_id', 'medicine_id');
+    }
 }

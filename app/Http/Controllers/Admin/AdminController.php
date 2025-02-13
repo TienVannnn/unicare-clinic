@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ManagerRequest;
 use App\Jobs\MailAccountJob;
 use App\Models\Admin;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,12 +15,14 @@ use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $title = 'Danh sách người quản lý';
+        $this->authorize('xem-danh-sach-nhan-vien');
+        $title = 'Danh sách nhân viên';
         $managers = Admin::orderByDesc('id')->paginate(15);
         return view('admin.manager.list', compact('title', 'managers'));
     }
@@ -29,7 +32,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        $title = 'Thêm mới người quản lý';
+        $this->authorize('them-nhan-vien');
+        $title = 'Thêm mới nhân viên';
         $roles = Role::orderByDesc('id')->get();
         return view('admin.manager.create', compact('title', 'roles'));
     }
@@ -39,6 +43,7 @@ class AdminController extends Controller
      */
     public function store(ManagerRequest $request)
     {
+        $this->authorize('them-nhan-vien');
         try {
             DB::beginTransaction();
             $rand = rand(100000, 999999);
@@ -75,7 +80,7 @@ class AdminController extends Controller
      */
     public function edit(string $id)
     {
-        // $this->authorize('edit admin');
+        $this->authorize('chinh-sua-nhan-vien');
         $manager = Admin::find($id);
         if (!$manager) {
             abort('404');
@@ -91,6 +96,7 @@ class AdminController extends Controller
      */
     public function update(ManagerRequest $request, string $id)
     {
+        $this->authorize('chinh-sua-nhan-vien');
         $manager = Admin::find($id);
         if (!$manager) {
             abort('404');
@@ -121,6 +127,7 @@ class AdminController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('xoa-nhan-vien');
         $manager = Admin::find($id);
         if (!$manager) {
             abort('404');
