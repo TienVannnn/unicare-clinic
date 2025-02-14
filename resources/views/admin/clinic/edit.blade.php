@@ -4,25 +4,25 @@
         <div class="card shadow-sm m-4">
             <div class="card-header">
                 <p class="card-title">
-                    <a href="{{ route('permission.index') }}">
+                    <a href="{{ route('clinic.index') }}">
                         <button title="Quay lại" class="btn btn-outline-secondary btn-sm rounded-circle">
                             <i class="fas fa-arrow-left" data-bs-toggle="tooltip"></i>
                         </button>
                     </a>
-                    <span class="text-uppercase" style="font-size: 14px">Chỉnh sửa quyền</span>
-                    <span class="text-primary">"{{ $permission->name_permission }}"</span>
+                    <span class="text-uppercase" style="font-size: 14px">Chỉnh sửa phòng khám</span>
+                    <span class="text-primary">"{{ $clinic->name }}"</span>
                 </p>
             </div>
             <div class="card-body">
-                <form action="{{ route('permission.update', $permission->id) }}" method="POST">
+                <form action="{{ route('clinic.update', $clinic->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
-                        <label for="name" class="form-label">Tên quyền</label>
-                        <input type="text" value="{{ $permission->name_permission }}"
-                            class="form-control @error('name_permission') is-invalid @enderror" id="name"
-                            aria-describedby="emailHelp" name="name_permission">
-                        @error('name_permission')
+                        <label for="name" class="form-label">Tên phòng khám</label>
+                        <input type="text" value="{{ $clinic->name }}"
+                            class="form-control @error('name') is-invalid @enderror" id="name"
+                            aria-describedby="emailHelp" name="name">
+                        @error('name')
                             <div class="message-error">{{ $message }}</div>
                         @enderror
                     </div>

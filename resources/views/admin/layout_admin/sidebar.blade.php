@@ -74,6 +74,14 @@
                         </a>
                     </li>
                 @endcan
+                @can('xem-danh-sach-thuoc')
+                    <li class="nav-item {{ request()->routeIs('clinic.*') ? 'active' : '' }}">
+                        <a href="{{ route('clinic.index') }}">
+                            <i class="fas fa-hospital-alt"></i>
+                            <p>Phòng khám</p>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>
