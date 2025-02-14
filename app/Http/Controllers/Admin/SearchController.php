@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Clinic;
 use App\Models\Medicine;
 use App\Models\MedicineCategory;
+use App\Models\Patient;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -52,6 +53,11 @@ class SearchController extends Controller
             $clinics = Clinic::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm phòng khám';
             return view('admin.clinic.list', compact('clinics', 'title'));
+        }
+        if ($type === 'patient') {
+            $patients = Patient::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm bệnh nhân';
+            return view('admin.patient.list', compact('patients', 'title'));
         }
 
         return abort(404);

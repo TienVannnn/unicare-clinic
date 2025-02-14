@@ -74,11 +74,19 @@
                         </a>
                     </li>
                 @endcan
-                @can('xem-danh-sach-thuoc')
+                @can('xem-danh-sach-phong-kham')
                     <li class="nav-item {{ request()->routeIs('clinic.*') ? 'active' : '' }}">
                         <a href="{{ route('clinic.index') }}">
                             <i class="fas fa-hospital-alt"></i>
                             <p>Phòng khám</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-benh-nhan')
+                    <li class="nav-item {{ request()->routeIs('patient.*') ? 'active' : '' }}">
+                        <a href="{{ route('patient.index') }}">
+                            <i class="fas fa-address-book"></i>
+                            <p>Bệnh nhân</p>
                         </a>
                     </li>
                 @endcan
