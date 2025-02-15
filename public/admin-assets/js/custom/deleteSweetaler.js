@@ -7,7 +7,7 @@ $.ajaxSetup({
 const deleteButtons = document.querySelectorAll(".delete-btn");
 if (deleteButtons.length > 0) {
     deleteButtons.forEach((button) => {
-        button.addEventListener("click", function () {
+        button.addEventListener("click", function (event) {
             event.preventDefault();
             Swal.fire({
                 title: "Bạn có chắc?",
@@ -19,12 +19,36 @@ if (deleteButtons.length > 0) {
                 confirmButtonText: "Có, xóa nó!",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Đã xóa!",
-                        icon: "success",
-                    }).then(() => {
-                        this.closest("form").submit();
-                    });
+                    const form = this.closest("form");
+
+                    fetch(form.action, {
+                        method: "DELETE",
+                        body: new FormData(form),
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector(
+                                'meta[name="csrf-token"]'
+                            ).content,
+                        },
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                Swal.fire(
+                                    "Đã xóa!",
+                                    data.message,
+                                    "success"
+                                ).then(() => location.reload());
+                            } else {
+                                Swal.fire("Lỗi!", data.message, "error");
+                            }
+                        })
+                        .catch(() => {
+                            Swal.fire(
+                                "Lỗi!",
+                                "Có lỗi xảy ra khi xóa.",
+                                "error"
+                            );
+                        });
                 }
             });
         });

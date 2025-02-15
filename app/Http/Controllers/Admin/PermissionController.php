@@ -102,9 +102,12 @@ class PermissionController extends Controller
         if (!$permission) abort(404);
         try {
             $permission->delete();
-        } catch (\Exception $e) {
-            Session::flash('error', 'Có lỗi khi xóa quyền ' . $e->getMessage());
+            return response()->json(['success' => true, 'message' => 'Xóa quyền thành công.']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = ($e->getCode() == 23000)
+                ? 'Không thể xóa quyền vì có dữ liệu liên quan.'
+                : 'Có lỗi khi xóa quyền: ' . $e->getMessage();
+            return  response()->json(['success' => false, 'message' => $message]);
         }
-        return redirect()->back();
     }
 }

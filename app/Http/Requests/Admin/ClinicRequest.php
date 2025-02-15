@@ -24,7 +24,20 @@ class ClinicRequest extends FormRequest
         $clinicId = $this->route('clinic');
         return [
             'name' => $clinicId ?  "required|min:2|string|unique:clinics,name,$clinicId"
-                : 'required|min:2|string|unique:clinics,name'
+                : 'required|min:2|string|unique:clinics,name',
+            'department' => 'required|exists:departments,id'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name' => 'Tên phòng khám không được bỏ trống',
+            'name.min' => 'Tên phòng khám tối thiểu 2 ký tự',
+            'name.string' => 'Định dạng không hợp lệ',
+            'name.unique' => 'Tên phòng khám đã tồn tại',
+            'department.required' => 'Chuyên khoa không được bỏ trống',
+            'department.exists' => 'Chuyên khoa không tồn tại'
         ];
     }
 }

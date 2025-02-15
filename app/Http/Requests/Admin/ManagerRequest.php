@@ -27,7 +27,34 @@ class ManagerRequest extends FormRequest
             'email' => $adminId
                 ? "required|email|unique:admins,email,$adminId"
                 : 'required|email|unique:admins,email',
-            'password' => 'nullable|min:5|confirmed'
+            'clinic' => 'required|exists:clinics,id',
+            'role' => 'required|exists:roles,name',
+            'password' => 'nullable|min:5|confirmed',
+            'phone' => ['nullable', 'unique:admins,phone,' .  $adminId, 'regex:/^(0|\+84)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$/'],
+            'address' => 'nullable|string',
+            'gender' => 'nullable|in:1,2'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Vui lòng nhập tên.',
+            'name.string' => 'Tên phải là một chuỗi ký tự.',
+            'name.min' => 'Tên phải có ít nhất :min ký tự.',
+
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.unique' => 'Email này đã được sử dụng.',
+
+            'clinic.required' => 'Vui lòng chọn phòng khám.',
+            'clinic.exists' => 'Phòng khám không hợp lệ.',
+
+            'role.required' => 'Vui lòng chọn vai trò.',
+            'role.exists' => 'Vai trò không hợp lệ.',
+
+            'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.'
         ];
     }
 }

@@ -109,9 +109,12 @@ class RoleController extends Controller
         if (!$role) abort(404);
         try {
             $role->delete();
-        } catch (\Exception $e) {
-            Session::flash('error', 'Có lỗi khi xóa vai trò ' . $e->getMessage());
+            return response()->json(['success' => true, 'message' => 'Xóa vai trò thành công.']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = ($e->getCode() == 23000)
+                ? 'Không thể xóa vai trò vì có dữ liệu liên quan.'
+                : 'Có lỗi khi xóa vai trò: ' . $e->getMessage();
+            return  response()->json(['success' => false, 'message' => $message]);
         }
-        return redirect()->back();
     }
 }

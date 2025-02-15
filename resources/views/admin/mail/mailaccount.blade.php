@@ -75,7 +75,7 @@
             <h3>Dưới đây là thông tin tài khoản của bạn</h3>
             <p class="info">Email: {{ $email }}</p>
             <p class="info">Password: {{ $pass }}</p>
-            <p class="warning">Vui lòng đổi mật khẩu ngay sau khi đăng nhập lần đầu tiên.</p>
+            <p class="warning">Vui lòng thay đổi thông tin cá nhân sau khi đăng nhập lần đầu tiên.</p>
         </div>
         <div class="email-footer">
             <p>Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>

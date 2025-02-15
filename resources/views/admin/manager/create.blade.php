@@ -12,32 +12,51 @@
             <div class="card-body">
                 <form action="{{ route('manager.store') }}" method="POST">
                     @csrf
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Tên nhân viên</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                            name="name" placeholder="Nhập tên nhân viên" value="{{ old('name') }}">
-                        @error('name')
-                            <div class="message-error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                            name="email" placeholder="Nhập email" value="{{ old('email') }}">
-                        @error('email')
-                            <div class="message-error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Vai trò</label>
-                        <select class="form-control tag-select" multiple="multiple" id="role" name="role[]">
-                            @if (!empty($roles))
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Tên nhân viên <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                name="name" placeholder="Nhập tên nhân viên" value="{{ old('name') }}">
+                            @error('name')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                name="email" placeholder="Nhập email" value="{{ old('email') }}">
+                            @error('email')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="role" class="form-label">Vai trò <span class="text-danger">*</span></label>
+                            <select class="form-control tag-select" multiple="multiple" id="role" name="role[]">
+                                @if (!empty($roles))
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('role')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="clinic" class="form-label">Phòng ban <span class="text-danger">*</span></label>
+                            <select class="form-control tag-select2" id="clinic" name="clinic">
+                                <option value="" selected>Chọn phòng ban</option>
+                                @if (!empty($clinics))
+                                    @foreach ($clinics as $clinic)
+                                        <option value="{{ $clinic->id }}">{{ $clinic->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('clinic')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Lưu lại</button>
                 </form>
@@ -56,6 +75,9 @@
         $(function() {
             $('.tag-select').select2({
                 placeholder: "Chọn vai trò"
+            })
+            $('.tag-select2').select2({
+                placeholder: "Chọn phòng ban"
             })
         })
     </script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ManagerRequest;
 use App\Jobs\MailAccountJob;
 use App\Models\Admin;
+use App\Models\Clinic;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ class AdminController extends Controller
     {
         $this->authorize('xem-danh-sach-nhan-vien');
         $title = 'Danh sách nhân viên';
-        $managers = Admin::orderByDesc('id')->paginate(15);
+        $managers = Admin::orderByDesc('id')->with('clinic')->paginate(15);
         return view('admin.manager.list', compact('title', 'managers'));
     }
 
@@ -35,7 +36,8 @@ class AdminController extends Controller
         $this->authorize('them-nhan-vien');
         $title = 'Thêm mới nhân viên';
         $roles = Role::orderByDesc('id')->get();
-        return view('admin.manager.create', compact('title', 'roles'));
+        $clinics = Clinic::orderByDesc('id')->get();
+        return view('admin.manager.create', compact('title', 'roles', 'clinics'));
     }
 
     /**
@@ -50,7 +52,8 @@ class AdminController extends Controller
             $admin = Admin::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($rand)
+                'password' => Hash::make($rand),
+                'clinic_id' => $request->clinic
             ]);
 
             if ($request->has('role')) {
@@ -88,7 +91,8 @@ class AdminController extends Controller
         $title = 'Chỉnh sửa người quản lý';
         $rolesChecked = $manager->roless->pluck('id')->toArray();
         $roles = Role::orderByDesc('id')->get();
-        return view('admin.manager.edit', compact('title', 'manager', 'rolesChecked', 'roles'));
+        $clinics = Clinic::orderByDesc('id')->get();
+        return view('admin.manager.edit', compact('title', 'manager', 'rolesChecked', 'roles', 'clinics'));
     }
 
     /**
@@ -105,7 +109,11 @@ class AdminController extends Controller
             DB::beginTransaction();
             $manager->fill([
                 'name' => $request->name,
-                'email' => $request->email
+                'email' => $request->email,
+                'clinic_id' => $request->clinic,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'gender' => $request->gender
             ]);
             if ($request->password) {
                 $manager->password = Hash::make($request->password);
@@ -132,7 +140,14 @@ class AdminController extends Controller
         if (!$manager) {
             abort('404');
         }
-        $manager->delete();
-        return redirect()->back();
+        try {
+            $manager->delete();
+            return response()->json(['success' => true, 'message' => 'Xóa nhân viên thành công.']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = ($e->getCode() == 23000)
+                ? 'Không thể xóa nhân viên vì có dữ liệu liên quan.'
+                : 'Có lỗi khi xóa nhân viên: ' . $e->getMessage();
+            return  response()->json(['success' => false, 'message' => $message]);
+        }
     }
 }

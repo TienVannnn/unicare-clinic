@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone', 11)->nullable();
             $table->string('address')->nullable();
+            $table->integer('gender')->nullable();
+            $table->foreignId('clinic_id')->constrained('clinics')->onDelete('restrict');
+            $table->string('token_reset_password')->nullable();
+            $table->timestamp('token_duration')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -101,7 +101,14 @@ class MedicineCategoryController extends Controller
         $this->authorize('xoa-loai-thuoc');
         $category = MedicineCategory::find($id);
         if (!$category) abort(404);
-        $category->delete();
-        return redirect()->back();
+        try {
+            $category->delete();
+            return response()->json(['success' => true, 'message' => 'Xóa loại thuốc thành công.']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = ($e->getCode() == 23000)
+                ? 'Không thể xóa loại thuốc vì có dữ liệu liên quan.'
+                : 'Có lỗi khi xóa loại thuốc: ' . $e->getMessage();
+            return  response()->json(['success' => false, 'message' => $message]);
+        }
     }
 }

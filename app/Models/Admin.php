@@ -20,6 +20,7 @@ class Admin extends Authenticatable
         'phone',
         'address',
         'gender',
+        'clinic_id',
         'token_reset_password',
         'token_duration'
     ];
@@ -27,5 +28,9 @@ class Admin extends Authenticatable
     public function roless()
     {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
+    }
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class);
     }
 }

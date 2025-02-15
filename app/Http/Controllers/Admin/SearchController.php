@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Clinic;
+use App\Models\Department;
 use App\Models\Medicine;
 use App\Models\MedicineCategory;
 use App\Models\Patient;
@@ -47,6 +48,12 @@ class SearchController extends Controller
             $medicines = Medicine::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm thuốc';
             return view('admin.medicine.list', compact('medicines', 'title'));
+        }
+
+        if ($type === 'department') {
+            $departments = Department::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm chuyên khoa';
+            return view('admin.department.list', compact('departments', 'title'));
         }
 
         if ($type === 'clinic') {

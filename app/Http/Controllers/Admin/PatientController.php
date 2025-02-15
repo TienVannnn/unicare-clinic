@@ -94,9 +94,12 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($id);
         try {
             $patient->delete();
-        } catch (\Exception $e) {
-            Session::flash('error', 'Có lỗi khi xóa');
+            return response()->json(['success' => true, 'message' => 'Xóa bệnh nhân thành công.']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = ($e->getCode() == 23000)
+                ? 'Không thể xóa bệnh nhân vì có dữ liệu liên quan.'
+                : 'Có lỗi khi xóa bệnh nhân: ' . $e->getMessage();
+            return  response()->json(['success' => false, 'message' => $message]);
         }
-        return redirect()->back();
     }
 }

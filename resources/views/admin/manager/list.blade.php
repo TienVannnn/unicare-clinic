@@ -33,6 +33,8 @@
                                     <th scope="col">STT</th>
                                     <th scope="col">Ảnh</th>
                                     <th scope="col">Tên</th>
+                                    <th scope="col">Vai trò</th>
+                                    <th scope="col">Phòng ban</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">SĐT</th>
                                     <th scope="col">Giới tính</th>
@@ -45,9 +47,24 @@
                                 @foreach ($managers as $key => $manager)
                                     <tr>
                                         <td>{{ $managers->firstItem() + $key }}</td>
-                                        <td><img src="{{ $manager->avatar }}" alt="Chưa cập nhật" height="50"
-                                                width="50" /></td>
+                                        <td>
+                                            @if ($manager->avatar)
+                                                <img src="{{ $manager->avatar }}" alt="Chưa cập nhật" height="30"
+                                                    width="30" />
+                                            @else
+                                                <img src="/uploads/avatars/avatar.png" alt="Chưa cập nhật" height="30"
+                                                    width="30" />
+                                            @endif
+                                        </td>
                                         <td>{{ $manager->name }}</td>
+                                        <td>
+                                            @foreach ($manager->roles as $role)
+                                                <span class="badge badge-primary">{{ $role->name }}</span>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-black">{{ $manager->clinic->name }}</span>
+                                        </td>
                                         <td>{{ $manager->email }}</td>
                                         <td>{{ $manager->phone ?? 'Chưa cập nhật' }}</td>
                                         <td>
@@ -59,22 +76,24 @@
                                                 Chưa cập nhật
                                             @endif
                                         </td>
-                                        <td class="d-flex align-items-center">
-                                            @can('chinh-sua-nhan-vien')
-                                                <a href="{{ route('manager.edit', $manager->id) }}"
-                                                    class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                        class="fas fa-edit"></i></a>
-                                            @endcan
-                                            @can('xoa-nhan-vien')
-                                                <form action="{{ route('manager.destroy', $manager->id) }}" method="POST"
-                                                    class="delete-form">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="button" title="Delete"
-                                                        class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </form>
-                                            @endcan
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @can('chinh-sua-nhan-vien')
+                                                    <a href="{{ route('manager.edit', $manager->id) }}"
+                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
+                                                            class="fas fa-edit"></i></a>
+                                                @endcan
+                                                @can('xoa-nhan-vien')
+                                                    <form action="{{ route('manager.destroy', $manager->id) }}" method="POST"
+                                                        class="delete-form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="button" title="Delete"
+                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </form>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

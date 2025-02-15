@@ -8,19 +8,19 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="search-container">
-                        <form action="{{ route('admin.search', ['type' => 'clinic']) }}" method="GET">
+                        <form action="{{ route('admin.search', ['type' => 'department']) }}" method="GET">
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tên phòng khám" name="name">
+                            <input type="text" placeholder="Nhập tên chuyên khoa" name="name">
                         </form>
                     </div>
-                    @can('them-quyen')
-                        <a href="{{ route('clinic.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                            Thêm phòng khám</a>
+                    @can('them-chuyen-khoa')
+                        <a href="{{ route('department.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
+                            Thêm chuyên khoa</a>
                     @endcan
                 </div>
             </div>
             <div class="card-body">
-                @if ($clinics->count() > 0)
+                @if ($departments->count() > 0)
                     @if (request()->has('name') && request()->input('name') != '')
                         <p class="alert alert-info">
                             Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
@@ -31,29 +31,27 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th scope="col">STT</th>
-                                    <th scope="col">Mã</th>
-                                    <th scope="col">Tên phòng khám</th>
-                                    <th scope="col">Chuyên khoa</th>
-                                    @can(['chinh-sua-quyen', 'xoa-quyen'])
+                                    <th scope="col">Tên chuyên khoa</th>
+                                    <th scope="col">Mô tả</th>
+                                    @can(['chinh-sua-chuyen-khoa', 'xoa-chuyen-khoa'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($clinics as $key => $clinic)
+                                @foreach ($departments as $key => $department)
                                     <tr>
-                                        <td>{{ $clinics->firstItem() + $key }}</td>
-                                        <td>{{ $clinic->clinic_code }}</td>
-                                        <td>{{ $clinic->name }}</td>
-                                        <td><span class="badge badge-info">{{ $clinic->department->name }}</span></td>
+                                        <td>{{ $departments->firstItem() + $key }}</td>
+                                        <td>{{ $department->name }}</td>
+                                        <td>{{ $department->description ?? 'Chưa cập nhật' }}</td>
                                         <td class="d-flex align-items-center">
-                                            @can('chinh-sua-quyen')
-                                                <a href="{{ route('clinic.edit', $clinic->id) }}"
+                                            @can('chinh-sua-chuyen-khoa')
+                                                <a href="{{ route('department.edit', $department->id) }}"
                                                     class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
                                                         class="fas fa-edit"></i></a>
                                             @endcan
-                                            @can('xoa-quyen')
-                                                <form action="{{ route('clinic.destroy', $clinic->id) }}" method="POST"
+                                            @can('xoa-chuyen-khoa')
+                                                <form action="{{ route('department.destroy', $department->id) }}" method="POST"
                                                     class="delete-form">
                                                     @method('DELETE')
                                                     @csrf
@@ -74,13 +72,13 @@
                             <strong>{{ request()->input('name') }}</strong>!
                         </p>
                     @else
-                        <p class="alert alert-danger">Chưa có phòng khám nào!</p>
+                        <p class="alert alert-danger">Chưa có chuyên khoa nào!</p>
                     @endif
                 @endif
             </div>
 
             <div class="d-flex justify-content-center ">
-                {{ $clinics->links() }}
+                {{ $departments->links() }}
             </div>
         </div>
     </div>

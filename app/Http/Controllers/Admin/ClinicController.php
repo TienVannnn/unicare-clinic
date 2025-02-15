@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ClinicRequest;
 use Illuminate\Support\Facades\Session;
 use App\Models\Clinic;
+use App\Models\Department;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class ClinicController extends Controller
     {
         $this->authorize('xem-danh-sach-quyen');
         $title = 'Danh sách phòng khám';
-        $clinics = Clinic::orderByDesc('id')->paginate(15);
+        $clinics = Clinic::orderByDesc('id')->with('department')->paginate(15);
         return view('admin.clinic.list', compact('title', 'clinics'));
     }
 
@@ -31,7 +32,8 @@ class ClinicController extends Controller
     {
         $this->authorize('them-quyen');
         $title = 'Thêm mới phòng khám';
-        return view('admin.clinic.create', compact('title'));
+        $departments = Department::orderByDesc('id')->get();
+        return view('admin.clinic.create', compact('title', 'departments'));
     }
 
     /**
@@ -42,7 +44,8 @@ class ClinicController extends Controller
         $this->authorize('them-quyen');
         try {
             Clinic::create([
-                'name' => $request->name
+                'name' => $request->name,
+                'department_id' => $request->department
             ]);
             Session::flash('success', 'Thêm phòng khám thành công');
         } catch (\Exception $e) {
@@ -68,7 +71,8 @@ class ClinicController extends Controller
         $clinic = Clinic::find($id);
         if (!$clinic) abort(404);
         $title = 'Chỉnh sửa phòng khám ';
-        return view('admin.clinic.edit', compact('title', 'clinic'));
+        $departments = Department::orderByDesc('id')->get();
+        return view('admin.clinic.edit', compact('title', 'clinic', 'departments'));
     }
 
     /**
@@ -82,6 +86,7 @@ class ClinicController extends Controller
             if (!$clinic) abort(404);
             $clinic->update([
                 'name' => $request->name,
+                'department_id' => $request->department
             ]);
             Session::flash('success', 'Cập nhật phòng khám thành công');
         } catch (\Exception $e) {
@@ -98,11 +103,15 @@ class ClinicController extends Controller
         $this->authorize('xoa-quyen');
         $clinic = Clinic::find($id);
         if (!$clinic) abort(404);
+
         try {
             $clinic->delete();
-        } catch (\Exception $e) {
-            Session::flash('error', 'Có lỗi khi xóa phòng khám ' . $e->getMessage());
+            return response()->json(['success' => true, 'message' => 'Xóa phòng khám thành công.']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = ($e->getCode() == 23000)
+                ? 'Không thể xóa phòng khám vì có dữ liệu liên quan.'
+                : 'Có lỗi khi xóa phòng khám: ' . $e->getMessage();
+            return  response()->json(['success' => false, 'message' => $message]);
         }
-        return redirect()->back();
     }
 }

@@ -98,12 +98,13 @@ class MedicineController extends Controller
         $this->authorize('xoa-thuoc');
         $medicine = Medicine::findOrFail($id);
         try {
-            $medicine->medicineCategories()->detach();
             $medicine->delete();
-            Session::flash('success', 'Xóa thuốc thành công!');
-        } catch (\Exception $e) {
-            Session::flash('error', 'Có lỗi khi xóa thuốc: ' . $e->getMessage());
+            return response()->json(['success' => true, 'message' => 'Xóa thuốc thành công.']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = ($e->getCode() == 23000)
+                ? 'Không thể xóa thuốc vì có dữ liệu liên quan.'
+                : 'Có lỗi khi xóa thuốc: ' . $e->getMessage();
+            return  response()->json(['success' => false, 'message' => $message]);
         }
-        return redirect()->back();
     }
 }
