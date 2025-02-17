@@ -56,22 +56,24 @@
                                         <td>{{ $medicine->unit }}</td>
                                         <td>{{ $medicine->price }}</td>
                                         <td>{{ $medicine->quantity }}</td>
-                                        <td class="d-flex align-items-center">
-                                            @can('chinh-sua-thuoc')
-                                                <a href="{{ route('medicine.edit', $medicine->id) }}"
-                                                    class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                        class="fas fa-edit"></i></a>
-                                            @endcan
-                                            @can('xoa-thuoc')
-                                                <form action="{{ route('medicine.destroy', $medicine->id) }}" method="POST"
-                                                    class="delete-form">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="button" title="Delete"
-                                                        class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </form>
-                                            @endcan
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @can('chinh-sua-thuoc')
+                                                    <a href="{{ route('medicine.edit', $medicine->id) }}"
+                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
+                                                            class="fas fa-edit"></i></a>
+                                                @endcan
+                                                @can('xoa-thuoc')
+                                                    <form action="{{ route('medicine.destroy', $medicine->id) }}"
+                                                        method="POST" class="delete-form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="button" title="Delete"
+                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </form>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

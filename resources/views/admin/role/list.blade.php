@@ -42,22 +42,24 @@
                                     <tr>
                                         <td>{{ $roles->firstItem() + $key }}</td>
                                         <td>{{ $role->name }}</td>
-                                        <td class="d-flex align-items-center">
-                                            @can('chinh-sua-vai-tro')
-                                                <a href="{{ route('role.edit', $role->id) }}"
-                                                    class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                        class="fas fa-edit"></i></a>
-                                            @endcan
-                                            @can('xoa-vai-tro')
-                                                <form action="{{ route('role.destroy', $role->id) }}" method="POST"
-                                                    class="delete-form">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="button" title="Delete"
-                                                        class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </form>
-                                            @endcan
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @can('chinh-sua-vai-tro')
+                                                    <a href="{{ route('role.edit', $role->id) }}"
+                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
+                                                            class="fas fa-edit"></i></a>
+                                                @endcan
+                                                @can('xoa-vai-tro')
+                                                    <form action="{{ route('role.destroy', $role->id) }}" method="POST"
+                                                        class="delete-form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="button" title="Delete"
+                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </form>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

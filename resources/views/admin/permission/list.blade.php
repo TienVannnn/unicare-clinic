@@ -42,22 +42,24 @@
                                     <tr>
                                         <td>{{ $permissions->firstItem() + $key }}</td>
                                         <td>{{ $permission->name_permission }}</td>
-                                        <td class="d-flex align-items-center">
-                                            @can('chinh-sua-quyen')
-                                                <a href="{{ route('permission.edit', $permission->id) }}"
-                                                    class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                        class="fas fa-edit"></i></a>
-                                            @endcan
-                                            @can('xoa-quyen')
-                                                <form action="{{ route('permission.destroy', $permission->id) }}" method="POST"
-                                                    class="delete-form">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="button" title="Delete"
-                                                        class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </form>
-                                            @endcan
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @can('chinh-sua-quyen')
+                                                    <a href="{{ route('permission.edit', $permission->id) }}"
+                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
+                                                            class="fas fa-edit"></i></a>
+                                                @endcan
+                                                @can('xoa-quyen')
+                                                    <form action="{{ route('permission.destroy', $permission->id) }}"
+                                                        method="POST" class="delete-form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="button" title="Delete"
+                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </form>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

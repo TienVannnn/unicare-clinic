@@ -46,22 +46,24 @@
                                         <td>{{ $clinic->clinic_code }}</td>
                                         <td>{{ $clinic->name }}</td>
                                         <td><span class="badge badge-info">{{ $clinic->department->name }}</span></td>
-                                        <td class="d-flex align-items-center">
-                                            @can('chinh-sua-quyen')
-                                                <a href="{{ route('clinic.edit', $clinic->id) }}"
-                                                    class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                        class="fas fa-edit"></i></a>
-                                            @endcan
-                                            @can('xoa-quyen')
-                                                <form action="{{ route('clinic.destroy', $clinic->id) }}" method="POST"
-                                                    class="delete-form">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="button" title="Delete"
-                                                        class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </form>
-                                            @endcan
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @can('chinh-sua-quyen')
+                                                    <a href="{{ route('clinic.edit', $clinic->id) }}"
+                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
+                                                            class="fas fa-edit"></i></a>
+                                                @endcan
+                                                @can('xoa-quyen')
+                                                    <form action="{{ route('clinic.destroy', $clinic->id) }}" method="POST"
+                                                        class="delete-form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="button" title="Delete"
+                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </form>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ClinicController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\MedicalServiceController;
 use App\Http\Controllers\Admin\MedicineCategoryController;
 use App\Http\Controllers\Admin\MedicineController;
 use App\Http\Controllers\Admin\PatientController;
@@ -55,4 +56,5 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/department', DepartmentController::class);
     Route::resource('/clinic', ClinicController::class);
     Route::resource('/patient', PatientController::class);
+    Route::resource('/medical-service', MedicalServiceController::class);
 });

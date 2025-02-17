@@ -45,22 +45,24 @@
                                         <td>{{ $categories->firstItem() + $key }}</td>
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->description }}</td>
-                                        <td class="d-flex align-items-center">
-                                            @can('chinh-sua-loai-thuoc')
-                                                <a href="{{ route('medicine-category.edit', $category->id) }}"
-                                                    class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                        class="fas fa-edit"></i></a>
-                                            @endcan
-                                            @can('xoa-loai-thuoc')
-                                                <form action="{{ route('medicine-category.destroy', $category->id) }}"
-                                                    method="POST" class="delete-form">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="button" title="Delete"
-                                                        class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </form>
-                                            @endcan
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @can('chinh-sua-loai-thuoc')
+                                                    <a href="{{ route('medicine-category.edit', $category->id) }}"
+                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
+                                                            class="fas fa-edit"></i></a>
+                                                @endcan
+                                                @can('xoa-loai-thuoc')
+                                                    <form action="{{ route('medicine-category.destroy', $category->id) }}"
+                                                        method="POST" class="delete-form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="button" title="Delete"
+                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </form>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

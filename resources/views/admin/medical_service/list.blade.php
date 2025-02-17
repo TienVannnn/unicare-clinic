@@ -8,19 +8,20 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="search-container">
-                        <form action="{{ route('admin.search', ['type' => 'patient']) }}" method="GET">
+                        <form action="{{ route('admin.search', ['type' => 'medical_service']) }}" method="GET">
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tên bệnh nhân" name="name">
+                            <input type="text" placeholder="Nhập tên dịch vụ khám" name="name">
                         </form>
                     </div>
-                    @can('them-nhan-vien')
-                        <a href="{{ route('patient.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                            Thêm bệnh nhân</a>
+                    @can('them-quyen')
+                        <a href="{{ route('medical-service.create') }}" class="btn btn-secondary"><i
+                                class="fas fa-plus me-1"></i>
+                            Thêm dịch vụ khám</a>
                     @endcan
                 </div>
             </div>
             <div class="card-body">
-                @if ($patients->count() > 0)
+                @if ($medical_services->count() > 0)
                     @if (request()->has('name') && request()->input('name') != '')
                         <p class="alert alert-info">
                             Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
@@ -32,42 +33,38 @@
                                 <tr>
                                     <th scope="col">STT</th>
                                     <th scope="col">Mã</th>
-                                    <th scope="col">Tên</th>
-                                    <th scope="col">Giới tính</th>
-                                    <th scope="col">Ngày sinh</th>
-                                    <th scope="col">SĐT</th>
-                                    @can(['chinh-sua-nhan-vien', 'xoa-nhan-vien'])
+                                    <th scope="col">Tên dịch vụ khám</th>
+                                    <th scope="col">Mô tả</th>
+                                    <th scope="col">Giá (VNĐ)</th>
+                                    <th scope="col">Phòng khám</th>
+                                    @can(['chinh-sua-quyen', 'xoa-quyen'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($patients as $key => $patient)
+                                @foreach ($medical_services as $key => $medical_service)
                                     <tr>
-                                        <td>{{ $patients->firstItem() + $key }}</td>
-                                        <td>{{ $patient->patient_code }}</td>
-                                        <td>{{ $patient->name }}</td>
+                                        <td>{{ $medical_services->firstItem() + $key }}</td>
+                                        <td>{{ $medical_service->medical_service_code }}</td>
+                                        <td>{{ $medical_service->name }}</td>
+                                        <td>{{ $medical_service->description ?? 'Chưa có mô tả' }}</td>
+                                        <td>{{ number_format($medical_service->price, 0, ',', '.') }}</td>
                                         <td>
-                                            @if ($patient->gender == 1)
-                                                Nam
-                                            @elseif ($patient->gender == 2)
-                                                Nữ
-                                            @else
-                                                Chưa cập nhật
-                                            @endif
+                                            @foreach ($medical_service->clinics as $clinic)
+                                                <span class="badge badge-info">{{ $clinic->name }}</span>
+                                            @endforeach
                                         </td>
-                                        <td>{{ $patient->dob }}</td>
-                                        <td>{{ $patient->phone }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                @can('chinh-sua-nhan-vien')
-                                                    <a href="{{ route('patient.edit', $patient->id) }}"
+                                                @can('chinh-sua-quyen')
+                                                    <a href="{{ route('medical-service.edit', $medical_service->id) }}"
                                                         class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
                                                             class="fas fa-edit"></i></a>
                                                 @endcan
-                                                @can('xoa-nhan-vien')
-                                                    <form action="{{ route('patient.destroy', $patient->id) }}" method="POST"
-                                                        class="delete-form">
+                                                @can('xoa-quyen')
+                                                    <form action="{{ route('medical-service.destroy', $medical_service->id) }}"
+                                                        method="POST" class="delete-form">
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
@@ -84,16 +81,17 @@
                     </div>
                 @else
                     @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-danger">Không tìm thấy bệnh nhân nào cho từ khóa
+                        <p class="alert alert-danger">Không tìm thấy kết quả nào cho từ khóa
                             <strong>{{ request()->input('name') }}</strong>!
                         </p>
                     @else
-                        <p class="alert alert-danger">Chưa có bệnh nhân nào!</p>
+                        <p class="alert alert-danger">Chưa có dịch vụ khám nào!</p>
                     @endif
                 @endif
             </div>
+
             <div class="d-flex justify-content-center ">
-                {{ $patients->links() }}
+                {{ $medical_services->links() }}
             </div>
         </div>
     </div>

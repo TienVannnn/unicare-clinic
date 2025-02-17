@@ -77,7 +77,7 @@
                 @can('xem-danh-sach-chuyen-khoa')
                     <li class="nav-item {{ request()->routeIs('department.*') ? 'active' : '' }}">
                         <a href="{{ route('department.index') }}">
-                            <i class="fas fa-hospital-alt"></i>
+                            <i class="fas fa-calendar-alt"></i>
                             <p>Chuyên khoa</p>
                         </a>
                     </li>
@@ -90,6 +90,14 @@
                         </a>
                     </li>
                 @endcan
+                @can('xem-danh-sach-phong-kham')
+                    <li class="nav-item {{ request()->routeIs('medical-service.*') ? 'active' : '' }}">
+                        <a href="{{ route('medical-service.index') }}">
+                            <i class="fas fa-calendar-plus"></i>
+                            <p>Dịch vụ khám</p>
+                        </a>
+                    </li>
+                @endcan
                 @can('xem-danh-sach-benh-nhan')
                     <li class="nav-item {{ request()->routeIs('patient.*') ? 'active' : '' }}">
                         <a href="{{ route('patient.index') }}">
@@ -99,12 +107,12 @@
                     </li>
                 @endcan
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#base">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Base</p>
-                        <span class="caret"></span>
+                    <a data-bs-toggle="collapse" href="#setting">
+                        <i class="fas fa-cog"></i>
+                        <p>Cài đặt</p>
+                        <span class="badge badge-success">4</span>
                     </a>
-                    <div class="collapse" id="base">
+                    <div class="collapse" id="setting">
                         <ul class="nav nav-collapse">
                             <li>
                                 <a href="components/avatars.html">
@@ -153,13 +161,6 @@
                             </li>
                         </ul>
                     </div>
-                </li>
-                <li class="nav-item">
-                    <a href="widgets.html">
-                        <i class="fas fa-desktop"></i>
-                        <p>Widgets</p>
-                        <span class="badge badge-success">4</span>
-                    </a>
                 </li>
             </ul>
         </div>

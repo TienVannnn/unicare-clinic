@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Clinic;
 use App\Models\Department;
+use App\Models\MedicalService;
 use App\Models\Medicine;
 use App\Models\MedicineCategory;
 use App\Models\Patient;
@@ -66,6 +67,12 @@ class SearchController extends Controller
             $title = 'Tìm kiếm bệnh nhân';
             return view('admin.patient.list', compact('patients', 'title'));
         }
+        if ($type === 'medical_service') {
+            $medical_services = MedicalService::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm dịch vụ khám';
+            return view('admin.medical_service.list', compact('medical_services', 'title'));
+        }
+
 
         return abort(404);
     }
