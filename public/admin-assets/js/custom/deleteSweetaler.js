@@ -10,13 +10,14 @@ if (deleteButtons.length > 0) {
         button.addEventListener("click", function (event) {
             event.preventDefault();
             Swal.fire({
-                title: "Bạn có chắc?",
+                title: "Bạn có chắc xóa dữ liệu này?",
                 text: "Dữ liệu sẽ không được khôi phục!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#28a745",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Có, xóa nó!",
+                cancelButtonText: "Hủy",
             }).then((result) => {
                 if (result.isConfirmed) {
                     const form = this.closest("form");

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MedicineCategoryController;
 use App\Http\Controllers\Admin\MedicineController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PrescriptionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -57,4 +58,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/clinic', ClinicController::class);
     Route::resource('/patient', PatientController::class);
     Route::resource('/medical-service', MedicalServiceController::class);
+    Route::resource('/prescription', PrescriptionController::class);
+    Route::post('prescription/{id}/payment', [PrescriptionController::class, 'payment_confirm'])->name('prescription.pay');
+    Route::get('prescription/{id}/print', [PrescriptionController::class, 'print'])->name('prescription.print');
 });

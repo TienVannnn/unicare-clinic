@@ -46,8 +46,9 @@
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-quyen')
                                                     <a href="{{ route('permission.edit', $permission->id) }}"
-                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                            class="fas fa-edit"></i></a>
+                                                        class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
+                                                            class="fas fa-edit" data-bs-toggle="tooltip"
+                                                            title="Chỉnh sửa quyền"></i></a>
                                                 @endcan
                                                 @can('xoa-quyen')
                                                     <form action="{{ route('permission.destroy', $permission->id) }}"
@@ -55,8 +56,9 @@
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
-                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                                class="fas fa-trash"></i></button>
+                                                            class="btn btn-outline-danger btn-xs delete-btn"><i
+                                                                class="fas fa-trash" data-bs-toggle="tooltip"
+                                                                title="Xóa quyền"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>

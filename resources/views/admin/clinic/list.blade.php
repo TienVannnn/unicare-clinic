@@ -50,8 +50,9 @@
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-quyen')
                                                     <a href="{{ route('clinic.edit', $clinic->id) }}"
-                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                            class="fas fa-edit"></i></a>
+                                                        class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
+                                                            class="fas fa-edit" title="Chỉnh sửa phòng khám"
+                                                            data-bs-toggle="tooltip"></i></a>
                                                 @endcan
                                                 @can('xoa-quyen')
                                                     <form action="{{ route('clinic.destroy', $clinic->id) }}" method="POST"
@@ -59,8 +60,9 @@
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
-                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                                class="fas fa-trash"></i></button>
+                                                            class="btn btn-outline-danger btn-xs delete-btn"><i
+                                                                class="fas fa-trash" data-bs-toggle="tooltip"
+                                                                title="Xóa phòng khám"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>

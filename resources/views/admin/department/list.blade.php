@@ -48,8 +48,9 @@
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-chuyen-khoa')
                                                     <a href="{{ route('department.edit', $department->id) }}"
-                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                            class="fas fa-edit"></i></a>
+                                                        class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
+                                                            class="fas fa-edit" data-bs-toggle="tooltip"
+                                                            title="Chỉnh sửa chuyên khoa"></i></a>
                                                 @endcan
                                                 @can('xoa-chuyen-khoa')
                                                     <form action="{{ route('department.destroy', $department->id) }}"
@@ -57,8 +58,9 @@
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
-                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                                class="fas fa-trash"></i></button>
+                                                            class="btn btn-outline-danger btn-xs delete-btn"><i
+                                                                class="fas fa-trash" data-bs-toggle="tooltip"
+                                                                title="Xóa chuyên khoa"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>

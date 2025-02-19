@@ -49,8 +49,9 @@
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-loai-thuoc')
                                                     <a href="{{ route('medicine-category.edit', $category->id) }}"
-                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                            class="fas fa-edit"></i></a>
+                                                        class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
+                                                            class="fas fa-edit" data-bs-toggle="tooltip"
+                                                            title="Chỉnh sửa loại thuốc"></i></a>
                                                 @endcan
                                                 @can('xoa-loai-thuoc')
                                                     <form action="{{ route('medicine-category.destroy', $category->id) }}"
@@ -58,8 +59,9 @@
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
-                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                                class="fas fa-trash"></i></button>
+                                                            class="btn btn-outline-danger btn-xs delete-btn"><i
+                                                                class="fas fa-trash" data-bs-toggle="tooltip"
+                                                                title="Xóa loại thuốc"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>

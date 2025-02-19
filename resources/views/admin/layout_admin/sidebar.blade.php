@@ -34,27 +34,19 @@
                     </span>
                     <h4 class="text-section">Quản lý</h4>
                 </li>
-                @can('xem-danh-sach-quyen')
-                    <li class="nav-item {{ request()->routeIs('permission.*') ? 'active' : '' }}">
-                        <a href="{{ route('permission.index') }}">
-                            <i class="icon-user-following"></i>
-                            <p>Quyền truy cập</p>
+                @can('xem-danh-sach-benh-nhan')
+                    <li class="nav-item {{ request()->routeIs('patient.*') ? 'active' : '' }}">
+                        <a href="{{ route('patient.index') }}">
+                            <i class="fas fa-address-book"></i>
+                            <p>Bệnh nhân</p>
                         </a>
                     </li>
                 @endcan
-                @can('xem-danh-sach-vai-tro')
-                    <li class="nav-item {{ request()->routeIs('role.*') ? 'active' : '' }}">
-                        <a href="{{ route('role.index') }}">
-                            <i class="fas fa-users-cog"></i>
-                            <p>Vai trò</p>
-                        </a>
-                    </li>
-                @endcan
-                @can('xem-danh-sach-nhan-vien')
-                    <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
-                        <a href="{{ route('manager.index') }}">
-                            <i class="fas fa-users"></i>
-                            <p>Người quản lý</p>
+                @can('xem-danh-sach-don-thuoc')
+                    <li class="nav-item {{ request()->routeIs('prescription.*') ? 'active' : '' }}">
+                        <a href="{{ route('prescription.index') }}">
+                            <i class="fas fa-briefcase-medical"></i>
+                            <p>Đơn thuốc</p>
                         </a>
                     </li>
                 @endcan
@@ -90,7 +82,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('xem-danh-sach-phong-kham')
+                @can('xem-danh-sach-dich-vu-kham')
                     <li class="nav-item {{ request()->routeIs('medical-service.*') ? 'active' : '' }}">
                         <a href="{{ route('medical-service.index') }}">
                             <i class="fas fa-calendar-plus"></i>
@@ -98,11 +90,27 @@
                         </a>
                     </li>
                 @endcan
-                @can('xem-danh-sach-benh-nhan')
-                    <li class="nav-item {{ request()->routeIs('patient.*') ? 'active' : '' }}">
-                        <a href="{{ route('patient.index') }}">
-                            <i class="fas fa-address-book"></i>
-                            <p>Bệnh nhân</p>
+                @can('xem-danh-sach-nhan-vien')
+                    <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
+                        <a href="{{ route('manager.index') }}">
+                            <i class="fas fa-users"></i>
+                            <p>Nhân viên</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-vai-tro')
+                    <li class="nav-item {{ request()->routeIs('role.*') ? 'active' : '' }}">
+                        <a href="{{ route('role.index') }}">
+                            <i class="fas fa-users-cog"></i>
+                            <p>Vai trò</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-quyen')
+                    <li class="nav-item {{ request()->routeIs('permission.*') ? 'active' : '' }}">
+                        <a href="{{ route('permission.index') }}">
+                            <i class="icon-user-following"></i>
+                            <p>Quyền truy cập</p>
                         </a>
                     </li>
                 @endcan

@@ -80,8 +80,9 @@
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-nhan-vien')
                                                     <a href="{{ route('manager.edit', $manager->id) }}"
-                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                            class="fas fa-edit"></i></a>
+                                                        class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
+                                                            class="fas fa-edit" data-bs-toggle="tooltip"
+                                                            title="Chỉnh sửa nhân viên"></i></a>
                                                 @endcan
                                                 @can('xoa-nhan-vien')
                                                     <form action="{{ route('manager.destroy', $manager->id) }}" method="POST"
@@ -89,8 +90,9 @@
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
-                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                                class="fas fa-trash"></i></button>
+                                                            class="btn btn-outline-danger btn-xs delete-btn"><i
+                                                                class="fas fa-trash" data-bs-toggle="tooltip"
+                                                                title="Xóa nhân viên"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>

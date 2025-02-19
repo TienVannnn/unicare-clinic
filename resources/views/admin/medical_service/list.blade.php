@@ -13,7 +13,7 @@
                             <input type="text" placeholder="Nhập tên dịch vụ khám" name="name">
                         </form>
                     </div>
-                    @can('them-quyen')
+                    @can('them-dich-vu-kham')
                         <a href="{{ route('medical-service.create') }}" class="btn btn-secondary"><i
                                 class="fas fa-plus me-1"></i>
                             Thêm dịch vụ khám</a>
@@ -37,7 +37,7 @@
                                     <th scope="col">Mô tả</th>
                                     <th scope="col">Giá (VNĐ)</th>
                                     <th scope="col">Phòng khám</th>
-                                    @can(['chinh-sua-quyen', 'xoa-quyen'])
+                                    @can(['chinh-sua-dich-vu-kham', 'xoa-dich-vu-kham'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
                                 </tr>
@@ -57,19 +57,21 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                @can('chinh-sua-quyen')
+                                                @can('chinh-sua-dich-vu-kham')
                                                     <a href="{{ route('medical-service.edit', $medical_service->id) }}"
-                                                        class="btn btn-outline-primary btn-sm me-2" title="Edit"><i
-                                                            class="fas fa-edit"></i></a>
+                                                        class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
+                                                            class="fas fa-edit" data-bs-toggle="tooltip"
+                                                            title="Chỉnh sửa dịch vụ khám"></i></a>
                                                 @endcan
-                                                @can('xoa-quyen')
+                                                @can('xoa-dich-vu-kham')
                                                     <form action="{{ route('medical-service.destroy', $medical_service->id) }}"
                                                         method="POST" class="delete-form">
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
-                                                            class="btn btn-outline-danger btn-sm delete-btn"><i
-                                                                class="fas fa-trash"></i></button>
+                                                            class="btn btn-outline-danger btn-xs delete-btn"><i
+                                                                class="fas fa-trash" data-bs-toggle="tooltip"
+                                                                title="Xóa dịch vụ khám"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>

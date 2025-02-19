@@ -18,7 +18,7 @@ class MedicalServiceController extends Controller
      */
     public function index()
     {
-        $this->authorize('xem-danh-sach-thuoc');
+        $this->authorize('xem-danh-sach-dich-vu-kham');
         $title = 'Danh sách dịch vụ khám';
         $medical_services = MedicalService::orderByDesc('id')->with('clinics')->paginate(15);
         return view('admin.medical_service.list', compact('title', 'medical_services'));
@@ -29,7 +29,7 @@ class MedicalServiceController extends Controller
      */
     public function create()
     {
-        $this->authorize('them-thuoc');
+        $this->authorize('them-dich-vu-kham');
         $title = 'Thêm dịch vụ khám';
         $clinics = Clinic::orderByDesc('id')->get();
         return view('admin.medical_service.create', compact('title', 'clinics'));
@@ -40,7 +40,7 @@ class MedicalServiceController extends Controller
      */
     public function store(MedicalServiceRequest $request)
     {
-        $this->authorize('them-thuoc');
+        $this->authorize('them-dich-vu-kham');
         try {
             $medical_service = MedicalService::create([
                 'name' => $request->name,
@@ -69,7 +69,7 @@ class MedicalServiceController extends Controller
      */
     public function edit(string $id)
     {
-        $this->authorize('chinh-sua-thuoc');
+        $this->authorize('chinh-sua-dich-vu-kham');
         $medical_service = MedicalService::findOrFail($id);
         $title = 'Chỉnh sửa dịch vụ khám';
         $clinics = Clinic::orderByDesc('id')->get();
@@ -82,7 +82,7 @@ class MedicalServiceController extends Controller
      */
     public function update(MedicalServiceRequest $request, string $id)
     {
-        $this->authorize('chinh-sua-thuoc');
+        $this->authorize('chinh-sua-dich-vu-kham');
         $medical_service = MedicalService::findOrFail($id);
         try {
             $medical_service->update([
@@ -104,7 +104,7 @@ class MedicalServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->authorize('xoa-thuoc');
+        $this->authorize('xoa-dich-vu-kham');
         $medical_service = MedicalService::findOrFail($id);
         try {
             $medical_service->delete();

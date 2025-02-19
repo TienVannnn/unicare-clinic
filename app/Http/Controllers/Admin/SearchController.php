@@ -11,6 +11,7 @@ use App\Models\Medicine;
 use App\Models\MedicineCategory;
 use App\Models\Patient;
 use App\Models\Permission;
+use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -71,6 +72,12 @@ class SearchController extends Controller
             $medical_services = MedicalService::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm dịch vụ khám';
             return view('admin.medical_service.list', compact('medical_services', 'title'));
+        }
+
+        if ($type === 'prescription') {
+            $prescriptions = Prescription::where('prescription_code', 'like', "%$query%")->with('patient', 'doctor')->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm đơn thuốc';
+            return view('admin.prescription.list', compact('prescriptions', 'title'));
         }
 
 
