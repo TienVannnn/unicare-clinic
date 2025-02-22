@@ -9,8 +9,8 @@ class Prescription extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'patient_id',
         'doctor_id',
+        'medical_certificate_id',
         'prescription_code',
         'note',
         'total_payment',
@@ -23,13 +23,14 @@ class Prescription extends Model
             ->withTimestamps();
     }
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
     public function doctor()
     {
         return $this->belongsTo(Admin::class, 'doctor_id');
+    }
+
+    public function medical_certificate()
+    {
+        return $this->belongsTo(MedicalCertificate::class);
     }
 
     protected static function boot()

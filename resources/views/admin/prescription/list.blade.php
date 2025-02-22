@@ -32,6 +32,7 @@
                                 <tr>
                                     <th scope="col">STT</th>
                                     <th scope="col">Mã</th>
+                                    <th scope="col">Giấy khám bệnh</th>
                                     <th scope="col">Bệnh nhân</th>
                                     <th scope="col">Bác sĩ</th>
                                     <th scope="col">Tổng tiền (VNĐ)</th>
@@ -46,7 +47,10 @@
                                     <tr>
                                         <td>{{ $prescriptions->firstItem() + $key }}</td>
                                         <td>{{ $prescription->prescription_code }}</td>
-                                        <td>{{ $prescription->patient->name }}</td>
+                                        <td><a href="{{ route('medical-certificate.show', $prescription->medical_certificate->id) }}"
+                                                target="_blank">{{ $prescription->medical_certificate->medical_certificate_code }}</a>
+                                        </td>
+                                        <td>{{ $prescription->medical_certificate->patient->name ?? 'Lỗi' }}</td>
                                         <td>{{ $prescription->doctor->name }}</td>
                                         <td>{{ number_format($prescription->total_payment, 0, ',', '.') }}</td>
                                         <td>

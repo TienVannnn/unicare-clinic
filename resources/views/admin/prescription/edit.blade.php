@@ -10,7 +10,7 @@
                         </button>
                     </a>
                     <span class="text-uppercase" style="font-size: 14px">Chỉnh sửa đơn thuốc</span>
-                    {{-- <span class="text-primary">"{{ $prescription->name }}"</span> --}}
+                    <span class="text-primary">"{{ $prescription->prescription_code }}"</span>
                 </p>
             </div>
             <div class="card-body">
@@ -19,33 +19,27 @@
                     <div class="row">
                         <h5>Thông tin đơn thuốc</h5>
                         <div class="mb-3 col-md-6">
-                            <label for="patient_id" class="form-label">Bệnh nhân <span class="text-danger">*</span></label>
-                            <select class="form-control tag-select"id="patient_id" name="patient_id">
-                                @if (!empty($patients))
-                                    @foreach ($patients as $patient)
-                                        <option value="{{ $patient->id }}"
-                                            {{ $patient->id === $prescription->patient->id ? 'selected' : '' }}>
-                                            {{ $patient->name }}
+                            <label for="medical_certificate_id" class="form-label">Giấy khám bệnh <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control tag-select2"id="medical_certificate_id"
+                                name="medical_certificate_id">
+                                <option value="" selected>Giấy khám bệnh</option>
+                                @if (!empty($medical_certificates))
+                                    @foreach ($medical_certificates as $medical_certificate)
+                                        <option value="{{ $medical_certificate->id }}"
+                                            {{ $medical_certificate->id === $prescription->medical_certificate->id ? 'selected' : '' }}>
+                                            {{ $medical_certificate->medical_certificate_code }}
                                         </option>
                                     @endforeach
                                 @endif
                             </select>
-                            <div class="message-error" id="patient_idError"></div>
+                            <div class="message-error" id="medical_certificate_idError"></div>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="doctor_id" class="form-label">Bác sĩ <span class="text-danger">*</span></label>
-                            <select class="form-control tag-select2"id="doctor_id" name="doctor_id">
-                                <option value="" selected>Chọn bác sĩ</option>
-                                @if (!empty($doctors))
-                                    @foreach ($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}"
-                                            {{ $doctor->id === $prescription->doctor->id ? 'selected' : '' }}>
-                                            {{ $doctor->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
-                            </select>
-                            <div class="message-error" id="doctor_idError"></div>
+                            <label for="patient_id" class="form-label">Bệnh nhân </label>
+                            <div>
+                                <p class="patient-info"></p>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="note" class="form-label">Ghi chú</label>

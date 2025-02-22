@@ -22,8 +22,7 @@ class PrescriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => 'required|exists:patients,id',
-            'doctor_id' => 'required|exists:admins,id',
+            'medical_certificate_id' => 'required|exists:medical_certificates,id',
             'note' => 'nullable|string',
             'medicines' => 'required|array',
             'medicines.*.medicine' => 'required|exists:medicines,id',
@@ -35,10 +34,8 @@ class PrescriptionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'patient_id.required' => 'Bệnh nhân là trường bắt buộc.',
-            'patient_id.exists' => 'Bệnh nhân không tồn tại trong hệ thống.',
-            'doctor_id.required' => 'Bác sĩ là trường bắt buộc.',
-            'doctor_id.exists' => 'Bác sĩ không tồn tại trong hệ thống.',
+            'medical_certificate_id.required' => 'Giấy khám bệnh là trường bắt buộc.',
+            'medical_certificate_id.exists' => 'Giấy khám bệnh không tồn tại trong hệ thống.',
             'note.string' => 'Ghi chú phải là chuỗi văn bản.',
             'medicines.required' => 'Danh sách thuốc là bắt buộc.',
             'medicines.array' => 'Danh sách thuốc phải là một mảng.',

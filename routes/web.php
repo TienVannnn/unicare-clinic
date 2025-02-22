@@ -62,6 +62,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/prescription', PrescriptionController::class);
     Route::post('prescription/{id}/payment', [PrescriptionController::class, 'payment_confirm'])->name('prescription.pay');
     Route::get('prescription/{id}/print', [PrescriptionController::class, 'print'])->name('prescription.print');
+    Route::get('/medical-certificate/patient', [PrescriptionController::class, 'getPatient'])
+        ->name('medical-certificate.get-patient');
+
     Route::resource('/medical-certificate', MedicalCertificateController::class);
     Route::post('medical-certificate/{id}/payment', [MedicalCertificateController::class, 'payment_confirm'])->name('medical-certificate.pay');
     Route::post('medical-certificate/{id}/payment-advance', [MedicalCertificateController::class, 'payment_advance'])->name('medical-certificate.pay-advance');

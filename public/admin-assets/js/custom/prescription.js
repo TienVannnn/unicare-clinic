@@ -54,7 +54,7 @@ $(function () {
         placeholder: "Chọn bệnh nhân",
     });
     $(".tag-select2").select2({
-        placeholder: "Chọn bác sĩ",
+        placeholder: "Chọn giấy khám bệnh",
     });
     $(".tag-select3").select2({
         placeholder: "Chọn thuốc",
@@ -106,4 +106,55 @@ $(document).ready(function () {
             },
         });
     });
+
+    $(document).ready(function () {
+        function loadPatient(medicalCertificateId) {
+            $.ajax({
+                url: route("medical-certificate.get-patient"),
+                type: "GET",
+                data: { id: medicalCertificateId },
+                success: function (response) {
+                    let patient = $(".patient-info");
+                    let gender = response.patient.gender == 1 ? "Nam" : "Nữ";
+                    let dob = formatDate(response.patient.dob);
+                    patient.text(
+                        response.patient.name +
+                            " | Giới tính: " +
+                            gender +
+                            " | Ngày sinh: " +
+                            dob
+                    );
+                },
+                error: function (xhr) {
+                    console.error(
+                        "Lỗi khi lấy thông tin bệnh nhân:",
+                        xhr.responseText
+                    );
+                },
+            });
+        }
+
+        $("#medical_certificate_id").change(function () {
+            let medicalCertificateId = $(this).val();
+            loadPatient(medicalCertificateId);
+        });
+
+        let existingMedicalCertificateId = $("#medical_certificate_id").val();
+        if (existingMedicalCertificateId) {
+            loadPatient(existingMedicalCertificateId);
+        }
+    });
+
+    function formatDate(dateString) {
+        if (!dateString) return "Không có dữ liệu";
+
+        let date = new Date(dateString);
+        if (isNaN(date.getTime())) return "Ngày không hợp lệ";
+
+        let day = String(date.getDate()).padStart(2, "0");
+        let month = String(date.getMonth() + 1).padStart(2, "0");
+        let year = date.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    }
 });

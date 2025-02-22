@@ -63,7 +63,7 @@
         </div>
         <div style="text-align: right">
             <h5>Mã số bệnh nhân</h5>
-            <small>{{ $prescription->patient->patient_code }}</small>
+            <small>{{ $prescription->medical_certificate->patient->patient_code }}</small>
         </div>
     </div>
     <div style="text-align: center">
@@ -71,12 +71,12 @@
     </div>
 
     <div class="info">
-        <p><strong>Họ và tên:</strong> {{ $prescription->patient->name }}
+        <p><strong>Họ và tên:</strong> {{ $prescription->medical_certificate->patient->name }}
             <span style="font-style: italic"><strong>Tuổi:</strong>
-                {{ \Carbon\Carbon::parse($prescription->patient->dob)->age }}
+                {{ \Carbon\Carbon::parse($prescription->medical_certificate->patient->dob)->age }}
             </span>
         </p>
-        <p><strong>Địa chỉ:</strong> {{ $prescription->patient->address }}</p>
+        <p><strong>Địa chỉ:</strong> {{ $prescription->medical_certificate->patient->address }}</p>
         <p><strong>Số thẻ BHYT (nếu có):</strong> ......................................</p>
     </div>
 

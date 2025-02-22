@@ -63,7 +63,12 @@
 </head>
 
 <body>
-
+    @php
+        $price = $medical_certificate->medical_service->price;
+        if ($medical_certificate->insurance) {
+            $price *= 0.8;
+        }
+    @endphp
     <div class="header">
         <div>
             <h5 class="title">Phòng khám đa khoa Unicare</h5>
@@ -85,9 +90,7 @@
         </p>
         <p><strong>Địa chỉ:</strong> {{ $medical_certificate->patient->address }}</p>
         <p><strong>Khoa:</strong> {{ $medical_certificate->clinic->name }}</p>
-        <p><strong>Tạm ứng:</strong> {{ number_format($medical_certificate->medical_service->price, 0, ',', '.') }}
-            VND</p>
-        {{-- <p><strong>Viết bằng chữ:</strong> {{ $medical_certificate->amount_in_words }}</p> --}}
+        <p><strong>Tạm ứng:</strong> {{ number_format($price, 0, ',', '.') }} VND</p>
     </div>
 
     <div class="signatures">

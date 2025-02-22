@@ -63,7 +63,17 @@
                     <div class="mt-3">
                         <h5>🏥 Dịch vụ khám</h5>
                         <p>{{ $medical_certificate->medical_service->name }}</p>
-                        <p>Giá: {{ number_format($medical_certificate->medical_service->price) }} VND</p>
+                        @if ($medical_certificate->insurance)
+                            @php
+                                $price = $medical_certificate->medical_service->price;
+                                if ($medical_certificate->insurance) {
+                                    $price *= 0.8;
+                                }
+                            @endphp
+                            <p>Giá BHYT: {{ number_format($price) }} VND</p>
+                        @else
+                            <p>Giá: {{ number_format($medical_certificate->medical_service->price) }} VND</p>
+                        @endif
                     </div>
                 @endif
 

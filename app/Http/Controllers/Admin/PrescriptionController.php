@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PrescriptionRequest;
 use App\Models\Admin;
+use App\Models\MedicalCertificate;
 use App\Models\Medicine;
 use App\Models\Patient;
 use App\Models\Prescription;
@@ -23,8 +24,9 @@ class PrescriptionController extends Controller
     public function index()
     {
         $this->authorize('xem-danh-sach-don-thuoc');
-        $prescriptions = Prescription::with('patient', 'doctor')->orderByDesc('id')->paginate(15);
-        return view('admin.prescription.list', compact('prescriptions'));
+        $title = 'Danh sách đơn thuốc';
+        $prescriptions = Prescription::with('medical_certificate', 'doctor')->orderByDesc('id')->paginate(15);
+        return view('admin.prescription.list', compact('prescriptions', 'title'));
     }
 
     /**
@@ -33,10 +35,11 @@ class PrescriptionController extends Controller
     public function create()
     {
         $this->authorize('them-don-thuoc');
-        $patients = Patient::orderByDesc('id')->get();
+        $title = 'Thêm đơn thuốc';
         $doctors = Admin::role('Bác sĩ')->get();
         $medicines = Medicine::orderByDesc('id')->get();
-        return view('admin.prescription.create', compact('patients', 'doctors', 'medicines'));
+        $medical_certificates = MedicalCertificate::orderByDesc('id')->get();
+        return view('admin.prescription.create', compact('doctors', 'medicines', 'title', 'medical_certificates'));
     }
 
     /**
@@ -48,8 +51,8 @@ class PrescriptionController extends Controller
         try {
             $totalPayment = 0;
             $prescription = Prescription::create([
-                'patient_id' => $request->patient_id,
-                'doctor_id' => $request->doctor_id,
+                'medical_certificate_id' => $request->medical_certificate_id,
+                'doctor_id' => auth()->guard('admin')->id(),
                 'note' => $request->note,
                 'status' => 0,
                 'total_payment' => 0,
@@ -92,8 +95,9 @@ class PrescriptionController extends Controller
      */
     public function show(string $id)
     {
-        $prescription = Prescription::with('patient', 'doctor', 'medicines')->findOrFail($id);
-        return view('admin.prescription.show', compact('prescription'));
+        $title = 'Chi tiết đơn thuốc';
+        $prescription = Prescription::with('doctor', 'medicines', 'medical_certificate')->findOrFail($id);
+        return view('admin.prescription.show', compact('prescription', 'title'));
     }
 
     /**
@@ -102,11 +106,12 @@ class PrescriptionController extends Controller
     public function edit(string $id)
     {
         $this->authorize('chinh-sua-don-thuoc');
-        $prescription = Prescription::with('patient', 'doctor', 'medicines')->findOrFail($id);
-        $patients = Patient::orderByDesc('id')->get();
+        $title = 'Chỉnh sửa đơn thuốc';
+        $prescription = Prescription::with('doctor', 'medicines', 'medical_certificate')->findOrFail($id);
+        $medical_certificates = MedicalCertificate::orderByDesc('id')->get();
         $doctors = Admin::role('Bác sĩ')->get();
         $medicines = Medicine::orderByDesc('id')->get();
-        return view('admin.prescription.edit', compact('prescription', 'patients', 'doctors', 'medicines'));
+        return view('admin.prescription.edit', compact('prescription', 'doctors', 'medicines', 'title', 'medical_certificates'));
     }
 
     /**
@@ -118,8 +123,8 @@ class PrescriptionController extends Controller
         try {
             $prescription = Prescription::findOrFail($id);
             $prescription->update([
-                'patient_id' => $request->patient_id,
-                'doctor_id' => $request->doctor_id,
+                'medical_certificate_id' => $request->medical_certificate_id,
+                'doctor_id' => auth()->guard('admin')->id(),
                 'note' => $request->note
             ]);
             $prescription->medicines()->detach();
@@ -205,5 +210,29 @@ class PrescriptionController extends Controller
         $prescription = Prescription::findOrFail($id);
         $pdf = Pdf::loadView('admin.prescription.print', compact('prescription'));
         return $pdf->stream('don-thuoc.pdf');
+    }
+
+    public function getPatient(Request $request)
+    {
+        try {
+            $medicalCertificate = MedicalCertificate::with('patient')->find($request->id);
+
+            if (!$medicalCertificate || !$medicalCertificate->patient) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy bệnh nhân'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'patient' => $medicalCertificate->patient
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi server: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

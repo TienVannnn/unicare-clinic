@@ -9,8 +9,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h5>👨‍🦰 Bệnh nhân</h5>
-                        <p><strong>Họ tên:</strong> {{ $prescription->patient->name }}</p>
-                        <p><strong>Ngày sinh:</strong> {{ $prescription->patient->dob }}</p>
+                        <p><strong>Họ tên:</strong> {{ $prescription->medical_certificate->patient->name }}</p>
+                        <p><strong>Ngày sinh:</strong> {{ $prescription->medical_certificate->patient->dob }}</p>
                     </div>
                     <div class="col-md-6">
                         <h5>🧑‍⚕️ Bác sĩ</h5>
