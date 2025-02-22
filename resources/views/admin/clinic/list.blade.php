@@ -33,6 +33,7 @@
                                     <th scope="col">STT</th>
                                     <th scope="col">Mã</th>
                                     <th scope="col">Tên phòng khám</th>
+                                    <th scope="col">Bác sĩ</th>
                                     <th scope="col">Chuyên khoa</th>
                                     @can(['chinh-sua-quyen', 'xoa-quyen'])
                                         <th scope="col">Xử lý</th>
@@ -45,6 +46,15 @@
                                         <td>{{ $clinics->firstItem() + $key }}</td>
                                         <td>{{ $clinic->clinic_code }}</td>
                                         <td>{{ $clinic->name }}</td>
+                                        <td>
+                                            @if ($clinic->doctors->isNotEmpty())
+                                                @foreach ($clinic->doctors as $doctor)
+                                                    <span class="badge badge-info">{{ $doctor->name }}</span>
+                                                @endforeach
+                                            @else
+                                                Chưa có bác sĩ
+                                            @endif
+                                        </td>
                                         <td><span class="badge badge-info">{{ $clinic->department->name }}</span></td>
                                         <td>
                                             <div class="d-flex align-items-center">

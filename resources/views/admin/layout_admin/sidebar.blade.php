@@ -42,6 +42,14 @@
                         </a>
                     </li>
                 @endcan
+                @can('xem-danh-sach-giay-kham-benh')
+                    <li class="nav-item {{ request()->routeIs('medical-certificate.*') ? 'active' : '' }}">
+                        <a href="{{ route('medical-certificate.index') }}">
+                            <i class="fas fa-address-card"></i>
+                            <p>Giấy khám bệnh</p>
+                        </a>
+                    </li>
+                @endcan
                 @can('xem-danh-sach-don-thuoc')
                     <li class="nav-item {{ request()->routeIs('prescription.*') ? 'active' : '' }}">
                         <a href="{{ route('prescription.index') }}">

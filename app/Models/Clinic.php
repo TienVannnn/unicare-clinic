@@ -27,6 +27,11 @@ class Clinic extends Model
         return $this->belongsTo(Department::class);
     }
 
+    public function doctors()
+    {
+        return $this->hasMany(Admin::class);
+    }
+
     public function medical_services()
     {
         return $this->belongsToMany(MedicalService::class, 'clinic_medical_service', 'clinic_id', 'medical_service_id');

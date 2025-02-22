@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Đơn thuốc #{{ $prescription->prescription_code }}</title>
+    <title>Giấy Khám Bệnh #{{ $medical_certificate->medical_certificate_code }}</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -16,7 +16,6 @@
             line-height: 0.8;
         }
 
-
         .header {
             width: 100%;
         }
@@ -27,9 +26,8 @@
             vertical-align: top;
         }
 
-
         .title {
-            text-transform: uppercase
+            text-transform: uppercase;
         }
 
         table {
@@ -54,7 +52,6 @@
 </head>
 
 <body>
-
     <div class="header">
         <div>
             <h5 class="title">Phòng khám đa khoa Unicare</h5>
@@ -63,62 +60,39 @@
         </div>
         <div style="text-align: right">
             <h5>Mã số bệnh nhân</h5>
-            <small>{{ $prescription->patient->patient_code }}</small>
+            <small>{{ $medical_certificate->patient->patient_code }}</small>
         </div>
     </div>
+
     <div style="text-align: center">
-        <h2>ĐƠN THUỐC</h2>
+        <h2>GIẤY KHÁM BỆNH</h2>
     </div>
 
     <div class="info">
-        <p><strong>Họ và tên:</strong> {{ $prescription->patient->name }}
+        <p><strong>Họ và tên:</strong> {{ $medical_certificate->patient->name }}
             <span style="font-style: italic"><strong>Tuổi:</strong>
-                {{ \Carbon\Carbon::parse($prescription->patient->dob)->age }}
+                {{ \Carbon\Carbon::parse($medical_certificate->patient->dob)->age }}
             </span>
         </p>
-        <p><strong>Địa chỉ:</strong> {{ $prescription->patient->address }}</p>
+        <p><strong>Địa chỉ:</strong> {{ $medical_certificate->patient->address }}</p>
         <p><strong>Số thẻ BHYT (nếu có):</strong> ......................................</p>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Tên thuốc</th>
-                <th>Liều lượng</th>
-                <th>Số lượng</th>
-                <th>Giá</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($prescription->medicines as $index => $medicine)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td><strong>{{ $medicine->name }}</strong></td>
-                    <td>{{ $medicine->pivot->dosage }}</td>
-                    <td>{{ $medicine->pivot->quantity }} {{ $medicine->unit }}</td>
-                    <td>{{ number_format($medicine->pivot->price, 0, ',', '.') }} VND</td>
-                    <td>{{ number_format($medicine->pivot->subtotal, 0, ',', '.') }} VND</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <p><strong>Lời dặn:</strong> {{ $prescription->note }}</p>
-    <p><strong>Ngày tái khám:</strong> {{ $prescription->created_at->format('d/m/Y') }}</p>
-    <p><strong>Tổng tiền:</strong> {{ number_format($prescription->total_payment, 0, ',', '.') }} VNĐ</p>
+    <p><strong>Triệu chứng:</strong> {{ $medical_certificate->symptom }}</p>
+    <p><strong>Chẩn đoán:</strong> {!! $medical_certificate->diagnosis !!}</p>
+    <p><strong>Kết luận:</strong> {!! $medical_certificate->conclude !!}</p>
+    <p><strong>Ngày khám:</strong> {{ $medical_certificate->created_at->format('d/m/Y') }}</p>
 
     <div class="sign">
         <p>Ngày {{ now()->format('d') }} tháng {{ now()->format('m') }} năm {{ now()->format('Y') }}</p>
         <p>Bác sĩ khám bệnh</p>
         <p>(Ký, ghi rõ họ tên)</p>
         <br><br>
-        <p><strong>BSCKI. {{ $prescription->doctor->name }}</strong></p>
+        <p><strong>BSCKI. {{ $medical_certificate->doctor->name }}</strong></p>
     </div>
+
     <div class="footer">
-        <p> - Khám lại xin mang theo đơn này.</p>
-        <p> - Tên bố hoặc mẹ của trẻ hoặc người đưa đến khám, chữa bệnh:</p>
+        <p> - Vui lòng mang theo giấy này khi tái khám.</p>
         <p> - Số điện thoại liên hệ:</p>
         <small style="font-style: italic"> Sử dụng mã số bệnh nhân để tra cứu thông tin khám, chữa bệnh trên website <a
                 href="https://unicaremedic.ntu264.vpsttt.vn">Unicare</a> https://unicaremedic.ntu264.vpsttt.vn
