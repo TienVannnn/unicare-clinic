@@ -13,7 +13,7 @@
                 <form action="{{ route('medicine-category.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="name" class="form-label">Tên loại thuốc</label>
+                        <label for="name" class="form-label">Tên loại thuốc <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                             name="name" placeholder="Nhập tên loại thuốc" value="{{ old('name') }}">
                         @error('name')
@@ -21,7 +21,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Mô tả</label>
+                        <label for="description" class="form-label">Mô tả </label>
                         <input type="text" class="form-control @error('description') is-invalid @enderror"
                             id="description" name="description" placeholder="Nhập mô tả" value="{{ old('description') }}">
                         @error('description')

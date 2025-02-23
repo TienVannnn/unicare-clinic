@@ -19,7 +19,7 @@
                     @method('PUT')
                     <div class="row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Tên thuốc</label>
+                            <label for="name" class="form-label">Tên thuốc <span class="text-danger">*</span></label>
                             <input type="text" value="{{ $medicine->name }}"
                                 class="form-control @error('name') is-invalid @enderror" id="name"
                                 aria-describedby="emailHelp" name="name">
@@ -28,7 +28,7 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="description" class="form-label">Mô tả</label>
+                            <label for="description" class="form-label">Mô tả <span class="text-danger">*</span></label>
                             <input type="text" value="{{ $medicine->description }}"
                                 class="form-control @error('description') is-invalid @enderror" id="description"
                                 name="description">
@@ -37,7 +37,8 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="medicine_categories" class="form-label">Loại thuốc</label>
+                            <label for="medicine_categories" class="form-label">Loại thuốc <span
+                                    class="text-danger">*</span></label>
                             <select class="form-control tag-select" multiple="multiple" id="medicine_categories"
                                 name="medicine_categories[]">
                                 @if (!empty($medicineCategories))
@@ -53,7 +54,7 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="unit" class="form-label">Đơn vị</label>
+                            <label for="unit" class="form-label">Đơn vị <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('unit') is-invalid @enderror" id="unit"
                                 name="unit" placeholder="Nhập đơn vị tính" value="{{ $medicine->unit }}">
                             @error('unit')
@@ -61,7 +62,7 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="price" class="form-label">Giá</label>
+                            <label for="price" class="form-label">Giá <span class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('price') is-invalid @enderror" id="price"
                                 name="price" placeholder="Nhập giá" value="{{ $medicine->price }}">
                             @error('price')
@@ -69,7 +70,7 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="quantity" class="form-label">Số lượng</label>
+                            <label for="quantity" class="form-label">Số lượng <span class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('quantity') is-invalid @enderror"
                                 id="quantity" name="quantity" placeholder="Nhập số lượng"
                                 value="{{ $medicine->quantity }}">
@@ -86,11 +87,7 @@
 @endsection
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .select2-container--default {
-            width: 100% !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('admin-assets/css/custom/select2.css') }}">
 @endsection
 
 @section('js')

@@ -22,7 +22,8 @@
                                 <form method="POST" action="{{ route('admin.handle_recovery') }}">
                                     @csrf
                                     <div class="mb-3">
-                                        <label class="form-label" for="email">Email</label>
+                                        <label class="form-label" for="email">Email <span
+                                                class="text-danger">*</span></label>
                                         <input type="email" name="email"
                                             class="form-control  @error('email') is-invalid @enderror" id="email"
                                             {{ $email ? 'disabled' : null }} value="{{ $email ?? old('email') }}"
@@ -32,7 +33,8 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3">
-                                        <label for="code" class="form-label">Code</label>
+                                        <label for="code" class="form-label">Code <span
+                                                class="text-danger">*</span></label>
                                         <input type="text" name="token_reset_password"
                                             class="form-control @error('token_reset_password') is-invalid @enderror"
                                             id="code" aria-describedby="code"
@@ -42,7 +44,8 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3">
-                                        <label for="password" class="form-label">New password</label>
+                                        <label for="password" class="form-label">New password <span
+                                                class="text-danger">*</span></label>
                                         <input type="password" name="password"
                                             class="form-control @error('password') is-invalid @enderror" id="password"
                                             aria-describedby="passwordHelp" value="{{ old('password') }}"
@@ -52,7 +55,8 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3">
-                                        <label for="confirm" class="form-label">Confirm password</label>
+                                        <label for="confirm" class="form-label">Confirm password <span
+                                                class="text-danger">*</span></label>
                                         <input type="password" name="password_confirmation" class="form-control"
                                             aria-describedby="codeHelp" value="{{ old('password_confirmation') }}"
                                             placeholder="Confirm password">

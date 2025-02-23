@@ -98,6 +98,22 @@
                         </a>
                     </li>
                 @endcan
+                @can('xem-danh-muc-tin-tuc')
+                    <li class="nav-item {{ request()->routeIs('news-category.*') ? 'active' : '' }}">
+                        <a href="{{ route('news-category.index') }}">
+                            <i class="fas fa-tags"></i>
+                            <p>Danh mục tin tức</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-tin-tuc')
+                    <li class="nav-item {{ request()->routeIs('news.*') ? 'active' : '' }}">
+                        <a href="{{ route('news.index') }}">
+                            <i class="fas fa-tag"></i>
+                            <p>Tin tức</p>
+                        </a>
+                    </li>
+                @endcan
                 @can('xem-danh-sach-nhan-vien')
                     <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
                         <a href="{{ route('manager.index') }}">

@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Clinic;
 use App\Models\Department;
+use App\Models\MedicalCertificate;
 use App\Models\MedicalService;
 use App\Models\Medicine;
 use App\Models\MedicineCategory;
+use App\Models\News;
+use App\Models\NewsCategory;
 use App\Models\Patient;
 use App\Models\Permission;
 use App\Models\Prescription;
@@ -75,9 +78,25 @@ class SearchController extends Controller
         }
 
         if ($type === 'prescription') {
-            $prescriptions = Prescription::where('prescription_code', 'like', "%$query%")->with('patient', 'doctor')->orderByDesc('id')->paginate(15);
+            $prescriptions = Prescription::where('prescription_code', 'like', "%$query%")->with('medical_certificate', 'doctor')->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm đơn thuốc';
             return view('admin.prescription.list', compact('prescriptions', 'title'));
+        }
+
+        if ($type === 'medical_certificate') {
+            $medical_certificates = MedicalCertificate::where('medical_certificate_code', 'like', "%$query%")->with('patient', 'doctor')->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm giấy khám bệnh';
+            return view('admin.medical-certificate.list', compact('medical_certificates', 'title'));
+        }
+        if ($type === 'news-category') {
+            $categories = NewsCategory::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm danh mục tin tức';
+            return view('admin.news-category.list', compact('categories', 'title'));
+        }
+        if ($type === 'news') {
+            $news = News::where('title', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm tin tức';
+            return view('admin.news.list', compact('news', 'title'));
         }
 
 

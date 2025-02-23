@@ -22,7 +22,8 @@
                                 <form method="POST" action="{{ route('handleLoginAdmin') }}" id="login_form">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">Email *</label>
+                                        <label for="email" class="form-label">Email <span
+                                                class="text-danger">*</span></label>
                                         <input type="email" name="email"
                                             class="form-control @error('email') is-invalid @enderror" id="email"
                                             aria-describedby="emailHelp" value="{{ old('email') }}">
@@ -31,7 +32,8 @@
                                         @enderror
                                     </div>
                                     <div class="mb-4">
-                                        <label for="password" class="form-label">Mật khẩu *</label>
+                                        <label for="password" class="form-label">Mật khẩu <span
+                                                class="text-danger">*</span></label>
                                         <input type="password"
                                             class="form-control @error('password') is-invalid @enderror" id="password"
                                             name="password" value="{{ old('password') }}">

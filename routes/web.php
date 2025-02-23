@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\MedicalCertificateController;
 use App\Http\Controllers\Admin\MedicalServiceController;
 use App\Http\Controllers\Admin\MedicineCategoryController;
 use App\Http\Controllers\Admin\MedicineController;
+use App\Http\Controllers\Admin\NewsCategoryController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PrescriptionController;
@@ -76,4 +78,6 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('medical-certificate/{id}/conclude', [MedicalCertificateController::class, 'conclude_handle'])->name('medical-certificate.conclude-handle');
     Route::get('/get-clinics-by-service', [MedicalCertificateController::class, 'getClinicsByService'])->name('get-clinics-by-service');
     Route::get('/get-doctors-by-clinic', [MedicalCertificateController::class, 'getDoctorsByClinic'])->name('get-doctors-by-clinic');
+    Route::resource('/news-category', NewsCategoryController::class);
+    Route::resource('/news', NewsController::class);
 });

@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name">Họ tên</label>
+                                    <label for="name">Họ tên <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         name="name" id="name" value="{{ $data->name }}">
                                     @error('name')
@@ -49,7 +49,7 @@
                                     <label for="phone">Số điện thoại</label>
                                     <input type="number" name="phone"
                                         class="form-control @error('phone') is-invalid @enderror" id="phone"
-                                        value="{{ $data->phone ?? '' }}">
+                                        value="{{ $data->phone ?? '' }}" placeholder="Nhập số điện thoại">
                                     @error('phone')
                                         <div class="message-error">{{ $message }}</div>
                                     @enderror
@@ -58,7 +58,7 @@
                                     <label for="address">Địa chỉ</label>
                                     <input type="text" name="address"
                                         class="form-control @error('address') is-invalid @enderror" id="address"
-                                        value="{{ $data->address ?? '' }}">
+                                        value="{{ $data->address ?? '' }}" placeholder="Nhập địa chỉ">
                                     @error('address')
                                         <div class="message-error">{{ $message }}</div>
                                     @enderror
