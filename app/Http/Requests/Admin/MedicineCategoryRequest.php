@@ -26,7 +26,7 @@ class MedicineCategoryRequest extends FormRequest
             'name' => $categoryId
                 ? "required|unique:medicine_categories,name,$categoryId"
                 : 'required|unique:medicine_categories,name',
-            'description' => 'required|string'
+            'description' => 'nullable|string'
         ];
     }
 
@@ -35,7 +35,6 @@ class MedicineCategoryRequest extends FormRequest
         return [
             'name.required' => 'Tên loại thuốc không được bỏ trống',
             'name.unique' => 'Tên loại thuốc đã tồn tại',
-            'description.required' => 'Mô tả không được bỏ trống'
         ];
     }
 }

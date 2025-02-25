@@ -44,7 +44,7 @@
                                     <tr>
                                         <td>{{ $categories->firstItem() + $key }}</td>
                                         <td>{{ $category->name }}</td>
-                                        <td>{{ $category->description }}</td>
+                                        <td>{{ $category->description ?? 'Không có' }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-loai-thuoc')

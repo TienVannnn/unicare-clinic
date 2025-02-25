@@ -1,0 +1,232 @@
+/* .overflow-hidden {
+  overflow: hidden !important;
+}
+.team-item img {
+  position: relative;
+  top: 0;
+  transition: 0.5s;
+}
+.team-item .team-text {
+  position: relative;
+  height: 100px;
+  transition: 0.5s;
+}
+.team-item .team-text .team-social {
+  opacity: 0;
+  transition: 0.5s;
+}
+.team-item .team-social .btn {
+  display: inline-flex;
+  color: var(--primary);
+  background: #fff;
+  border-radius: 40px;
+}
+.btn-square {
+  width: 38px;
+  height: 38px;
+}
+
+.team-item:hover .team-text .team-social {
+  opacity: 1;
+}
+.team-item .team-text .team-social {
+  opacity: 0;
+  transition: 0.5s;
+} */
+
+.g-4 {
+    row-gap: 30px;
+}
+
+.rounded-pill {
+    border-radius: 20px;
+    margin: 10px;
+}
+
+.team-item img {
+    position: relative;
+    top: 0;
+    transition: 0.5s;
+}
+
+.team-item:hover img {
+    top: -30px;
+}
+
+.team-item .team-text {
+    position: relative;
+    height: 100px;
+    transition: 0.5s;
+}
+
+.team-item:hover .team-text {
+    margin-top: -60px;
+    height: 160px;
+}
+
+.team-item .team-text .team-social {
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.team-item:hover .team-text .team-social {
+    opacity: 1;
+}
+
+.team-item .team-social .btnn {
+    display: inline-flex;
+    color: var(--primary);
+    background: #ffffff;
+    border-radius: 40px;
+}
+
+.team-item .team-social .btnn:hover {
+    color: #ffffff;
+    background: var(--primary);
+}
+
+.team-item .team-social .btnn {
+    display: inline-flex;
+    color: var(--primary);
+    background: #ffffff;
+    border-radius: 40px;
+}
+
+.btnn-square,
+.btnn-sm-square,
+.btnn-lg-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+}
+.btnn-square {
+    width: 38px;
+    height: 38px;
+}
+.btnn {
+    font-weight: 500;
+    transition: 0.5s;
+}
+.btnn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #8d8e92;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.rounded {
+    border-radius: 8px !important;
+}
+
+.bg-light-second {
+    background-color: #eff5ff !important;
+}
+
+.overflow-hidden {
+    overflow: hidden !important;
+}
+
+.img-doctor {
+    width: 100%;
+}
+
+.form-register {
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 20px;
+}
+.form-label {
+    font-weight: 400;
+    color: black;
+}
+
+.message-error {
+    color: red;
+}
+input {
+    height: 40px;
+    padding: 10px !important;
+}
+
+.camera-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: -10px;
+}
+
+.item-social-network {
+    position: fixed;
+    bottom: 0;
+    z-index: 260;
+    right: 15px;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+}
+
+.item-social-network.shift-up {
+    bottom: 65px;
+}
+
+#button-contact-vr.shift-up {
+    bottom: 75px;
+}
+
+.item-social-network .linkSocial {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.glowing {
+    width: 50px;
+    height: 50px;
+    -webkit-animation: glowing 1s infinite;
+    animation: glowing 1s infinite;
+}
+
+@-webkit-keyframes glowing {
+    0%,
+    100% {
+        transform: rotate(20deg);
+    }
+    50% {
+        transform: rotate(-20deg);
+    }
+}
+
+@keyframes glowing {
+    0%,
+    100% {
+        transform: rotate(20deg);
+    }
+    50% {
+        transform: rotate(-20deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .item-social-network {
+        bottom: 55px;
+    }
+}

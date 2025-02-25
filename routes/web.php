@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PrescriptionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
+use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,10 +29,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/admin/login', [AuthController::class, 'login_form'])->name('login');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('handleLoginAdmin');
@@ -81,3 +78,5 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/news-category', NewsCategoryController::class);
     Route::resource('/news', NewsController::class);
 });
+
+Route::get('/', [HomeController::class, 'home'])->name('home');

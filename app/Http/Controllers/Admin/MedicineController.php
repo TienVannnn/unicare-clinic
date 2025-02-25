@@ -44,7 +44,7 @@ class MedicineController extends Controller
         try {
             $medicine = Medicine::create($request->except('medicine_categories'));
             $medicine->medicineCategories()->sync($request->medicine_categories);
-            Session::flash('success', 'Tạo thuốc thành công');
+            Session::flash('success', 'Thêm thuốc thành công');
             return redirect()->route('medicine.index');
         } catch (\Exception $e) {
             Session::flash('error', 'Có lỗi khi tạo');
