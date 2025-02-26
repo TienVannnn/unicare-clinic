@@ -19,6 +19,6 @@
 <link rel="stylesheet" href="/user/assets/css/style.css" />
 <link rel="stylesheet" href="/user/assets/css/responsive.css" />
 <link rel="stylesheet" href="/user/assets/css/custom.css" />
-<link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @routes

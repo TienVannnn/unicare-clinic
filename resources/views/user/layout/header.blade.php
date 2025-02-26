@@ -22,17 +22,17 @@
                             <a href="" class="input-search"><i class="fa fa-search"></i></a>
                         </li>
                         <li>
-                            <i class="fa fa-envelope"></i><a href="mailto:support@yourmail.com">Vi</a>
+                            <i class="fa fa-envelope mr-1"></i><a href="mailto:support@yourmail.com">Vi</a>
                         </li>
                         @if (Auth::check())
                             <li>
-                                <a href=""><i
+                                <a href="{{ route('user.profile') }}"><i
                                         class="fa fa-user
                                     mr-1"></i>{{ Auth::user()->name }}</a>
                             </li>
                         @else
                             <li>
-                                <a href="">Login</a>
+                                <a href="{{ route('user.login') }}">Login</a>
                             </li>
                         @endif
                     </ul>

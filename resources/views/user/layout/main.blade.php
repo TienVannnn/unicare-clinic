@@ -20,7 +20,6 @@
             </div>
         </div>
     </div>
-    <!-- End Preloader -->
 
     <!-- Header Area -->
     @include('user.layout.header')

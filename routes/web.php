@@ -80,3 +80,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/login', [HomeController::class, 'login_page'])->name('user.login');
+Route::post('/login', [HomeController::class, 'login'])->name('user.login');
+Route::get('/register', [HomeController::class, 'register_page'])->name('user.register');
+Route::post('/register', [HomeController::class, 'register'])->name('user.register');
+Route::get('/profile', [HomeController::class, 'profile'])->name('user.profile');

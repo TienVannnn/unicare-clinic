@@ -9,10 +9,10 @@
 <script src="/user/assets/js/jquery.counterup.min.js"></script>
 <script src="/user/assets/js/wow.min.js"></script>
 <script src="/user/assets/js/jquery.magnific-popup.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
 <script src="/user/assets/js/bootstrap.min.js"></script>
 <script src="/user/assets/js/main.js"></script>
-<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 
 {!! Toastr::message() !!}
 <script>
