@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\PrescriptionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\AuthController as AuthUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,16 +81,22 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/login', [HomeController::class, 'login_page'])->name('user.login');
-Route::post('/login', [HomeController::class, 'login'])->name('user.login');
-Route::get('/register', [HomeController::class, 'register_page'])->name('user.register');
-Route::post('/register', [HomeController::class, 'register'])->name('user.register');
+Route::prefix('/auth')->group(function () {
+    Route::get('/login', [AuthUserController::class, 'login_page'])->name('user.login');
+    Route::post('/login', [AuthUserController::class, 'login'])->name('user.login');
+    Route::get('/register', [AuthUserController::class, 'register_page'])->name('user.register');
+    Route::post('/register', [AuthUserController::class, 'register'])->name('user.register');
+    Route::get('/forgot-password', [AuthUserController::class, 'page_forgot_password'])->name('user.forgot');
+    Route::post('/forgot-password', [AuthUserController::class, 'forgot_password'])->name('user.forgot');
+    Route::get('/recovery-password', [AuthUserController::class, 'page_recovery_password'])->name('user.recovery');
+    Route::post('/recovery-password', [AuthUserController::class, 'recovery_password'])->name('user.recovery');
+});
 Route::prefix('/profile')->middleware('auth.user')->group(function () {
-    Route::get('/overview', [HomeController::class, 'overview'])->name('user.overview');
-    Route::get('/account-edit', [HomeController::class, 'page_account_edit'])->name('user.account-edit');
-    Route::post('/account-edit', [HomeController::class, 'account_edit'])->name('user.account-edit');
-    Route::get('/change-password', [HomeController::class, 'page_change_password'])->name('user.change-password');
-    Route::post('/change-password', [HomeController::class, 'change_password'])->name('user.change-password');
-    Route::get('/logout', [HomeController::class, 'logout'])->name('user.logout');
-    Route::post('/change-avatar', [HomeController::class, 'change_avatar'])->name('user.change-avatar');
+    Route::get('/overview', [AuthUserController::class, 'overview'])->name('user.overview');
+    Route::get('/account-edit', [AuthUserController::class, 'page_account_edit'])->name('user.account-edit');
+    Route::post('/account-edit', [AuthUserController::class, 'account_edit'])->name('user.account-edit');
+    Route::get('/change-password', [AuthUserController::class, 'page_change_password'])->name('user.change-password');
+    Route::post('/change-password', [AuthUserController::class, 'change_password'])->name('user.change-password');
+    Route::get('/logout', [AuthUserController::class, 'logout'])->name('user.logout');
+    Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
 });

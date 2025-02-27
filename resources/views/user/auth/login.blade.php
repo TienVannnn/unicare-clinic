@@ -14,7 +14,7 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label" for="email">Email</label>
+                        <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
                         <input type="email" id="email" class="form-control @error('email') is-invalid @enderror"
                             name="email" value="{{ old('email') }}" placeholder="Nhập email">
                         @error('email')
@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="password">Mật khẩu</label>
+                        <label class="form-label" for="password">Mật khẩu <span class="text-danger">*</span></label>
                         <input type="password" id="password" placeholder="Nhập mật khẩu"
                             class="form-control @error('password') is-invalid @enderror" name="password">
                         @error('password')
@@ -37,7 +37,7 @@
                                 style="width: auto!important">
                             <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                         </div>
-                        <a href="#" class="text-decoration-none">Quên mật khẩu?</a>
+                        <a href="{{ route('user.forgot') }}" class="text-decoration-none">Quên mật khẩu?</a>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 mb-3">Đăng nhập</button>

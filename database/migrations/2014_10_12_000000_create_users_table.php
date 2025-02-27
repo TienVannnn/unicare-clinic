@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('phone', 11)->nullable();
             $table->string('address')->nullable();
+            $table->string('token_reset_password')->nullable();
+            $table->timestamp('token_duration')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
