@@ -50,9 +50,9 @@
                         <button type="button" class="btn btn-secondary mx-1">
                             <i class="icofont-facebook"></i>
                         </button>
-                        <button type="button" class="btn btn-secondary mx-1">
-                            <i class="icofont-google-plus"></i>
-                        </button>
+                        <a href="{{ route('user.google-login') }}" class="btn btn-secondary mx-1">
+                            <i class="icofont-google-plus"></i> Google
+                        </a>
                     </div>
                 </form>
             </div>

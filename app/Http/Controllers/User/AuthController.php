@@ -14,9 +14,11 @@ use App\Jobs\ForgotPasswordJob;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -204,5 +206,38 @@ class AuthController extends Controller
         }
         Session::flash('error', 'Token không hợp lệ!');
         return redirect()->back();
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function handleGoogleCallback()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+            $finduser = User::where('google_id', $user->id)->first();
+            if ($finduser) {
+                Auth::login($finduser);
+            } else {
+                $newUser = User::updateOrCreate(['email' => $user->email], [
+                    'name' => $user->name,
+                    'google_id' => $user->id,
+                    'password' => encrypt('google@password123')
+                ]);
+                Auth::login($newUser);
+            }
+            Session::flash('success', 'Đăng nhập thành công');
+            return redirect()->route('home');
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi khi đăng nhập' . $e->getMessage());
+            return redirect()->route('user.login');
+        }
     }
 }

@@ -82,6 +82,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::prefix('/auth')->group(function () {
+    Route::get('/google/login', [AuthUserController::class, 'redirectToGoogle'])->name('user.google-login');
+    Route::get('/login/google-callback', [AuthUserController::class, 'handleGoogleCallback'])->name('user.google-callback');
     Route::get('/login', [AuthUserController::class, 'login_page'])->name('user.login');
     Route::post('/login', [AuthUserController::class, 'login'])->name('user.login');
     Route::get('/register', [AuthUserController::class, 'register_page'])->name('user.register');
