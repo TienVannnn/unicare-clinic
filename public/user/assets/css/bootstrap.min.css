@@ -5013,8 +5013,8 @@ tbody.collapse.show {
 .list-group-item.active {
     z-index: 2;
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #f05a28;
+    border-color: #f05a28;
 }
 
 .list-group-flush .list-group-item {

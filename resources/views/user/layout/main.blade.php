@@ -2,6 +2,7 @@
 <html class="no-js" lang="zxx">
 
 <head>
+
     @include('user.layout.head')
     @yield('css')
 </head>

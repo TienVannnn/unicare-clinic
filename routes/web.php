@@ -84,4 +84,12 @@ Route::get('/login', [HomeController::class, 'login_page'])->name('user.login');
 Route::post('/login', [HomeController::class, 'login'])->name('user.login');
 Route::get('/register', [HomeController::class, 'register_page'])->name('user.register');
 Route::post('/register', [HomeController::class, 'register'])->name('user.register');
-Route::get('/profile', [HomeController::class, 'profile'])->name('user.profile');
+Route::prefix('/profile')->middleware('auth.user')->group(function () {
+    Route::get('/overview', [HomeController::class, 'overview'])->name('user.overview');
+    Route::get('/account-edit', [HomeController::class, 'page_account_edit'])->name('user.account-edit');
+    Route::post('/account-edit', [HomeController::class, 'account_edit'])->name('user.account-edit');
+    Route::get('/change-password', [HomeController::class, 'page_change_password'])->name('user.change-password');
+    Route::post('/change-password', [HomeController::class, 'change_password'])->name('user.change-password');
+    Route::get('/logout', [HomeController::class, 'logout'])->name('user.logout');
+    Route::post('/change-avatar', [HomeController::class, 'change_avatar'])->name('user.change-avatar');
+});

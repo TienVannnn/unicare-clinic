@@ -26,7 +26,7 @@
                         </li>
                         @if (Auth::check())
                             <li>
-                                <a href="{{ route('user.profile') }}"><i
+                                <a href="{{ route('user.overview') }}"><i
                                         class="fa fa-user
                                     mr-1"></i>{{ Auth::user()->name }}</a>
                             </li>
