@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
 <script src="/user/assets/js/bootstrap.min.js"></script>
 <script src="/user/assets/js/main.js"></script>
-<script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+<script src="/admin-assets/js/toastr.min.js"></script>
 
 {!! Toastr::message() !!}
 <script>
