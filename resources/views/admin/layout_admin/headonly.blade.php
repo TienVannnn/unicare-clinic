@@ -1,7 +1,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>{{ ($title ?? 'Admin') . ' | Unicare' }}</title>
 <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-<link rel="icon" href="/admin-assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{{ asset('user/assets/img/favicon2.png') }}" type="image/x-icon">
 
 <!-- Fonts and icons -->
 <script src="/admin-assets/js/plugin/webfont/webfont.min.js"></script>

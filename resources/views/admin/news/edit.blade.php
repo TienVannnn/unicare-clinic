@@ -28,17 +28,18 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="category_id" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                            <select class="form-control tag-select" id="category_id" name="category_id">
+                            <select class="form-control tag-select" multiple="multiple" id="category_id"
+                                name="news_categories[]">
                                 @if (!empty($categories))
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
-                                            {{ $category->id === $news->category->id ? 'selected' : '' }}>
+                                            @if (isset($news) && $news->newsCategories->contains($category->id)) selected @endif>
                                             {{ $category->name }}
                                         </option>
                                     @endforeach
                                 @endif
                             </select>
-                            @error('category_id')
+                            @error('news_categories')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>

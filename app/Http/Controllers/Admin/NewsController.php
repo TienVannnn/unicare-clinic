@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\NewsRequest;
 use App\Models\News;
@@ -22,7 +23,7 @@ class NewsController extends Controller
     {
         $this->authorize('xem-danh-sach-tin-tuc');
         $title = 'Danh sách tin tức';
-        $news = News::orderByDesc('id')->with('category')->paginate(15);
+        $news = News::orderByDesc('id')->with('newsCategories')->paginate(15);
         return view('admin.news.list', compact('title', 'news'));
     }
 
@@ -46,12 +47,13 @@ class NewsController extends Controller
             DB::beginTransaction();
             $news = News::create([
                 'title' => $request->title,
+                'slug' => Helper::createSlug($request->title),
                 'content' => $request->content,
                 'status' => $request->status,
-                'category_id' => $request->category_id,
                 'poster_id' => auth()->guard('admin')->id(),
                 'thumbnail' => '/uploads/news/default.jpg'
             ]);
+            $news->newsCategories()->sync($request->news_categories);
             if ($request->file('thumbnail')) {
                 $file = $request->file('thumbnail');
                 $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -97,10 +99,11 @@ class NewsController extends Controller
             DB::beginTransaction();
             $news->update([
                 'title' => $request->title,
+                'slug' => Helper::createSlug($request->title),
                 'content' => $request->content,
                 'status' => $request->status,
-                'category_id' => $request->category_id
             ]);
+            $news->newsCategories()->sync($request->news_categories);
             if ($request->file('thumbnail')) {
                 $file = $request->file('thumbnail');
                 $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);

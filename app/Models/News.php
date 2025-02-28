@@ -13,13 +13,13 @@ class News extends Model
         'content',
         'status',
         'thumbnail',
-        'category_id',
+        'slug',
         'poster_id'
     ];
 
-    public function category()
+    public function newsCategories()
     {
-        return $this->belongsTo(NewsCategory::class, 'category_id');
+        return $this->belongsToMany(NewsCategory::class, 'news_category_news', 'news_id', 'category_id');
     }
 
     public function poster()

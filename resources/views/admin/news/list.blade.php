@@ -46,7 +46,11 @@
                                     <tr>
                                         <td>{{ $news->firstItem() + $key }}</td>
                                         <td>{{ $new->title }}</td>
-                                        <td><span class="badge bg-primary">{{ $new->category->name }}</span></td>
+                                        <td>
+                                            @foreach ($new->newsCategories as $category)
+                                                <span class="badge bg-primary">{{ $category->name }}</span>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             @if ($new->status == 1)
                                                 <span class="badge bg-success">Hoạt động</span>

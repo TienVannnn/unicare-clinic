@@ -387,7 +387,7 @@
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="single-news">
                                 <div class="news-head">
-                                    <img src="{{ $new->thumbnail }}" alt="#" />
+                                    <img src="{{ $new->thumbnail }}" alt="#" style="height: 197px" />
                                 </div>
                                 <div class="news-body">
                                     <div class="news-content">

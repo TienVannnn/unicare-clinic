@@ -17,15 +17,25 @@
             </div>
         </div>
     </div>
-    <section class="blog section" id="blog">
+    <section class="blog" id="blog" style="padding: 20px 0">
         <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <img src="/user/assets/img/section-img.png" alt="#" />
+                        <p>
+                            Theo dõi tin tức y tế mới nhất từ chúng tôi để luôn cập nhật thông tin sức khỏe quan trọng
+                        </p>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 @if ($news->isNotEmpty())
                     @foreach ($news as $new)
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="single-news">
                                 <div class="news-head">
-                                    <img src="{{ $new->thumbnail }}" alt="#" />
+                                    <img src="{{ $new->thumbnail }}" alt="#" style="height: 197px" />
                                 </div>
                                 <div class="news-body">
                                     <div class="news-content">

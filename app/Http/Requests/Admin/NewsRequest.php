@@ -29,7 +29,7 @@ class NewsRequest extends FormRequest
             'thumbnail' => !$newsId ?  'required|image|mimes:png,jpg,jpeg|max:2048' : 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'content' => 'required|string',
             'status' => 'required|in:0,1',
-            'category_id' => 'required|exists:news_categories,id'
+            'news_categories' => 'required|exists:news_categories,id'
         ];
     }
 
@@ -42,8 +42,8 @@ class NewsRequest extends FormRequest
             'content.string' => 'Nội dung phải là một chuỗi ký tự hợp lệ.',
             'status.required' => 'Trạng thái là bắt buộc.',
             'status.in' => 'Trạng thái không hợp lệ. Chỉ chấp nhận giá trị 0 hoặc 1.',
-            'category_id.required' => 'Danh mục là bắt buộc.',
-            'category_id.exists' => 'Danh mục không hợp lệ.',
+            'news_categories.required' => 'Danh mục là bắt buộc.',
+            'news_categories.exists' => 'Danh mục không hợp lệ.',
             'thumbnail.mimes' => 'Chỉ chấp nhận tệp ảnh có định dạng: png, jpg, jpeg.',
             'thumbnail.max' => 'Kích thước tệp không được vượt quá 2MB.',
             'thumbnail.required' => 'Ảnh không được để trống'
