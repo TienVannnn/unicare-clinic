@@ -32,7 +32,7 @@
                             </li>
                         @else
                             <li>
-                                <a href="{{ route('user.login') }}">Login</a>
+                                <a href="{{ route('user.login') }}">Đăng nhập</a>
                             </li>
                         @endif
                     </ul>

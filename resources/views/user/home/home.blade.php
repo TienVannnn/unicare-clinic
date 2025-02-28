@@ -1,95 +1,86 @@
 @extends('user.layout.main')
-
+@section('css')
+    <style>
+        .text-stroke {
+            color: white !important;
+            text-shadow: 2px 2px 4px black;
+            font-weight: 500 !important
+        }
+    </style>
+@endsection
 @section('content')
-    <!-- Slider Area -->
     <section class="slider">
         <div class="hero-slider">
-            <!-- Start Single Slider -->
-            <div class="single-slider" style="background-image: url('/user/assets/img/slider2.jpg')">
+            <div class="single-slider" style="background-image: url('/user/assets/img/tiep_don_01.jpg')">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="text">
                                 <h1>
-                                    We Provide <span>Medical</span> Services That You Can
-                                    <span>Trust!</span>
+                                    Chúng tôi cung cấp các <span>dịch vụ</span> y tế mà bạn
+                                    <span>cần!</span>
                                 </h1>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Mauris sed nisl pellentesque, faucibus libero eu, gravida
-                                    quam.
+                                <p class="text-stroke">
+                                    Đặt lịch khám, lấy mẫu
                                 </p>
                                 <div class="button">
-                                    <a href="#" class="btn">Get Appointment</a>
-                                    <a href="#" class="btn primary">Learn More</a>
+                                    <a href="#" class="btn">Đặt lịch khám</a>
+                                    <a href="#" class="btn primary">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End Single Slider -->
-            <!-- Start Single Slider -->
-            <div class="single-slider" style="background-image: url('/user/assets/img/slider.jpg')">
+            <div class="single-slider" style="background-image: url('/user/assets/img/tiep_don_02.jpg')">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="text">
                                 <h1>
-                                    We Provide <span>Medical</span> Services That You Can
-                                    <span>Trust!</span>
+                                    Chúng tôi cung cấp các <span>dịch vụ</span> y tế mà bạn
+                                    <span>cần!</span>
                                 </h1>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Mauris sed nisl pellentesque, faucibus libero eu, gravida
-                                    quam.
+                                <p class="text-stroke">
+                                    Khám sức khỏe tổng quát
                                 </p>
                                 <div class="button">
-                                    <a href="#" class="btn">Get Appointment</a>
-                                    <a href="#" class="btn primary">About Us</a>
+                                    <a href="#" class="btn">Đặt lịch khám</a>
+                                    <a href="#" class="btn primary">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Start End Slider -->
-            <!-- Start Single Slider -->
-            <div class="single-slider" style="background-image: url('/user/assets/img/slider3.jpg')">
+            <div class="single-slider" style="background-image: url('/user/assets/img/tiep_don_03.jpg')">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="text">
                                 <h1>
-                                    We Provide <span>Medical</span> Services That You Can
-                                    <span>Trust!</span>
+                                    Chúng tôi cung cấp các <span>dịch vụ</span> y tế mà bạn
+                                    <span>cần!</span>
                                 </h1>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Mauris sed nisl pellentesque, faucibus libero eu, gravida
-                                    quam.
+                                <p class="text-stroke">
+                                    Bảng giá dịch vụ
                                 </p>
                                 <div class="button">
-                                    <a href="#" class="btn">Get Appointment</a>
-                                    <a href="#" class="btn primary">Conatct Now</a>
+                                    <a href="#" class="btn">Đặt lịch khám</a>
+                                    <a href="#" class="btn primary">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End Single Slider -->
         </div>
     </section>
-    <!--/ End Slider Area -->
-
-    <!-- Start Schedule Area -->
     <section class="schedule">
         <div class="container">
             <div class="schedule-inner">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-12">
-                        <!-- single-schedule -->
                         <div class="single-schedule first">
                             <div class="inner">
                                 <div class="icon">
@@ -108,7 +99,6 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-12">
-                        <!-- single-schedule -->
                         <div class="single-schedule middle">
                             <div class="inner">
                                 <div class="icon">
@@ -127,7 +117,6 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12 col-12">
-                        <!-- single-schedule -->
                         <div class="single-schedule last">
                             <div class="inner">
                                 <div class="icon">
@@ -154,135 +143,108 @@
             </div>
         </div>
     </section>
-    <!--/End Start schedule Area -->
-
-    <!-- Start Feautes -->
     <section class="Feautes section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>We Are Always Ready to Help You & Your Family</h2>
+                        <h2>Chúng tôi luôn sẵn sàng giúp bạn và gia đình bạn</h2>
                         <img src="/user/assets/img/section-img.png" alt="#" />
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit praesent
-                            aliquet. pretiumts
+                            Sức khỏe của bạn là ưu tiên hàng đầu – Hãy đặt lịch khám ngay để được chăm sóc tốt nhất!
                         </p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-12">
-                    <!-- Start Single features -->
                     <div class="single-features">
                         <div class="signle-icon">
                             <i class="icofont icofont-ambulance-cross"></i>
                         </div>
-                        <h3>Emergency Help</h3>
+                        <h3>Trợ giúp khẩn cấp</h3>
                         <p>
-                            Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam
-                            vulputate.
+                            Cần trợ giúp khẩn cấp? Liên hệ ngay với chúng tôi để được hỗ trợ kịp thời!
                         </p>
                     </div>
-                    <!-- End Single features -->
                 </div>
                 <div class="col-lg-4 col-12">
-                    <!-- Start Single features -->
                     <div class="single-features">
                         <div class="signle-icon">
                             <i class="icofont icofont-medical-sign-alt"></i>
                         </div>
-                        <h3>Enriched Pharmecy</h3>
+                        <h3>Dược phẩm phong phú</h3>
                         <p>
-                            Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam
-                            vulputate.
+                            Dược phẩm đa dạng, chất lượng – Đáp ứng mọi nhu cầu chăm sóc sức khỏe của bạn!
                         </p>
                     </div>
-                    <!-- End Single features -->
                 </div>
                 <div class="col-lg-4 col-12">
-                    <!-- Start Single features -->
                     <div class="single-features last">
                         <div class="signle-icon">
                             <i class="icofont icofont-stethoscope"></i>
                         </div>
-                        <h3>Medical Treatment</h3>
+                        <h3>Điều trị y tế</h3>
                         <p>
-                            Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam
-                            vulputate.
+                            Dịch vụ điều trị y tế chuyên nghiệp – Chăm sóc tận tâm, phục hồi sức khỏe nhanh chóng!
                         </p>
                     </div>
-                    <!-- End Single features -->
                 </div>
             </div>
         </div>
     </section>
-    <!--/ End Feautes -->
-
-    <!-- Start Fun-facts -->
     <div id="fun-facts" class="fun-facts section overlay">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Fun -->
                     <div class="single-fun">
                         <i class="icofont icofont-home"></i>
                         <div class="content">
                             <span class="counter">3468</span>
-                            <p>Hospital Rooms</p>
+                            <p>Phòng khám</p>
                         </div>
                     </div>
-                    <!-- End Single Fun -->
                 </div>
                 <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Fun -->
                     <div class="single-fun">
                         <i class="icofont icofont-user-alt-3"></i>
                         <div class="content">
                             <span class="counter">557</span>
-                            <p>Specialist Doctors</p>
+                            <p>Bác sĩ chuyên gia</p>
                         </div>
                     </div>
-                    <!-- End Single Fun -->
                 </div>
                 <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Fun -->
                     <div class="single-fun">
                         <i class="icofont-simple-smile"></i>
                         <div class="content">
                             <span class="counter">4379</span>
-                            <p>Happy Patients</p>
+                            <p>Bệnh nhân hạnh phúc</p>
                         </div>
                     </div>
-                    <!-- End Single Fun -->
                 </div>
                 <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Fun -->
                     <div class="single-fun">
                         <i class="icofont icofont-table"></i>
                         <div class="content">
                             <span class="counter">32</span>
-                            <p>Years of Experience</p>
+                            <p>Năm kinh nghiệm</p>
                         </div>
                     </div>
-                    <!-- End Single Fun -->
                 </div>
             </div>
         </div>
     </div>
-    <!--/ End Fun-facts -->
-
-    <!-- Start portfolio -->
     <section class="portfolio section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>We Maintain Cleanliness Rules Inside Our Hospital</h2>
+                        <h2>Chúng tôi duy trì các quy tắc sạch sẽ bên trong bệnh viện của chúng tôi</h2>
                         <img src="/user/assets/img/section-img.png" alt="#" />
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit praesent
-                            aliquet. pretiumts
+                            Chúng tôi luôn tuân thủ nghiêm ngặt các quy tắc vệ sinh để đảm bảo môi trường bệnh viện sạch sẽ
+                            và an toàn cho mọi bệnh nhân
                         </p>
                     </div>
                 </div>
@@ -329,324 +291,123 @@
             </div>
         </div>
     </section>
-    <!--/ End portfolio -->
-
-    <!-- Start service -->
     <section class="services section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>We Offer Different Services To Improve Your Health</h2>
+                        <h2>Chúng tôi cung cấp các dịch vụ khác nhau để cải thiện sức khỏe của bạn</h2>
                         <img src="/user/assets/img/section-img.png" alt="#" />
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit praesent
-                            aliquet. pretiumts
+                            Chúng tôi cung cấp đa dạng dịch vụ y tế nhằm nâng cao sức khỏe và chất lượng cuộc sống của bạn
                         </p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Start Single Service -->
                     <div class="single-service">
                         <i class="icofont icofont-prescription"></i>
-                        <h4><a href="service-details.html">General Treatment</a></h4>
+                        <h4><a href="service-details.html">Gói Khám Sức Khỏe Cơ Bản</a></h4>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                            luctus dictum eros ut imperdiet.
+                            Sức khỏe là vàng nhưng thực tế hiện nay có không ít người vẫn còn chần chừ chưa chủ động đi kiểm
+                            tra, tầm soát sức
                         </p>
                     </div>
-                    <!-- End Single Service -->
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Start Single Service -->
                     <div class="single-service">
                         <i class="icofont icofont-tooth"></i>
-                        <h4><a href="service-details.html">Teeth Whitening</a></h4>
+                        <h4><a href="service-details.html">Đặt lịch khám lấy mẫu
+                            </a></h4>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                            luctus dictum eros ut imperdiet.
+                            Quý khách vui lòng Đặt lịch hẹn online qua trang web hoặc hotline (0258) 3871 134
                         </p>
                     </div>
-                    <!-- End Single Service -->
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Start Single Service -->
                     <div class="single-service">
                         <i class="icofont icofont-heart-alt"></i>
-                        <h4><a href="service-details.html">Heart Surgery</a></h4>
+                        <h4><a href="service-details.html">Bảng giá</a></h4>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                            luctus dictum eros ut imperdiet.
+                            Bảng giá dịch vụ sẽ của UNI CARE sẽ được hiển thị trên website của chúng tôi hoặc gọi qua
+                            hotline (0258) 3871 134
                         </p>
                     </div>
-                    <!-- End Single Service -->
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Start Single Service -->
                     <div class="single-service">
                         <i class="icofont icofont-listening"></i>
-                        <h4><a href="service-details.html">Ear Treatment</a></h4>
+                        <h4><a href="service-details.html">Khám chữa bệnh chủ động</a></h4>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                            luctus dictum eros ut imperdiet.
+                            Quý khách vui lòng đến địa chỉ 59 LÊ THÀNH PHƯƠNG, P. PHƯƠNG SÀI, TP. NHA TRANG để được các bác
+                            sĩ chuyên
                         </p>
                     </div>
-                    <!-- End Single Service -->
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Start Single Service -->
                     <div class="single-service">
                         <i class="icofont icofont-eye-alt"></i>
-                        <h4><a href="service-details.html">Vision Problems</a></h4>
+                        <h4><a href="service-details.html">Hội chẩn chuyên gia Hồ Chí Minh và Hà Nội</a></h4>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                            luctus dictum eros ut imperdiet.
+                            Đội ngũ bác sĩ chuyên môn giỏi, giàu kinh nghiệm. Tất cả các bác sĩ và kỹ thuật viên tại đây với
+                            nhiều năm kinh nghiệm,...
                         </p>
                     </div>
-                    <!-- End Single Service -->
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Start Single Service -->
                     <div class="single-service">
                         <i class="icofont icofont-blood"></i>
-                        <h4><a href="service-details.html">Blood Transfusion</a></h4>
+                        <h4><a href="service-details.html">Tư vấn online</a></h4>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                            luctus dictum eros ut imperdiet.
-                        </p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--/ End service -->
-
-    <!-- Pricing Table -->
-    <section class="pricing-table section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>We Provide You The Best Treatment In Resonable Price</h2>
-                        <img src="/user/assets/img/section-img.png" alt="#" />
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit praesent
-                            aliquet. pretiumts
+                            Quý khách vui lòng đặt câu hỏi online qua trang web của chúng tôi hoặc hotline (0258) 3871 134
+                            để được tư vấn trực...
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <!-- Single Table -->
-                <div class="col-lg-4 col-md-12 col-12">
-                    <div class="single-table">
-                        <!-- Table Head -->
-                        <div class="table-head">
-                            <div class="icon">
-                                <i class="icofont icofont-ui-cut"></i>
-                            </div>
-                            <h4 class="title">Plastic Suggery</h4>
-                            <div class="price">
-                                <p class="amount">$199<span>/ Per Visit</span></p>
-                            </div>
-                        </div>
-                        <!-- Table List -->
-                        <ul class="table-list">
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Lorem ipsum dolor sit
-                            </li>
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Cubitur sollicitudin
-                                fentum
-                            </li>
-                            <li class="cross">
-                                <i class="icofont icofont-ui-close"></i>Nullam interdum enim
-                            </li>
-                            <li class="cross">
-                                <i class="icofont icofont-ui-close"></i>Donec ultricies metus
-                            </li>
-                            <li class="cross">
-                                <i class="icofont icofont-ui-close"></i>Pellentesque eget nibh
-                            </li>
-                        </ul>
-                        <div class="table-bottom">
-                            <a class="btn" href="#">Book Now</a>
-                        </div>
-                        <!-- Table Bottom -->
-                    </div>
-                </div>
-                <!-- End Single Table-->
-                <!-- Single Table -->
-                <div class="col-lg-4 col-md-12 col-12">
-                    <div class="single-table">
-                        <!-- Table Head -->
-                        <div class="table-head">
-                            <div class="icon">
-                                <i class="icofont icofont-tooth"></i>
-                            </div>
-                            <h4 class="title">Teeth Whitening</h4>
-                            <div class="price">
-                                <p class="amount">$299<span>/ Per Visit</span></p>
-                            </div>
-                        </div>
-                        <!-- Table List -->
-                        <ul class="table-list">
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Lorem ipsum dolor sit
-                            </li>
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Cubitur sollicitudin
-                                fentum
-                            </li>
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Nullam interdum enim
-                            </li>
-                            <li class="cross">
-                                <i class="icofont icofont-ui-close"></i>Donec ultricies metus
-                            </li>
-                            <li class="cross">
-                                <i class="icofont icofont-ui-close"></i>Pellentesque eget nibh
-                            </li>
-                        </ul>
-                        <div class="table-bottom">
-                            <a class="btn" href="#">Book Now</a>
-                        </div>
-                        <!-- Table Bottom -->
-                    </div>
-                </div>
-                <!-- End Single Table-->
-                <!-- Single Table -->
-                <div class="col-lg-4 col-md-12 col-12">
-                    <div class="single-table">
-                        <!-- Table Head -->
-                        <div class="table-head">
-                            <div class="icon">
-                                <i class="icofont-heart-beat"></i>
-                            </div>
-                            <h4 class="title">Heart Suggery</h4>
-                            <div class="price">
-                                <p class="amount">$399<span>/ Per Visit</span></p>
-                            </div>
-                        </div>
-                        <!-- Table List -->
-                        <ul class="table-list">
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Lorem ipsum dolor sit
-                            </li>
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Cubitur sollicitudin
-                                fentum
-                            </li>
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Nullam interdum enim
-                            </li>
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Donec ultricies metus
-                            </li>
-                            <li>
-                                <i class="icofont icofont-ui-check"></i>Pellentesque eget nibh
-                            </li>
-                        </ul>
-                        <div class="table-bottom">
-                            <a class="btn" href="#">Book Now</a>
-                        </div>
-                        <!-- Table Bottom -->
-                    </div>
-                </div>
-                <!-- End Single Table-->
-            </div>
         </div>
     </section>
-    <!--/ End Pricing Table -->
-
-    <!-- Start Blog Area -->
     <section class="blog section" id="blog">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>Keep up with Our Most Recent Medical News.</h2>
+                        <h2>Theo kịp với tin tức y tế gần đây nhất của chúng tôi.</h2>
                         <img src="/user/assets/img/section-img.png" alt="#" />
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit praesent
-                            aliquet. pretiumts
+                            Theo dõi tin tức y tế mới nhất từ chúng tôi để luôn cập nhật thông tin sức khỏe quan trọng
                         </p>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Single Blog -->
-                    <div class="single-news">
-                        <div class="news-head">
-                            <img src="/user/assets/img/blog1.jpg" alt="#" />
-                        </div>
-                        <div class="news-body">
-                            <div class="news-content">
-                                <div class="date">22 Aug, 2020</div>
-                                <h2>
-                                    <a href="blog-single.html">We have annnocuced our new product.</a>
-                                </h2>
-                                <p class="text">
-                                    Lorem ipsum dolor a sit ameti, consectetur adipisicing elit,
-                                    sed do eiusmod tempor incididunt sed do incididunt sed.
-                                </p>
+                @if ($news->isNotEmpty())
+                    @foreach ($news as $new)
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="single-news">
+                                <div class="news-head">
+                                    <img src="{{ $new->thumbnail }}" alt="#" />
+                                </div>
+                                <div class="news-body">
+                                    <div class="news-content">
+                                        <div class="date">{{ \Carbon\Carbon::parse($new->created_at)->format('d/m/Y') }}
+                                        </div>
+                                        <h2>
+                                            <a href="blog-single.html">{{ $new->title }}</a>
+                                        </h2>
+                                        <p class="text">
+                                            {!! Str::limit(strip_tags($new->content), 150, '...') !!}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End Single Blog -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Single Blog -->
-                    <div class="single-news">
-                        <div class="news-head">
-                            <img src="/user/assets/img/blog2.jpg" alt="#" />
-                        </div>
-                        <div class="news-body">
-                            <div class="news-content">
-                                <div class="date">15 Jul, 2020</div>
-                                <h2>
-                                    <a href="blog-single.html">Top five way for solving teeth problems.</a>
-                                </h2>
-                                <p class="text">
-                                    Lorem ipsum dolor a sit ameti, consectetur adipisicing elit,
-                                    sed do eiusmod tempor incididunt sed do incididunt sed.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Blog -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Single Blog -->
-                    <div class="single-news">
-                        <div class="news-head">
-                            <img src="/user/assets/img/blog3.jpg" alt="#" />
-                        </div>
-                        <div class="news-body">
-                            <div class="news-content">
-                                <div class="date">05 Jan, 2020</div>
-                                <h2>
-                                    <a href="blog-single.html">We provide highly business soliutions.</a>
-                                </h2>
-                                <p class="text">
-                                    Lorem ipsum dolor a sit ameti, consectetur adipisicing elit,
-                                    sed do eiusmod tempor incididunt sed do incididunt sed.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Blog -->
-                </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </section>
-    <!-- End Blog Area -->
-
-    <!-- Start clients -->
     <div class="clients overlay">
         <div class="container">
             <div class="row">
@@ -684,5 +445,4 @@
             </div>
         </div>
     </div>
-    <!--/Ens clients -->
 @endsection
