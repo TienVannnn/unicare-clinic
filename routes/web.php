@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AuthController as AuthUserController;
+use App\Http\Controllers\User\NewsController as UserNewsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -102,3 +103,6 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::get('/logout', [AuthUserController::class, 'logout'])->name('user.logout');
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
 });
+
+Route::get('/news', [UserNewsController::class, 'news'])->name('user.news');
+// Route::get('/news', [UserNewsController::class, 'news'])->name('user.news');
