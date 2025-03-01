@@ -104,5 +104,5 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
 });
 
+Route::get('/news/{slug}', [UserNewsController::class, 'news_detail'])->name('user.news-detail');
 Route::get('/news', [UserNewsController::class, 'news'])->name('user.news');
-// Route::get('/news', [UserNewsController::class, 'news'])->name('user.news');

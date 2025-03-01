@@ -42,7 +42,7 @@
                                         <div class="date">{{ \Carbon\Carbon::parse($new->created_at)->format('d/m/Y') }}
                                         </div>
                                         <h2>
-                                            <a href="blog-single.html">{{ $new->title }}</a>
+                                            <a href="{{ route('user.news-detail', $new->slug) }}">{{ $new->title }}</a>
                                         </h2>
                                         <p class="text">
                                             {!! Str::limit(strip_tags($new->content), 150, '...') !!}
