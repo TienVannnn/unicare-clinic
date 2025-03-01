@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AuthController as AuthUserController;
+use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\NewsController as UserNewsController;
 use Illuminate\Support\Facades\Route;
 
@@ -106,3 +107,4 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
 
 Route::get('/news/{slug}', [UserNewsController::class, 'news_detail'])->name('user.news-detail');
 Route::get('/news', [UserNewsController::class, 'news'])->name('user.news');
+Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');

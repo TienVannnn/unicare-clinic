@@ -17,7 +17,7 @@
 }
 .team-item .team-social .btn {
   display: inline-flex;
-  color: var(--primary);
+  color: var(--orange);
   background: #fff;
   border-radius: 40px;
 }
@@ -75,19 +75,19 @@
 
 .team-item .team-social .btnn {
     display: inline-flex;
-    color: var(--primary);
+    color: var(--orange);
     background: #ffffff;
     border-radius: 40px;
 }
 
 .team-item .team-social .btnn:hover {
     color: #ffffff;
-    background: var(--primary);
+    background: var(--orange);
 }
 
 .team-item .team-social .btnn {
     display: inline-flex;
-    color: var(--primary);
+    color: var(--orange);
     background: #ffffff;
     border-radius: 40px;
 }
@@ -131,7 +131,7 @@
 }
 
 .bg-light-second {
-    background-color: #eff5ff !important;
+    background-color: #ffe8cc !important;
 }
 
 .overflow-hidden {

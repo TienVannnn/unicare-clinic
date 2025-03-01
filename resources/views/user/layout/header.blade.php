@@ -66,6 +66,7 @@
                                         <a href="#">Trang chủ <i class="icofont-rounded-down"></i></a>
                                         <ul class="dropdown">
                                             <li><a href="/">Lịch sử hình thành và phát triển</a></li>
+                                            <li><a href="{{ route('user.doctors') }}">Đội ngũ chuyên gia</a></li>
                                         </ul>
                                     </li>
                                     <li>
