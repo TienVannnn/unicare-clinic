@@ -28,6 +28,10 @@
                                     {!! $blog->content !!}
                                 </div>
                             </div>
+                            <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width=""
+                                data-layout="" data-action="" data-size="" data-share="true"></div>
+                            <div class="fb-comments" data-href="{{ \URL::current() }}" data-width="100%" data-numposts="10">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -36,76 +40,42 @@
                         <div class="single-widget category">
                             <h3 class="title">Danh mục tin tức</h3>
                             <ul class="categor-list">
-                                <li><a href="#">Men's Apparel</a></li>
-                                <li><a href="#">Women's Apparel</a></li>
-                                <li><a href="#">Bags Collection</a></li>
-                                <li><a href="#">Accessories</a></li>
-                                <li><a href="#">Sun Glasses</a></li>
+                                @foreach ($categories as $cate)
+                                    <li><a href="{{ route('user.news', $cate->slug) }}">{{ $cate->name }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="single-widget recent-post">
-                            <h3 class="title">Recent post</h3>
-                            <div class="single-post">
-                                <div class="image">
-                                    <img src="img/blog-sidebar1.jpg" alt="#" />
+                            <h3 class="title">Tin tức liên quan</h3>
+                            @foreach ($relatedNews as $blog)
+                                <div class="single-post">
+                                    <div class="image">
+                                        <img src="{{ $blog->thumbnail }}" alt="#" />
+                                    </div>
+                                    <div class="content">
+                                        <h5><a
+                                                href="{{ route('user.news-detail', ['slugCategory' => $category->slug, 'slug' => $blog->slug]) }}">{{ $blog->title }}</a>
+                                        </h5>
+                                        <ul class="comment">
+                                            <li>
+                                                <i class="fa fa-calendar"
+                                                    aria-hidden="true"></i>{{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y') }}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="content">
-                                    <h5><a href="#">We have annnocuced our new product.</a></h5>
-                                    <ul class="comment">
-                                        <li>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>Jan 11,
-                                            2020
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-commenting-o" aria-hidden="true"></i>35
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="single-post">
-                                <div class="image">
-                                    <img src="img/blog-sidebar2.jpg" alt="#" />
-                                </div>
-                                <div class="content">
-                                    <h5>
-                                        <a href="#">Top five way for solving teeth problems.</a>
-                                    </h5>
-                                    <ul class="comment">
-                                        <li>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>Mar 05,
-                                            2019
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-commenting-o" aria-hidden="true"></i>59
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="single-post">
-                                <div class="image">
-                                    <img src="img/blog-sidebar3.jpg" alt="#" />
-                                </div>
-                                <div class="content">
-                                    <h5>
-                                        <a href="#">We provide highly business soliutions.</a>
-                                    </h5>
-                                    <ul class="comment">
-                                        <li>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>June
-                                            09, 2019
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-commenting-o" aria-hidden="true"></i>44
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!--/ End Single News -->
+@endsection
+
+@section('js')
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v22.0">
+    </script>
 @endsection

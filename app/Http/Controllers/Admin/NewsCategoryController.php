@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\NewsCategoryRequest;
 use App\Models\NewsCategory;
@@ -42,6 +43,7 @@ class NewsCategoryController extends Controller
         try {
             NewsCategory::create([
                 'name' => $request->name,
+                'slug' => Helper::createSlug($request->name),
             ]);
             Session::flash('success', 'Tạo danh mục tin tức thành công');
             return redirect()->route('news-category.index');
@@ -72,6 +74,7 @@ class NewsCategoryController extends Controller
         try {
             $category->update([
                 'name' => $request->name,
+                'slug' => Helper::createSlug($request->name),
             ]);
             Session::flash('success', 'Cập nhật danh mục tin tức thành công');
             return redirect()->route('news-category.index');

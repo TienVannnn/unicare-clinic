@@ -81,7 +81,8 @@
                                     <li>
                                         <a href="#">Tin tức <i class="icofont-rounded-down"></i></a>
                                         <ul class="dropdown">
-                                            <li><a href="{{ route('user.news') }}">Tin tức y học</a></li>
+                                            <li><a href="{{ route('user.news', 'tin-tuc-y-hoc') }}">Tin tức y học</a>
+                                            </li>
                                             <li><a href="#">Tin tức phòng khám</a></li>
                                         </ul>
                                     </li>

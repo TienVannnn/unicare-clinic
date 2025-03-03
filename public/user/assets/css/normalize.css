@@ -593,9 +593,9 @@ Preloader Area CSS
 }
 /* Pagination CSS */
 .pagination {
-    text-align: left;
+    text-align: center;
     margin: 50px 0 0 0;
-    display: block;
+    display: flex;
 }
 .pagination.center {
     text-align: center;

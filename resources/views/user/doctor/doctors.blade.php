@@ -36,19 +36,17 @@
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="team-item position-relative rounded overflow-hidden">
                                 <div class="overflow-hidden">
-                                    <a href="">
-                                        <img class="img-fluid img-doctor"
-                                            src="{{ $doctor->avatar ?? '/uploads/avatars/no-image.jpg' }}"
-                                            alt="website template image" />
-                                    </a>
+                                    <img class="img-fluid img-doctor"
+                                        src="{{ $doctor->avatar ?? '/uploads/avatars/no-image.jpg' }}"
+                                        alt="website template image" />
                                 </div>
                                 <div class="team-text bg-light-second text-center p-4">
-                                    <h5><a href="">{{ $doctor->name }}</a></h5>
+                                    <h5>{{ $doctor->name }}</h5>
                                     <p class="text-primary">{{ $doctor->clinic->name }}</p>
                                     <div class="team-social text-center">
                                         <a class="btnn btnn-square" href="/"><i class="icofont-facebook"></i></a>
-                                        <a class="btnn btnn-square" href="/"><i class="icofont-twitter"></i></a>
-                                        <a class="btnn btnn-square" href="/"><i class="icofont-google-plus"></i></a>
+                                        <a class="btnn btnn-square" href="mailto:{{ $doctor->email }}"><i
+                                                class="icofont-google-plus"></i></a>
                                     </div>
                                 </div>
                             </div>

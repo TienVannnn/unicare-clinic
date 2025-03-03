@@ -29,8 +29,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                @if ($news->isNotEmpty())
+            @if ($news->isNotEmpty())
+                <div class="row">
                     @foreach ($news as $new)
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="single-news">
@@ -42,7 +42,9 @@
                                         <div class="date">{{ \Carbon\Carbon::parse($new->created_at)->format('d/m/Y') }}
                                         </div>
                                         <h2>
-                                            <a href="{{ route('user.news-detail', $new->slug) }}">{{ $new->title }}</a>
+                                            <a
+                                                href="{{ route('user.news-detail', ['slugCategory' => $category->slug, 'slug' => $new->slug]) }}">
+                                                {{ Str::words($new->title, 12, '...') }}</a>
                                         </h2>
                                         <p class="text">
                                             {!! Str::limit(strip_tags($new->content), 150, '...') !!}
@@ -52,8 +54,16 @@
                             </div>
                         </div>
                     @endforeach
-                @endif
-            </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    {{ $news->links() }}
+                </div>
+            @else
+                <div class="w-100">
+                    <p class="text-danger text-center">Danh mục này chưa có tin tức nào</p>
+                </div>
+            @endif
+
         </div>
     </section>
 @endsection

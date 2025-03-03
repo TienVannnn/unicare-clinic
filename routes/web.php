@@ -105,6 +105,6 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
 });
 
-Route::get('/news/{slug}', [UserNewsController::class, 'news_detail'])->name('user.news-detail');
-Route::get('/news', [UserNewsController::class, 'news'])->name('user.news');
 Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');
+Route::get('/{slugCategory}/{slug}', [UserNewsController::class, 'news_detail'])->name('user.news-detail');
+Route::get('/{slugCategory}', [UserNewsController::class, 'news'])->name('user.news');
