@@ -106,5 +106,7 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
 });
 
 Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');
+Route::get('/contact', [HomeController::class, 'contact_form'])->name('user.contact');
+Route::post('/contact', [HomeController::class, 'contact'])->name('user.contact');
 Route::get('/{slugCategory}/{slug}', [UserNewsController::class, 'news_detail'])->name('user.news-detail');
 Route::get('/{slugCategory}', [UserNewsController::class, 'news'])->name('user.news');

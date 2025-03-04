@@ -86,7 +86,7 @@
                                             <li><a href="#">Tin tức phòng khám</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="#">Liên hệ</a></li>
+                                    <li><a href="{{ route('user.contact') }}">Liên hệ</a></li>
                                 </ul>
                             </nav>
                         </div>
