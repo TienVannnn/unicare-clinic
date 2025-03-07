@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ClinicController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\MedicalCertificateController;
@@ -80,6 +81,15 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/get-doctors-by-clinic', [MedicalCertificateController::class, 'getDoctorsByClinic'])->name('get-doctors-by-clinic');
     Route::resource('/news-category', NewsCategoryController::class);
     Route::resource('/news', NewsController::class);
+
+    Route::resource('/contact', ContactController::class);
+    Route::post('/contact/reply', [ContactController::class, 'reply'])->name('admin.handle-reply-contact');
+    Route::post('/contacts/bulk-delete', [ContactController::class, 'allDelete'])->name('contact.bulkDelete');
+    Route::post('/contacts/mark-read-all', [ContactController::class, 'markReadAll'])->name('contact.markReadAll');
+    Route::get('/contact/{id}/mark-read', [ContactController::class, 'markRead'])->name('contact.markRead');
+
+    Route::delete('/contact/{id}/delete', [ContactController::class, 'delete'])->name('admin.contact-delete');
+    Route::get('/contact/{id}/reply', [ContactController::class, 'page_reply'])->name('admin.reply-contact');
 });
 
 Route::get('/', [HomeController::class, 'home'])->name('home');

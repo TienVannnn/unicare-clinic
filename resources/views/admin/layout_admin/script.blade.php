@@ -30,9 +30,9 @@
     channel.bind("contact-created", function(data) {
         $(".noti-contact-count").text(data.count);
         var newNotification = `
-        <a href="#">
-             <div class="notif-img">
-                <img src="/admin-assets/img/jm_denis.jpg" alt="Img Profile" />
+        <a href="#" class="fw-bold text-black" title="Chưa đọc">
+            <div class="notif-icon notif-danger">
+                <i class="fa fa-comment"></i>
             </div>
             <div class="notif-content">
                  <span class="subject">${data.name}</span>

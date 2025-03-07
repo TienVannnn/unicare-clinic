@@ -18,9 +18,15 @@
                 <div class="notif-center noti-contact">
                     @if ($contacts)
                         @foreach ($contacts as $contact)
-                            <a href="#">
-                                <div class="notif-img">
-                                    <img src="/admin-assets/img/jm_denis.jpg" alt="Img Profile" />
+                            <a href="{{ route('contact.show', $contact->id) }}"
+                                class="{{ $contact->status == 0 ? 'fw-bold text-black' : '' }}"
+                                title="@if ($contact->status == 0) Chưa đọc
+                                @elseif($contact->status == 1)
+                                Đã đọc
+                                @else
+                                Đã phản hồi @endif">
+                                <div class="notif-icon {{ $contact->status == 0 ? 'notif-danger' : 'notif-success' }}">
+                                    <i class="fa fa-comment"></i>
                                 </div>
                                 <div class="notif-content">
                                     <span class="subject">{{ $contact->name }}</span>
@@ -36,7 +42,7 @@
             </div>
         </li>
         <li>
-            <a class="see-all" href="javascript:void(0);">Xem tất cả thư<i class="fa fa-angle-right"></i>
+            <a class="see-all" href="{{ route('contact.index') }}">Xem tất cả thư<i class="fa fa-angle-right"></i>
             </a>
         </li>
     </ul>

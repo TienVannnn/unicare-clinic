@@ -17,4 +17,9 @@ class Contact extends Model
         'message',
         'status'
     ];
+
+    public function contactReplies()
+    {
+        return $this->hasMany(ContactReply::class);
+    }
 }
