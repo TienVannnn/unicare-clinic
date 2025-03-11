@@ -816,7 +816,7 @@ body {
 	Start Feautes CSS
 ===============================*/
 .Feautes {
-    padding-top: 0;
+    padding-top: 50px;
 }
 .Feautes.index2 {
     padding-top: 100px;
@@ -2683,7 +2683,6 @@ body {
 ============================*/
 .appointment {
     background: #fff;
-    padding-top: 100px;
 }
 .appointment.single-page {
     background: #fff;

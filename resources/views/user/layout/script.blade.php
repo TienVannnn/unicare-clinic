@@ -4,7 +4,6 @@
 <script src="/user/assets/js/popper.min.js"></script>
 <script src="/user/assets/js/slicknav.min.js"></script>
 <script src="/user/assets/js/jquery.scrollUp.min.js"></script>
-<script src="/user/assets/js/niceselect.js"></script>
 <script src="/user/assets/js/owl-carousel.js"></script>
 <script src="/user/assets/js/jquery.counterup.min.js"></script>
 <script src="/user/assets/js/wow.min.js"></script>

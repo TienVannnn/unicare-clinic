@@ -503,7 +503,7 @@ Preloader Area CSS
     transform: scaleX(1);
 }
 .section {
-    padding: 100px 0;
+    padding: 50px 0;
 }
 .section-title {
     text-align: center;
@@ -681,7 +681,7 @@ dd {
 }
 
 img {
-    height: 53px;
+    height: 100%;
     /* Make sure images are scaled correctly. */
     max-width: 100%;
     /* Adhere to container width. */
@@ -760,7 +760,7 @@ textarea:focus {
 }
 
 select {
-    border: 1px solid #ccc;
+    border: 1px solid #eee;
 }
 
 textarea {

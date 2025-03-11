@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ClinicController;
 use App\Http\Controllers\Admin\ContactController;
@@ -90,6 +91,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::delete('/contact/{id}/delete', [ContactController::class, 'delete'])->name('admin.contact-delete');
     Route::get('/contact/{id}/reply', [ContactController::class, 'page_reply'])->name('admin.reply-contact');
+
+    Route::resource('/appointment', AppointmentController::class);
 });
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
@@ -118,5 +121,6 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
 Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');
 Route::get('/contact', [HomeController::class, 'contact_form'])->name('user.contact');
 Route::post('/contact', [HomeController::class, 'contact'])->name('user.contact');
+Route::post('/book-appointment', [HomeController::class, 'book_appointment'])->name('user.book-appointment');
 Route::get('/{slugCategory}/{slug}', [UserNewsController::class, 'news_detail'])->name('user.news-detail');
 Route::get('/{slugCategory}', [UserNewsController::class, 'news'])->name('user.news');

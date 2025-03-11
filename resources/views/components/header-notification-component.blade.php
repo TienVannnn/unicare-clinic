@@ -4,6 +4,8 @@
         <i class="fa fa-envelope" title="Xem tin nhắn liên hệ" data-bs-toggle="tooltip"></i>
         @if ($count > 0)
             <span class="notification noti-contact-count">{{ $count }}</span>
+        @else
+            <span class="noti-contact-count"></span>
         @endif
     </a>
     <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
@@ -16,7 +18,7 @@
         <li>
             <div class="message-notif-scroll scrollbar-outer">
                 <div class="notif-center noti-contact">
-                    @if ($contacts)
+                    @if ($contacts->isNotEmpty())
                         @foreach ($contacts as $contact)
                             <a href="{{ route('contact.show', $contact->id) }}"
                                 class="{{ $contact->status == 0 ? 'fw-bold text-black' : '' }}"
@@ -36,7 +38,9 @@
                             </a>
                         @endforeach
                     @else
-                        <p>Chưa có liên hệ nào!</p>
+                        <div class="p-3">
+                            <small class="text-danger">Chưa có tin nhắn liên hệ nào!</small>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -50,32 +54,51 @@
 <li class="nav-item topbar-icon dropdown hidden-caret">
     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-bell" title="Xem lịch hẹn" data-bs-toggle="tooltip"></i>
-        <span class="notification">4</span>
+        <i class="fa fa-bell" title="Xem lịch hẹn khám" data-bs-toggle="tooltip"></i>
+        @if ($countAppointment > 0)
+            <span class="notification noti-appointment-count">{{ $countAppointment }}</span>
+        @else
+            <span class="noti-appointment-count"></span>
+        @endif
     </a>
     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-        <li>
-            <div class="dropdown-title">
-                Bạn có 4 lịch hẹn mới
-            </div>
-        </li>
+        @if ($countAppointment > 0)
+            <li>
+                <div class="dropdown-title">
+                    Bạn có {{ $countAppointment }} chưa đọc
+                </div>
+            </li>
+        @endif
         <li>
             <div class="notif-scroll scrollbar-outer">
-                <div class="notif-center">
-                    <a href="#">
-                        <div class="notif-icon notif-primary">
-                            <i class="fa fa-user-plus"></i>
+                <div class="notif-center noti-appointment">
+                    @if ($appointments->isNotEmpty())
+                        @foreach ($appointments as $appointment)
+                            <a href="{{ route('appointment.show', $appointment->id) }}"
+                                class="{{ $appointment->status == 0 ? 'fw-bold text-black' : '' }}"
+                                title="@if ($appointment->isviewed) Đã đọc
+                            @else
+                            Chưa đọc @endif">
+                                <div class="notif-icon notif-primary">
+                                    <i class="fa fa-user-plus"></i>
+                                </div>
+                                <div class="notif-content">
+                                    <span class="block"> {{ $appointment->name }} đã đặt lịch hẹn khám</span>
+                                    <span class="time">{{ $appointment->created_at->diffForHumans() }}</span>
+                                </div>
+                            </a>
+                        @endforeach
+                    @else
+                        <div class="p-3">
+                            <small class="text-danger">Chưa có lịch hẹn khám nào!</small>
                         </div>
-                        <div class="notif-content">
-                            <span class="block"> New user registered </span>
-                            <span class="time">5 minutes ago</span>
-                        </div>
-                    </a>
+                    @endif
                 </div>
             </div>
         </li>
         <li>
-            <a class="see-all" href="javascript:void(0);">Xem tất cả lịch hẹn<i class="fa fa-angle-right"></i>
+            <a class="see-all" href="{{ route('appointment.index') }}">Xem tất cả lịch hẹn khám<i
+                    class="fa fa-angle-right"></i>
             </a>
         </li>
     </ul>
