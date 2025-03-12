@@ -65,7 +65,7 @@
         @if ($countAppointment > 0)
             <li>
                 <div class="dropdown-title">
-                    Bạn có {{ $countAppointment }} chưa đọc
+                    Bạn có {{ $countAppointment }} lịch hẹn khám chưa đọc
                 </div>
             </li>
         @endif
@@ -75,7 +75,7 @@
                     @if ($appointments->isNotEmpty())
                         @foreach ($appointments as $appointment)
                             <a href="{{ route('appointment.show', $appointment->id) }}"
-                                class="{{ $appointment->status == 0 ? 'fw-bold text-black' : '' }}"
+                                class="{{ $appointment->is_viewed == 0 ? 'fw-bold text-black' : '' }}"
                                 title="@if ($appointment->isviewed) Đã đọc
                             @else
                             Chưa đọc @endif">
@@ -83,7 +83,9 @@
                                     <i class="fa fa-user-plus"></i>
                                 </div>
                                 <div class="notif-content">
-                                    <span class="block"> {{ $appointment->name }} đã đặt lịch hẹn khám</span>
+                                    <span class="block"> <span
+                                            style="color: dodgerblue">{{ $appointment->name }}</span> đã đặt lịch hẹn
+                                        khám</span>
                                     <span class="time">{{ $appointment->created_at->diffForHumans() }}</span>
                                 </div>
                             </a>

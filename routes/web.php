@@ -85,14 +85,19 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::resource('/contact', ContactController::class);
     Route::post('/contact/reply', [ContactController::class, 'reply'])->name('admin.handle-reply-contact');
-    Route::post('/contacts/bulk-delete', [ContactController::class, 'allDelete'])->name('contact.bulkDelete');
-    Route::post('/contacts/mark-read-all', [ContactController::class, 'markReadAll'])->name('contact.markReadAll');
+    Route::post('/contact/bulk-delete', [ContactController::class, 'allDelete'])->name('contact.bulkDelete');
+    Route::post('/contact/mark-read-all', [ContactController::class, 'markReadAll'])->name('contact.markReadAll');
     Route::get('/contact/{id}/mark-read', [ContactController::class, 'markRead'])->name('contact.markRead');
 
     Route::delete('/contact/{id}/delete', [ContactController::class, 'delete'])->name('admin.contact-delete');
     Route::get('/contact/{id}/reply', [ContactController::class, 'page_reply'])->name('admin.reply-contact');
 
     Route::resource('/appointment', AppointmentController::class);
+    Route::post('/appointment/bulk-delete', [AppointmentController::class, 'allDelete'])->name('appointment.bulkDelete');
+    Route::post('/appointment/mark-read-all', [AppointmentController::class, 'markReadAll'])->name('appointment.markReadAll');
+    Route::get('/appointment/{id}/mark-read', [AppointmentController::class, 'markRead'])->name('appointment.markRead');
+    Route::delete('/appointment/{id}/delete', [AppointmentController::class, 'delete'])->name('admin.appointment-delete');
+    Route::get('/appointment/{id}/reply', [AppointmentController::class, 'page_reply'])->name('admin.reply-appointment');
 });
 
 Route::get('/', [HomeController::class, 'home'])->name('home');

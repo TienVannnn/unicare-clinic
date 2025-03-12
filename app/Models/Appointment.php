@@ -22,4 +22,19 @@ class Appointment extends Model
         'is_viewed',
         'status'
     ];
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Admin::class, 'doctor_id');
+    }
+
+    public function appointmentReplies()
+    {
+        return $this->hasMany(AppointmentReply::class);
+    }
 }
