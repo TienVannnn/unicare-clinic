@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Appointment;
 use App\Models\Clinic;
+use App\Models\Contact;
 use App\Models\Department;
 use App\Models\MedicalCertificate;
 use App\Models\MedicalService;
@@ -97,6 +99,30 @@ class SearchController extends Controller
             $news = News::where('title', 'like', "%$query%")->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm tin tức';
             return view('admin.news.list', compact('news', 'title'));
+        }
+
+        if ($type === 'contact') {
+            $contacts = Contact::where('title', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $title = 'Tìm kiếm tin nhắn liên hệ';
+            return view('admin.contact.list', compact('contacts', 'title'));
+        }
+
+        if ($type === 'appointment') {
+            $appointments = Appointment::where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('name', 'like', "%$query%")
+                    ->orWhere('email', 'like', "%$query%")
+                    ->orWhere('phone', 'like', "%$query%");
+            })
+                ->orWhereHas('department', function ($q) use ($query) {
+                    $q->where('name', 'like', "%$query%");
+                })
+                ->orWhereHas('doctor', function ($q) use ($query) {
+                    $q->where('name', 'like', "%$query%");
+                })
+                ->orderByDesc('id')
+                ->paginate(15);
+            $title = 'Tìm kiếm lịch hẹn khám';
+            return view('admin.appointment.list', compact('appointments', 'title'));
         }
 
 

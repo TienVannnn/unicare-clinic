@@ -44,7 +44,7 @@ class HomeController extends Controller
                 'status' => 0
             ]);
             $count = Contact::where('status', 0)->count();
-            event(new ContactEvent($data['title'], $data['name'], $count));
+            event(new ContactEvent($data['title'], $data['name'], $data['id'], $count));
             Session::flash('success', 'Gửi liên hệ thành công');
         } catch (\Exception $e) {
             Session::flash('error', 'Có lỗi khi liên hệ' . $e->getMessage());
@@ -69,7 +69,7 @@ class HomeController extends Controller
                 'status' => 0
             ]);
             $count = Appointment::where('is_viewed', false)->count();
-            event(new AppointmentEvent($data['name'], $count));
+            event(new AppointmentEvent($data['name'], $data['id'], $count));
             return response()->json(['success' => true, 'message' => 'Đặt lịch khám thành công']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Có lỗi khi đặt lịch khám!']);

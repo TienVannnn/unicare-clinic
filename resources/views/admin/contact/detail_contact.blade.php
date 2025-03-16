@@ -1,6 +1,15 @@
 @extends('admin.layout_admin.main')
 @section('content')
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                Chi tiết liên hệ
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('contact.index') }}">Quản lý liên hệ</a> / Chi tiết
+                liên hệ
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <div class="d-flex align-items-center p-3">
                 <i class="fas fa-question-circle me-2 fs-3" style="color: #f05a28"></i> {{ $contact->title }}
@@ -49,20 +58,24 @@
                             <a href="javascript:void(0);" class="btn btn-info" title="Quay lại"
                                 onclick="window.history.back()"><i class="fas fa-arrow-left me-2"></i>Quay
                                 lại</a>&nbsp;
-                            <a href="{{ route('admin.reply-contact', $contact->id) }}" title="Gửi phản hồi"
-                                class="btn btn-success"><i class="far fa-paper-plane me-1 data-bs-toggle="tooltip"
-                                    title="Gửi phản hồi"></i>Gửi
-                                phản hồi</a>
-                            &nbsp;
-                            <form action="{{ route('admin.contact-delete', $contact->id) }}" method="POST"
-                                class="delete-form" style="display: inline-block">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" title="Xóa tin nhắn" class="btn btn-danger"
-                                    onclick="return confirm('Bạn có chắc chắn muốn xóa tin nhắn này')">
-                                    <i class="fas fa-trash me-2" data-bs-toggle="tooltip" title="Xóa tin nhắn"></i> Xóa
-                                </button>
-                            </form>
+                            @can('tra-loi-lien-he')
+                                <a href="{{ route('admin.reply-contact', $contact->id) }}" title="Gửi phản hồi"
+                                    class="btn btn-success"><i class="far fa-paper-plane me-1 data-bs-toggle="tooltip"
+                                        title="Gửi phản hồi"></i>Gửi
+                                    phản hồi</a>
+                                &nbsp;
+                            @endcan
+                            @can('xoa-lien-he')
+                                <form action="{{ route('admin.contact-delete', $contact->id) }}" method="POST"
+                                    class="delete-form" style="display: inline-block">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" title="Xóa tin nhắn" class="btn btn-danger"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa tin nhắn này')">
+                                        <i class="fas fa-trash me-2" data-bs-toggle="tooltip" title="Xóa tin nhắn"></i> Xóa
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 </table>

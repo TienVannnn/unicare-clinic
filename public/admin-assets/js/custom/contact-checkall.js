@@ -4,28 +4,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteBtn = document.getElementById("delete-selected-btn");
     const markReadBtn = document.getElementById("mark-read-btn");
 
-    function updateButtons() {
-        const checkedCount = document.querySelectorAll(
-            ".contact-checkbox:checked"
-        ).length;
-        if (checkedCount > 0) {
-            deleteBtn.classList.remove("d-none");
-            markReadBtn.classList.remove("d-none");
-        } else {
-            deleteBtn.classList.add("d-none");
-            markReadBtn.classList.add("d-none");
+    function updateButtonState() {
+        const anyChecked = Array.from(checkboxes).some(
+            (checkbox) => checkbox.checked
+        );
+        markReadBtn.classList.toggle("d-none", !anyChecked);
+        deleteBtn.classList.toggle("d-none", !anyChecked);
+
+        if (anyChecked) {
+            const allRead = Array.from(checkboxes)
+                .filter((checkbox) => checkbox.checked)
+                .every((checkbox) => checkbox.dataset.status === "1");
+
+            markReadBtn.innerHTML = allRead
+                ? `<i class="fa fa-envelope me-2"></i>Đánh dấu chưa đọc`
+                : `<i class="fas fa-envelope-open me-2"></i>Đánh dấu đã đọc`;
         }
     }
 
     selectAllCheckbox.addEventListener("change", function () {
         checkboxes.forEach((checkbox) => {
-            checkbox.checked = this.checked;
+            checkbox.checked = selectAllCheckbox.checked;
         });
-        updateButtons();
+        updateButtonState();
     });
 
     checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", updateButtons);
+        checkbox.addEventListener("change", updateButtonState);
     });
 
     deleteBtn.addEventListener("click", function () {
@@ -76,13 +81,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     markReadBtn.addEventListener("click", function () {
-        const selectedIds = [...checkboxes]
-            .filter((c) => c.checked)
-            .map((c) => c.value);
+        const selectedCheckboxes = [...checkboxes].filter((c) => c.checked);
+        const selectedIds = selectedCheckboxes.map((c) => c.value);
+        const hasUnread = selectedCheckboxes.some(
+            (c) => c.dataset.status === "0"
+        );
 
         if (selectedIds.length === 0) return;
 
-        fetch(route("contact.markReadAll"), {
+        const routeName = hasUnread
+            ? "contact.markReadAll"
+            : "contact.markUnreadAll";
+
+        fetch(route(routeName), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

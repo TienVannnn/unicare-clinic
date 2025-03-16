@@ -83,21 +83,29 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/news-category', NewsCategoryController::class);
     Route::resource('/news', NewsController::class);
 
+    Route::get('/contact/unread', [ContactController::class, 'unreadAppointments'])->name('contact.unread');
     Route::resource('/contact', ContactController::class);
     Route::post('/contact/reply', [ContactController::class, 'reply'])->name('admin.handle-reply-contact');
     Route::post('/contact/bulk-delete', [ContactController::class, 'allDelete'])->name('contact.bulkDelete');
     Route::post('/contact/mark-read-all', [ContactController::class, 'markReadAll'])->name('contact.markReadAll');
+    Route::post('/contact/mark-unread-all', [ContactController::class, 'markUnreadAll'])
+        ->name('contact.markUnreadAll');
     Route::get('/contact/{id}/mark-read', [ContactController::class, 'markRead'])->name('contact.markRead');
-
     Route::delete('/contact/{id}/delete', [ContactController::class, 'delete'])->name('admin.contact-delete');
     Route::get('/contact/{id}/reply', [ContactController::class, 'page_reply'])->name('admin.reply-contact');
 
+    Route::get('/appointment/unread', [AppointmentController::class, 'unreadAppointments'])->name('appointment.unread');
     Route::resource('/appointment', AppointmentController::class);
     Route::post('/appointment/bulk-delete', [AppointmentController::class, 'allDelete'])->name('appointment.bulkDelete');
     Route::post('/appointment/mark-read-all', [AppointmentController::class, 'markReadAll'])->name('appointment.markReadAll');
+    Route::post('/appointment/mark-unread-all', [AppointmentController::class, 'markUnreadAll'])
+        ->name('appointment.markUnreadAll');
     Route::get('/appointment/{id}/mark-read', [AppointmentController::class, 'markRead'])->name('appointment.markRead');
     Route::delete('/appointment/{id}/delete', [AppointmentController::class, 'delete'])->name('admin.appointment-delete');
     Route::get('/appointment/{id}/reply', [AppointmentController::class, 'page_reply'])->name('admin.reply-appointment');
+    Route::post('/appointment/reply', [AppointmentController::class, 'reply'])->name('admin.handle-reply-appointment');
+    Route::get('/appointment/{id}/confirm', [AppointmentController::class, 'confirm'])->name('admin.confirm-appointment');
+    Route::get('/appointment/{id}/cancle', [AppointmentController::class, 'cancle'])->name('admin.cancle-appointment');
 });
 
 Route::get('/', [HomeController::class, 'home'])->name('home');

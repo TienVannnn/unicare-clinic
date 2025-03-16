@@ -1,41 +1,56 @@
 @extends('admin.layout_admin.main')
 @section('content')
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                Phản hồi lịch hẹn
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('appointment.index') }}">Quản lý lịch hẹn khám</a> / Phản hồi lịch hẹn
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
-            <form action="{{ route('admin.handle-reply-contact') }}" method="POST">
+            <form action="{{ route('admin.handle-reply-appointment') }}" method="POST">
                 @csrf
-                <input type="hidden" name="id" value="{{ $contact->id }}">
+                <input type="hidden" name="id" value="{{ $appointment->id }}">
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
                             <td style="width: 20%; white-space: nowrap;">Tiêu đề gửi</td>
-                            <td><input type="text" name="title" value="Re:{{ $contact->title }}" readonly
+                            <td><input type="text" name="title"
+                                    value="Re:{{ $appointment->name }} - {{ $appointment->phone }}" readonly
                                     class="readonly form-control w-auto">
                             </td>
                         </tr>
                         <tr>
                             <td style="width: 20%; white-space: nowrap;">Gửi tới email</td>
-                            <td><input type="email" name="email" value="{{ $contact->email }} "
+                            <td><input type="email" name="email" value="{{ $appointment->email }} "
                                     class="readonly form-control w-auto" readonly></td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <textarea class="form-control" name="content" id="content">
-                                <div class="email-content">
-                                    <p>From: {{ $contact->email }}</p>
-                                    <p>To: UNICARE</p>
-                                    <p>Sent: {{ $contact->created_at->format('H:i d/m/Y') }}</p>
-                                    <p>Message: {!! $contact->message !!}</p>
-                                    <p>Subject: Re: {{ $contact->title }}</p> <br>
+                                    <div class="header" style="font-weight: bold; font-size: 25px">XÁC NHẬN ĐẶT LỊCH HẸN</div>
+                                    <p>Kính chào quý khách: {{ $appointment->name }}</p>
+                                    <p>Cảm ơn quý khách đã đặt lịch hẹn tại <a href="https://unicaremedic.ntu264.vpsttt.vn">Unicare medic</a></p>
+                                    <p>Chúng tôi đã nhận được lịch hẹn của quý khách với thông tin như dưới đây:</p>
 
-                                    Gửi {{ $contact->name }}, <br>
+                                    <div class="info-block">
+                                        <div class="section-title">THÔNG TIN LỊCH HẸN KHÁM</div>
+                                        <p><strong>NGÀY ĐẶT HẸN:</strong> {{ $appointment->created_at->format('H:i d/m/y') }}</p>
+                                        <p><strong>BÁC SĨ:</strong> Bs. {{ $appointment->doctor->name }}</p>
+                                        <p><strong>CHUYÊN KHOA:</strong> {{ $appointment->department->name }}</p>
+                                    </div>
 
-                                    Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi đánh giá cao sự kiên nhẫn của bạn. <br> <br>
-                                    ------------------------------------ <br>
-                                    Trân trọng, <br>
-                                    {{ Auth()->guard('admin')->user()->name }} <br>
-                                    {{ Auth()->guard('admin')->user()->email }}
-                                </div>
+                                    <div class="info-block">
+                                        <p><strong>Thông tin bệnh nhân:</strong></p>
+                                        <p>Họ và tên: {{ $appointment->name }}</p>
+                                        <p>Ngày sinh: {{ $appointment->dob }}</p>
+                                        <p>Giới tính: {{ $appointment->gender == 1 ? 'Nam' : 'Nữ' }}</p>
+                                        <p><strong>Điện thoại:</strong> {{ $appointment->phone }}</p>
+                                        <p><strong>Email:</strong> <a href="mailto:{{ $appointment->email }}">{{ $appointment->email }}</a></p>
+                                        <p><strong>Lời nhắn:</strong>{{ $appointment->note }}</p>
+                                    </div>
                             </textarea>
                             </td>
                         </tr>

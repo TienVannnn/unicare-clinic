@@ -14,14 +14,16 @@ class AppointmentEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $name;
+    public $id;
     public $count;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($name, $count)
+    public function __construct($name, $id, $count)
     {
         $this->name = $name;
+        $this->id = $id;
         $this->count = $count;
     }
 
@@ -39,6 +41,7 @@ class AppointmentEvent implements ShouldBroadcast
     {
         return [
             'name' => $this->name,
+            'id' => $this->id,
             'count' => $this->count,
         ];
     }

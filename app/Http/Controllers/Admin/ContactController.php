@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ContactReplyJob;
 use App\Models\Contact;
 use App\Models\ContactReply;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('xem-danh-sach-lien-he');
         $title = 'Danh sách tin nhắn liên hệ';
         $contacts = Contact::orderByDesc('id')->paginate(15);
         return view('admin.contact.list', compact('title', 'contacts'));
@@ -26,6 +29,7 @@ class ContactController extends Controller
      */
     public function show(string $id)
     {
+        $this->authorize('xem-chi-tiet-lien-he');
         $contact = Contact::findOrFail($id);
         if ($contact->status == 0) $contact->update(['status' => 1]);
         $replies = $contact->contactReplies;
@@ -35,6 +39,7 @@ class ContactController extends Controller
 
     public function destroy(string $id)
     {
+        $this->authorize('xoa-lien-he');
         $contact = Contact::findOrFail($id);
         try {
             $contact->delete();
@@ -49,6 +54,7 @@ class ContactController extends Controller
 
     public function delete($id)
     {
+        $this->authorize('xoa-lien-he');
         $contact = Contact::findOrFail($id);
         try {
             $contact->delete();
@@ -62,6 +68,7 @@ class ContactController extends Controller
 
     public function page_reply($id)
     {
+        $this->authorize('tra-loi-lien-he');
         $title = 'Phản hồi liên hệ';
         $contact = Contact::findOrFail($id);
         return view('admin.contact.contact-reply', compact('title', 'contact'));
@@ -69,6 +76,7 @@ class ContactController extends Controller
 
     public function reply(Request $request)
     {
+        $this->authorize('tra-loi-lien-he');
         try {
             $contact = Contact::findOrFail($request->id);
             $title = $request->title;
@@ -91,6 +99,7 @@ class ContactController extends Controller
 
     public function allDelete(Request $request)
     {
+        $this->authorize('xoa-lien-he');
         try {
             $count = count($request->ids);
             Contact::whereIn('id', $request->ids)->delete();
@@ -127,5 +136,24 @@ class ContactController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Lỗi khi cập nhật!']);
         }
+    }
+
+    public function markUnreadAll(Request $request)
+    {
+        try {
+            $count = count($request->ids);
+            Contact::whereIn('id', $request->ids)->update(['status' => 0]);
+            return response()->json(['success' => true, 'message' => "$count tin nhắn được đánh dấu là chưa đọc!"]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Lỗi khi cập nhật!']);
+        }
+    }
+
+    public function unreadAppointments()
+    {
+        $this->authorize('xem-danh-sach-lien-he');
+        $title = 'Danh sách tin nhắn chưa đọc';
+        $contacts = Contact::where('status', 0)->orderByDesc('id')->paginate(15);
+        return view('admin.contact.unreadList', compact('title', 'contacts'));
     }
 }

@@ -14,13 +14,15 @@ class ContactEvent implements ShouldBroadcast
 
     public $title;
     public $name;
+    public $id;
     public $count;
 
 
-    public function __construct($title, $name, $count)
+    public function __construct($title, $name, $id, $count)
     {
         $this->title = $title;
         $this->name = $name;
+        $this->id = $id;
         $this->count = $count;
     }
 
@@ -40,6 +42,7 @@ class ContactEvent implements ShouldBroadcast
         return [
             'title' => $this->title,
             'name' => $this->name,
+            'id' => $this->id,
             'count' => $this->count,
         ];
     }

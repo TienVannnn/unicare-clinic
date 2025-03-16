@@ -5,7 +5,7 @@
             <div class="text-uppercase fw-bold">
                 Chi tiết lịch hẹn khám
             </div>
-            <div class="text-uppercase fw-bold">
+            <div class="text-capitalize fw-bold">
                 <a href="{{ route('appointment.index') }}">Quản lý lịch hẹn</a> / Chi tiết
             </div>
         </div>
@@ -19,7 +19,7 @@
                     <tr>
                         <td style="width: 20%; white-space: nowrap; font-weight: 600;text-transform: capitalize;">Thông
                             tin người dùng</td>
-                        <td>{{ $appointment->name }} <i class="fas fa-angle-left"></i> {{ $appointment->email }} <i
+                        <td>{{ $appointment->name }} <i class="fas fa-angle-left"></i>{{ $appointment->email }}<i
                                 class="fas fa-angle-right"></i> <br> Điện thoại:
                             {{ $appointment->phone }} <br>
                             Thời gian: {{ $appointment->created_at->format('H:i d/m/Y') }}
@@ -64,25 +64,33 @@
                             <a href="{{ route('appointment.index') }}" class="btn btn-info" title="Quay lại"><i
                                     class="fas fa-arrow-left me-2" data-bs-toggle="tooltip"></i>Quay
                                 lại</a>&nbsp;
-                            <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
-                                class="btn btn-primary">Gửi
-                                phản hồi</a>
-                            &nbsp;
-                            <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
-                                class="btn btn-success">Xác nhận</a>
-                            &nbsp;
-                            <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
-                                class="btn btn-danger">Hủy</a>
-                            &nbsp;
-                            <form action="{{ route('admin.appointment-delete', $appointment->id) }}" method="POST"
-                                class="delete-form" style="display: inline-block">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" title="Xóa lịch hẹn" class="btn btn-danger"
-                                    onclick="return confirm('Bạn có chắc chắn muốn xóa lịch hẹn này')">
-                                    <i class="fas fa-trash me-2" data-bs-toggle="tooltip" title="Xóa lịch hẹn"></i> Xóa
-                                </button>
-                            </form>
+                            @can('tra-loi-lich-hen-kham')
+                                <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
+                                    class="btn btn-primary">Gửi
+                                    phản hồi</a>
+                                &nbsp;
+                            @endcan
+                            @if ($appointment->status != 1)
+                                <a href="{{ route('admin.confirm-appointment', $appointment->id) }}" title="Gửi phản hồi"
+                                    class="btn btn-success">Xác nhận</a>
+                                &nbsp;
+                            @endif
+                            @if ($appointment->status != -1)
+                                <a href="{{ route('admin.cancle-appointment', $appointment->id) }}" title="Gửi phản hồi"
+                                    class="btn btn-danger">Hủy</a>
+                                &nbsp;
+                            @endif
+                            @can('xoa-lich-hen-kham')
+                                <form action="{{ route('admin.appointment-delete', $appointment->id) }}" method="POST"
+                                    class="delete-form" style="display: inline-block">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" title="Xóa lịch hẹn" class="btn btn-danger"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa lịch hẹn này')">
+                                        <i class="fas fa-trash me-2" data-bs-toggle="tooltip" title="Xóa lịch hẹn"></i> Xóa
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 </table>
@@ -97,7 +105,7 @@
                         <table class="table table-bordered ">
                             <tr>
                                 <td style="width: 20%; white-space: nowrap;">Thông tin người gửi</td>
-                                <td>{{ $reply->admin->name }} < {{ $reply->admin->email }}>
+                                <td>{{ $reply->doctor->name }} < {{ $reply->doctor->email }}>
                                 </td>
                             </tr>
                             <tr>

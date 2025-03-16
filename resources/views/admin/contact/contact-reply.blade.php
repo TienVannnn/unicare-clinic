@@ -1,6 +1,14 @@
 @extends('admin.layout_admin.main')
 @section('content')
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                Phản hồi tin nhắn
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('contact.index') }}">Quản lý liên hệ</a> / Trả lời tin nhắn
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <form action="{{ route('admin.handle-reply-contact') }}" method="POST">
                 @csrf

@@ -6,33 +6,34 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
             <div class="text-uppercase fw-bold">
-                Danh sách lịch hẹn khám
+                Tin nhắn chưa đọc
             </div>
             <div class="fw-bold text-capitalize">
-                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('appointment.index') }}">Quản lý lịch
-                    hẹn</a>
+                <a href="{{ route('contact.index') }}">Quản lý liên hệ</a> /
+                tin
+                nhắn chưa đọc
             </div>
         </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="search-container">
-                        <form action="{{ route('admin.search', ['type' => 'appointment']) }}" method="GET">
+                        <form action="{{ route('admin.search', ['type' => 'contact']) }}" method="GET">
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tiêu đề lịch hẹn khám" name="name">
+                            <input type="text" placeholder="Nhập tiêu đề liên hệ" name="name">
                         </form>
                     </div>
                     <div>
                         <button id="mark-read-btn" class="btn btn-success btn-sm d-none"><i
                                 class="fas fa-envelope-open me-2"></i>Đánh dấu đã đọc</button>
-                        @can('xoa-lich-hen-kham')
+                        @can('xoa-lien-he')
                             <button id="delete-selected-btn" class="btn btn-danger btn-sm d-none">Xóa</button>
                         @endcan
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                @if ($appointments->count() > 0)
+                @if ($contacts->count() > 0)
                     @if (request()->has('name') && request()->input('name') != '')
                         <p class="alert alert-info">
                             Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
@@ -44,60 +45,53 @@
                                 <tr>
                                     <th><input type="checkbox" id="select-all"></th>
                                     <th scope="col">Người gửi</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Chuyên khoa</th>
-                                    <th scope="col">Bác sĩ</th>
+                                    <th scope="col">Tiêu đề</th>
                                     <th scope="col">Thời gian</th>
                                     <th scope="col">Xử lý</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($appointments as $appointment)
-                                    <tr class="{{ $appointment->is_viewed == 0 ? 'fw-bold text-black' : '' }}">
-                                        <td><input type="checkbox" class="appointment-checkbox"
-                                                value="{{ $appointment->id }}"
-                                                data-is-viewed="{{ $appointment->is_viewed }}">
+                                @foreach ($contacts as $contact)
+                                    <tr class="{{ $contact->status == 0 ? 'fw-bold text-black' : '' }}">
+                                        <td><input type="checkbox" class="contact-checkbox" value="{{ $contact->id }}"
+                                                data-status="{{ $contact->status }}">
                                         </td>
-                                        <td>{{ $appointment->name }}</td>
-                                        <td>{{ $appointment->email }}</td>
-                                        <td>{{ $appointment->phone }}</td>
-                                        <td>{{ $appointment->department->name }}</td>
-                                        <td>{{ $appointment->doctor->name }}</td>
+                                        <td>{{ $contact->name }}</td>
+                                        <td>{{ $contact->title }}</td>
                                         <td>
                                             @php
-                                                $diffInDays = $appointment->created_at->diffInDays(now());
+                                                $diffInDays = $contact->created_at->diffInDays(now());
                                             @endphp
-                                            {{ $diffInDays > 15 ? $appointment->created_at->format('H:i d/m/Y') : $appointment->created_at->diffForHumans() }}
+                                            {{ $diffInDays > 15 ? $contact->created_at->format('H:i d/m/Y') : $contact->created_at->diffForHumans() }}
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                @if ($appointment->is_viewed == 0)
-                                                    <a href="{{ route('appointment.markRead', $appointment->id) }}"
+                                                @if ($contact->status == 0)
+                                                    <a href="{{ route('contact.markRead', $contact->id) }}"
                                                         class="btn btn-xs me-2 btn-danger" title="Đánh dấu là đã đọc"><i
                                                             class="fas fa-envelope-open" data-bs-toggle="tooltip"
                                                             title="Đánh dấu là đã đọc"></i></a>
-                                                @elseif($appointment->is_viewed == 1)
-                                                    <a href="{{ route('appointment.markRead', $appointment->id) }}"
+                                                @elseif($contact->status == 1)
+                                                    <a href="{{ route('contact.markRead', $contact->id) }}"
                                                         class="btn btn-xs me-2 btn-success" title="Đánh dấu là chưa đọc"><i
                                                             class="fa fa-envelope" data-bs-toggle="tooltip"
                                                             title="Đánh dấu là chưa đọc"></i></a>
                                                 @endif
-                                                @can('xem-chi-tiet-lich-hen-kham')
-                                                    <a href="{{ route('appointment.show', $appointment->id) }}"
-                                                        class="btn btn-outline-primary btn-xs me-2" title="Xem lịch hẹn khám"><i
-                                                            class="fas fa-eye" data-bs-toggle="tooltip"
-                                                            title="Xem lịch hẹn khám"></i></a>
+                                                @can('xem-chi-tiet-lien-he')
+                                                    <a href="{{ route('contact.show', $contact->id) }}"
+                                                        class="btn btn-outline-primary btn-xs me-2"
+                                                        title="Xem tin nhắn liên hệ"><i class="fas fa-eye"
+                                                            data-bs-toggle="tooltip" title="Xem tin nhắn liên hệ"></i></a>
                                                 @endcan
-                                                @can('xoa-lich-hen-kham')
-                                                    <form action="{{ route('appointment.destroy', $appointment->id) }}"
-                                                        method="POST" class="delete-form">
+                                                @can('xoa-lien-he')
+                                                    <form action="{{ route('contact.destroy', $contact->id) }}" method="POST"
+                                                        class="delete-form">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="button" title="Xóa lịch hẹn khám"
+                                                        <button type="button" title="Xóa tin nhắn"
                                                             class="btn btn-outline-danger btn-xs delete-btn"><i
                                                                 class="fas fa-trash" data-bs-toggle="tooltip"
-                                                                title="Xóa lịch hẹn khám"></i></button>
+                                                                title="Xóa liên hệ"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>
@@ -113,13 +107,13 @@
                             <strong>{{ request()->input('name') }}</strong>!
                         </p>
                     @else
-                        <p class="alert alert-danger">Chưa có lịch hẹn khám nào!</p>
+                        <p class="alert alert-danger">Chưa có liên hệ nào!</p>
                     @endif
                 @endif
             </div>
 
             <div class="d-flex justify-content-center ">
-                {{ $appointments->links() }}
+                {{ $contacts->links() }}
             </div>
         </div>
     </div>
@@ -128,5 +122,5 @@
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('admin-assets/js/custom/deleteSweetaler.js') }}"></script>
-    <script src="{{ asset('admin-assets/js/custom/appointment-checkall.js') }}"></script>
+    <script src="{{ asset('admin-assets/js/custom/contact-checkall.js') }}"></script>
 @endsection

@@ -4,6 +4,15 @@
 @endsection
 @section('content')
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                Tin nhắn liên hệ
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('contact.index') }}">Quản lý liên
+                    hệ</a>
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
@@ -16,7 +25,9 @@
                     <div>
                         <button id="mark-read-btn" class="btn btn-success btn-sm d-none"><i
                                 class="fas fa-envelope-open me-2"></i>Đánh dấu đã đọc</button>
-                        <button id="delete-selected-btn" class="btn btn-danger btn-sm d-none">Xóa</button>
+                        @can('xoa-lien-he')
+                            <button id="delete-selected-btn" class="btn btn-danger btn-sm d-none">Xóa</button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -35,15 +46,14 @@
                                     <th scope="col">Người gửi</th>
                                     <th scope="col">Tiêu đề</th>
                                     <th scope="col">Thời gian</th>
-                                    @can('xoa-lien-he')
-                                        <th scope="col">Xử lý</th>
-                                    @endcan
+                                    <th scope="col">Xử lý</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($contacts as $contact)
                                     <tr class="{{ $contact->status == 0 ? 'fw-bold text-black' : '' }}">
-                                        <td><input type="checkbox" class="contact-checkbox" value="{{ $contact->id }}">
+                                        <td><input type="checkbox" class="contact-checkbox" value="{{ $contact->id }}"
+                                                data-status="{{ $contact->status }}">
                                         </td>
                                         <td>{{ $contact->name }}</td>
                                         <td>{{ $contact->title }}</td>
@@ -57,19 +67,21 @@
                                             <div class="d-flex align-items-center">
                                                 @if ($contact->status == 0)
                                                     <a href="{{ route('contact.markRead', $contact->id) }}"
-                                                        class="btn btn-xs me-2" title="Đánh dấu là đã đọc"><i
+                                                        class="btn btn-xs me-2 btn-danger" title="Đánh dấu là đã đọc"><i
                                                             class="fas fa-envelope-open" data-bs-toggle="tooltip"
                                                             title="Đánh dấu là đã đọc"></i></a>
                                                 @elseif($contact->status == 1)
                                                     <a href="{{ route('contact.markRead', $contact->id) }}"
-                                                        class="btn btn-xs me-2" title="Đánh dấu là chưa đọc"><i
+                                                        class="btn btn-xs me-2 btn-success" title="Đánh dấu là chưa đọc"><i
                                                             class="fa fa-envelope" data-bs-toggle="tooltip"
                                                             title="Đánh dấu là chưa đọc"></i></a>
                                                 @endif
-                                                <a href="{{ route('contact.show', $contact->id) }}"
-                                                    class="btn btn-outline-primary btn-xs me-2"
-                                                    title="Xem tin nhắn liên hệ"><i class="fas fa-eye"
-                                                        data-bs-toggle="tooltip" title="Xem tin nhắn liên hệ"></i></a>
+                                                @can('xem-chi-tiet-lien-he')
+                                                    <a href="{{ route('contact.show', $contact->id) }}"
+                                                        class="btn btn-outline-primary btn-xs me-2"
+                                                        title="Xem tin nhắn liên hệ"><i class="fas fa-eye"
+                                                            data-bs-toggle="tooltip" title="Xem tin nhắn liên hệ"></i></a>
+                                                @endcan
                                                 @can('xoa-lien-he')
                                                     <form action="{{ route('contact.destroy', $contact->id) }}" method="POST"
                                                         class="delete-form">

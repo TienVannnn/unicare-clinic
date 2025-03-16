@@ -12,7 +12,7 @@
         <li>
             <div class="dropdown-title d-flex justify-content-between align-items-center">
                 Liên hệ
-                <a href="#" class="small">Đánh dấu tất cả đã đọc</a>
+                <a href="{{ route('contact.unread') }}" class="small">{{ $count }} tin nhắn chưa đọc</a>
             </div>
         </li>
         <li>
@@ -64,9 +64,11 @@
     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
         @if ($countAppointment > 0)
             <li>
-                <div class="dropdown-title">
-                    Bạn có {{ $countAppointment }} lịch hẹn khám chưa đọc
-                </div>
+                <a href="{{ route('appointment.unread') }}">
+                    <div class="dropdown-title text-danger">
+                        Bạn có {{ $countAppointment }} lịch hẹn khám chưa đọc
+                    </div>
+                </a>
             </li>
         @endif
         <li>
@@ -99,7 +101,7 @@
             </div>
         </li>
         <li>
-            <a class="see-all" href="{{ route('appointment.index') }}">Xem tất cả lịch hẹn khám<i
+            <a class="see-all fw-bold" href="{{ route('appointment.index') }}">Xem tất cả lịch hẹn khám<i
                     class="fa fa-angle-right"></i>
             </a>
         </li>

@@ -8,8 +8,9 @@ channel.bind("contact-created", function (data) {
         $(".noti-contact-count").addClass("notification");
     }
     $(".noti-contact-count").text(data.count);
+    let url = route("contact.show", data.id);
     var newNotification = `
-    <a href="#" class="fw-bold text-black" title="Chưa đọc">
+    <a href="${url}" class="fw-bold text-black" title="Chưa đọc">
         <div class="notif-icon notif-danger">
             <i class="fa fa-comment"></i>
         </div>
@@ -29,8 +30,9 @@ channel_appointment.bind("appointment-created", function (data) {
         $(".noti-appointment-count").addClass("notification");
     }
     $(".noti-appointment-count").text(data.count);
+    let url = route("appointment.show", data.id);
     var newNotificationAppointment = `
-    <a href="#" class="fw-bold text-black" title="Chưa đọc">
+    <a href="${url}" class="fw-bold text-black" title="Chưa đọc">
         <div class="notif-icon notif-primary">
             <i class="fa fa-user-plus"></i>
         </div>

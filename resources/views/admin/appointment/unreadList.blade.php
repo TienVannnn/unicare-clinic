@@ -6,11 +6,10 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
             <div class="text-uppercase fw-bold">
-                Danh sách lịch hẹn khám
+                Lịch hẹn khám chưa đọc
             </div>
             <div class="fw-bold text-capitalize">
-                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('appointment.index') }}">Quản lý lịch
-                    hẹn</a>
+                <a href="{{ route('appointment.index') }}">Quản lý lịch hẹn khám</a> / Lịch hẹn chưa đọc
             </div>
         </div>
         <div class="card shadow-sm m-4">
