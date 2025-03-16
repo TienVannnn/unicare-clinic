@@ -19,7 +19,7 @@ jobs:
           php-version: "8.2" # Specify the PHP version you're using
 
       - name: Deploy to CPanel via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
