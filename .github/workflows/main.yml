@@ -25,6 +25,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           local-dir: "./"
-          server-dir: "/unicaremedic/" # Target directory on the server
-          passive: true
-          timeout: 60000
+          server-dir: "/unicaremedic/"
