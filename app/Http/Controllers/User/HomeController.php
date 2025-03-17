@@ -75,4 +75,13 @@ class HomeController extends Controller
             return response()->json(['success' => false, 'message' => 'Có lỗi khi đặt lịch khám!']);
         }
     }
+
+    public function getDoctors($department_id)
+    {
+        $doctors = Admin::whereHas('clinic', function ($query) use ($department_id) {
+            $query->where('department_id', $department_id);
+        })->get();
+
+        return response()->json($doctors);
+    }
 }

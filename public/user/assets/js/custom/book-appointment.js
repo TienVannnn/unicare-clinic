@@ -57,3 +57,31 @@ function clearErrors() {
         element.remove();
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const departmentSelect = document.querySelector(
+        'select[name="department_id"]'
+    );
+    const doctorSelect = document.querySelector('select[name="doctor_id"]');
+
+    departmentSelect.addEventListener("change", function () {
+        const departmentId = this.value;
+        if (departmentId) {
+            fetch(`/get-doctors/${departmentId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    doctorSelect.innerHTML =
+                        '<option value="" selected>Chọn bác sĩ</option>';
+                    data.forEach((doctor) => {
+                        doctorSelect.innerHTML += `<option value="${doctor.id}">${doctor.name}</option>`;
+                    });
+                })
+                .catch((error) =>
+                    console.error("Error fetching doctors:", error)
+                );
+        } else {
+            doctorSelect.innerHTML =
+                '<option value="" selected>Chọn bác sĩ</option>';
+        }
+    });
+});

@@ -250,7 +250,7 @@
                                 <div class="form-group">
                                     <div class="button">
                                         <button type="submit" class="btn">
-                                            Gửi yêu cầu test
+                                            Gửi yêu cầu
                                         </button>
                                     </div>
                                 </div>
