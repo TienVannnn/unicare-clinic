@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@v2 # Set up PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2" # Specify the PHP version you're using
+          php-version: "8.2"
 
       - name: Deploy to CPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
