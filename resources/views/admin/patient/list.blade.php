@@ -61,6 +61,12 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-nhan-vien')
+                                                    <a href="{{ route('patient.show', $patient->id) }}"
+                                                        class="btn btn-outline-success btn-xs me-2"
+                                                        title="Xem lịch sử khám bệnh"><i class="fas fa-clock"
+                                                            data-bs-toggle="tooltip" title="Xem lịch sử khám bệnh"></i></a>
+                                                @endcan
+                                                @can('chinh-sua-nhan-vien')
                                                     <a href="{{ route('patient.edit', $patient->id) }}"
                                                         class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
                                                             class="fas fa-edit" data-bs-toggle="tooltip"

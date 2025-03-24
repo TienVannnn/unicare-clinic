@@ -24,4 +24,9 @@ class Patient extends Model
             $patient->save();
         });
     }
+
+    public function medical_certificates()
+    {
+        return $this->hasMany(MedicalCertificate::class, 'patient_id');
+    }
 }

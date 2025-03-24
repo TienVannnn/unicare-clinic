@@ -54,13 +54,13 @@
                                         <td>{{ $medical_certificate->clinic->name }}</td>
                                         <td>{{ $medical_certificate->created_at->format('H:i d/m/Y') }}</td>
                                         <td>
-                                            @if ($medical_certificate->medical_status === 0)
+                                            @if ($medical_certificate->medical_status == 0)
                                                 <span class="badge bg-warning"></i>Chờ
                                                     khám</span>
-                                            @elseif ($medical_certificate->medical_status === 1)
+                                            @elseif ($medical_certificate->medical_status == 1)
                                                 <span class="badge bg-primary">Đang
                                                     khám</span>
-                                            @elseif ($medical_certificate->medical_status === 2)
+                                            @elseif ($medical_certificate->medical_status == 2)
                                                 <span class="badge bg-success"><i class="fas fa-check me-1"></i>Đã
                                                     khám</span>
                                             @else
@@ -69,13 +69,13 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($medical_certificate->payment_status === 0)
+                                            @if ($medical_certificate->payment_status == 0)
                                                 <span class="badge bg-danger">Chưa thanh
                                                     toán</span>
-                                            @elseif ($medical_certificate->payment_status === 1)
+                                            @elseif ($medical_certificate->payment_status == 1)
                                                 <span class="badge bg-success"><i class="fas fa-check me-1"></i>Đã thanh
                                                     toán</span>
-                                            @elseif ($medical_certificate->payment_status === 2)
+                                            @elseif ($medical_certificate->payment_status == 2)
                                                 <span class="badge bg-warning"><i class="fas fa-check me-1"></i>Đã tạm
                                                     ứng</span>
                                             @else
@@ -86,7 +86,7 @@
                                         <td>
                                             <div class="d-flex align-items-center justify-content-center">
                                                 @can('xac-nhan-thanh-toan')
-                                                    @if ($medical_certificate->payment_status !== 1)
+                                                    @if ($medical_certificate->payment_status != 1)
                                                         @if (
                                                             !$medical_certificate->medical_service_id ||
                                                                 ($medical_certificate->medical_service_id && $medical_certificate->payment_status == 2))
@@ -121,7 +121,7 @@
                                                     title="Xem giấy khám bệnh"><i class="icon-eye" data-bs-toggle="tooltip"
                                                         title="Xem giấy khám bệnh"></i></a>
                                                 @can('chinh-sua-giay-kham-benh')
-                                                    @if ($medical_certificate->medical_status === 0)
+                                                    @if ($medical_certificate->medical_status == 0)
                                                         <a href="{{ route('medical-certificate.edit', $medical_certificate->id) }}"
                                                             class="btn btn-outline-primary btn-xs me-2" title="Chỉnh sửa"><i
                                                                 class="fas fa-edit" data-bs-toggle="tooltip"
@@ -129,7 +129,7 @@
                                                     @endif
                                                 @endcan
                                                 @can('kham-benh')
-                                                    @if ($medical_certificate->medical_status !== 2)
+                                                    @if ($medical_certificate->medical_status != 2)
                                                         <a href="{{ route('medical-certificate.service', $medical_certificate->id) }}"
                                                             class="btn btn-outline-success btn-xs me-2" title="Khám dịch vụ">
                                                             <i class="fas fa-plus-circle" data-bs-toggle="tooltip"

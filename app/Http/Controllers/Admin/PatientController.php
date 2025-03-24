@@ -54,7 +54,10 @@ class PatientController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        $medical_history = $patient->medical_certificates()->paginate(15);
+        $title = 'Lịch sử khám bệnh - ' . $patient->name;
+        return view('admin.patient.show', compact('title', 'patient', 'medical_history'));
     }
 
     /**
