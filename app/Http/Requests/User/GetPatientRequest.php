@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditAccountRequest extends FormRequest
+class GetPatientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,21 +21,15 @@ class EditAccountRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user  = auth()->id();
         return [
-            'name' => 'required',
-            'phone' => ['nullable', 'unique:users,phone,' .  $user, 'regex:/^(0|\+84)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$/'],
-            'address' => 'nullable|string',
-            'patient_code' => 'nullable|exists:patients,patient_code'
+            'patient_code' => 'required|exists:patients,patient_code'
         ];
     }
 
-    public function messages(): array
+    public function messages()
     {
         return [
-            'name.required' => 'Vui lòng nhập tên.',
-            'phone.unique' => 'Số điện thoại này đã tồn tại',
-            'phone.regex' => 'Số điện thoại không hợp lệ',
+            'patient_code.required' => 'Mã bệnh nhân không được bỏ trống',
             'patient_code.exists' => 'Mã bệnh nhân không tồn tại'
         ];
     }

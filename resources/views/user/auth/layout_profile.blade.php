@@ -10,6 +10,10 @@
                             class="list-group-item list-group-item-action {{ request()->routeIs('user.overview') ? 'active' : '' }}">
                             Tổng quan
                         </a>
+                        <a href="{{ route('user.medical-history') }}"
+                            class="list-group-item list-group-item-action {{ request()->routeIs('user.medical-history') ? 'active' : '' }}">
+                            Lịch sử khám bệnh
+                        </a>
                         <a href="{{ route('user.account-edit') }}"
                             class="list-group-item list-group-item-action {{ request()->routeIs('user.account-edit') ? 'active' : '' }}">
                             Thay đổi hồ sơ

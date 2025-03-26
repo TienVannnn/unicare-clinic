@@ -18,6 +18,8 @@
         <div class="col-md-9">
             Xin chào <span class="font-weight-bold">{{ Auth::user()->name }}</span>
             <p>Từ trang tổng quan tài khoản của mình, bạn có thể theo dõi lịch sử khám, chữa bệnh của mình</p>
+            <a href="{{ route('user.medical-history') }}" style="font-weight: bold; color: #f05a28">Xem lịch sử khám
+                bệnh</a>
         </div>
     </div>
 @endsection

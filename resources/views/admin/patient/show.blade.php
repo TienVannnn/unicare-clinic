@@ -9,7 +9,7 @@
                 <a href="{{ route('patient.index') }}">Danh sách bệnh nhân</a> / Lịch sử khám bệnh
             </div>
             <div class="fw-bold text-capitalize">
-                {{ $patient->name }} / {{ $patient->dob }}
+                {{ $patient->name }} - {{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }}
             </div>
         </div>
         <div class="card shadow-sm m-4">

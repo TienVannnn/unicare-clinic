@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\ChangePasswordRequest;
 use App\Http\Requests\User\EditAccountRequest;
 use App\Http\Requests\User\ForgotPasswordRequest;
+use App\Http\Requests\User\GetPatientRequest;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RecoverPasswordRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Jobs\ForgotPasswordJob;
+use App\Models\MedicalCertificate;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -96,7 +98,8 @@ class AuthController extends Controller
             $user->update([
                 'name' => $request->name,
                 'phone' => $request->phone,
-                'address' => $request->address
+                'address' => $request->address,
+                'patient_code' => $request->patient_code
             ]);
             Session::flash('success', 'Cập nhật hồ sơ thành công');
         } catch (\Exception $e) {
@@ -239,5 +242,48 @@ class AuthController extends Controller
             Session::flash('error', 'Có lỗi khi đăng nhập' . $e->getMessage());
             return redirect()->route('user.login');
         }
+    }
+
+    public function medical_history()
+    {
+        $title = 'Lịch sử khám bệnh';
+        $auth = auth()->user();
+        if ($auth->patient && $auth->patient_code) {
+            $medical_history = $auth->patient->medical_certificates()->paginate(10);
+        } else {
+            $medical_history = collect();
+        }
+        return view('user.auth.medical-history', compact('title', 'auth', 'medical_history'));
+    }
+
+    public function handle_get_patient(GetPatientRequest $request)
+    {
+        try {
+            $auth = auth()->user();
+            $auth->update([
+                'patient_code' => $request->patient_code
+            ]);
+            Session::flash('success', 'Lấy thông tin bệnh nhân thành công');
+        } catch (\Exception $e) {
+            Session::flash('error', 'Có lỗi khi lấy thông tin');
+        }
+        return redirect()->back();
+    }
+
+    public function medical_history_detail($id)
+    {
+        $auth = auth()->user();
+        $medical_certificate = MedicalCertificate::where('id', $id)
+            ->whereHas('patient', function ($query) use ($auth) {
+                $query->where('id', $auth->patient->id);
+            })
+            ->first();
+
+        if (!$medical_certificate) {
+            abort(403);
+        }
+
+        $title = 'Chi tiết giấy khám bệnh';
+        return view('user.auth.detail-medical-history', compact('title', 'medical_certificate'));
     }
 }

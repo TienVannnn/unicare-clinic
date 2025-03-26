@@ -56,7 +56,7 @@
                                                 Chưa cập nhật
                                             @endif
                                         </td>
-                                        <td>{{ $patient->dob }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }}</td>
                                         <td>{{ $patient->phone }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">

@@ -29,6 +29,12 @@
                 <input type="text" id="address" class="form-control" name="address"
                     value="{{ $user->address ? $user->address : old('address') }}" placeholder="Nhập địa chỉ" />
             </div>
+            <div class="form-outline mb-3 col-lg-6">
+                <label class="form-label" for="patient_code">Mã bệnh nhân</label>
+                <input type="text" id="patient_code" class="form-control" name="patient_code"
+                    value="{{ $user->patient_code ? $user->patient_code : old('patient_code') }}"
+                    placeholder="Nhập mã bệnh nhân" />
+            </div>
         </div>
         <div class="pl-3">
             <button type="submit" class="btn btn-primary mb-3">Cập nhật</button>

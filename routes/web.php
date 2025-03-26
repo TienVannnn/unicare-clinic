@@ -128,6 +128,9 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::get('/change-password', [AuthUserController::class, 'page_change_password'])->name('user.change-password');
     Route::post('/change-password', [AuthUserController::class, 'change_password'])->name('user.change-password');
     Route::get('/logout', [AuthUserController::class, 'logout'])->name('user.logout');
+    Route::get('/medical-history', [AuthUserController::class, 'medical_history'])->name('user.medical-history');
+    Route::get('/medical-history/{id}', [AuthUserController::class, 'medical_history_detail'])->name('user.medical-history-detail');
+    Route::post('/medical-history/get-patient', [AuthUserController::class, 'handle_get_patient'])->name('user.medical-history.get-patient');
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
 });
 
