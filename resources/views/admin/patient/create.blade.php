@@ -14,7 +14,8 @@
                     @csrf
                     <div class="row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Tên bệnh nhân</label>
+                            <label for="name" class="form-label">Tên bệnh nhân <span
+                                    class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                                 name="name" placeholder="Nhập tên bệnh nhân" value="{{ old('name') }}">
                             @error('name')
@@ -22,7 +23,7 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="dob" class="form-label">Ngày sinh</label>
+                            <label for="dob" class="form-label">Ngày sinh <span class="text-danger">*</span></label>
                             <input type="date" class="form-control @error('dob') is-invalid @enderror" id="dob"
                                 name="dob" placeholder="Nhập ngày sinh" value="{{ old('dob') }}">
                             @error('dob')
@@ -31,7 +32,7 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <div class="form-group">
-                                <label for="gender">Giới tính</label>
+                                <label for="gender">Giới tính <span class="text-danger">*</span></label>
                                 <div>
                                     <input type="radio" id="male" name="gender" value="1"
                                         @if (old('gender') == 1) checked @endif>
@@ -46,7 +47,8 @@
                             </div>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <label for="phone" class="form-label">Số điện thoại <span
+                                    class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone"
                                 name="phone" placeholder="Nhập số điện thoại" value="{{ old('phone') }}">
                             @error('phone')
@@ -54,7 +56,7 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="address" class="form-label">Địa chỉ</label>
+                            <label for="address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('address') is-invalid @enderror" id="address"
                                 name="address" placeholder="Nhập địa chỉ" value="{{ old('address') }}">
                             @error('address')

@@ -20,7 +20,8 @@ class Patient extends Model
     {
         parent::boot();
         static::created(function ($patient) {
-            $patient->patient_code = 'BN' . str_pad($patient->id, 4, '0', STR_PAD_LEFT);
+            $randomNumber = str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+            $patient->patient_code = 'BN' . $randomNumber;
             $patient->save();
         });
     }
