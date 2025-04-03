@@ -12,12 +12,12 @@
     </div>
 </div>
 
-<div class="item-social-network">
+{{-- <div class="item-social-network" id="item-social-network">
     <a href="#" class="linkSocial" title="Message">
         <img data-src="/user/assets/img/icon-message.png" class="glowing lazyloaded" alt="Messenger"
             src="/user/assets/img/icon-message.png">
     </a>
-</div>
+</div> --}}
 
 <!-- Footer Area -->
 <footer id="footer" class="footer">

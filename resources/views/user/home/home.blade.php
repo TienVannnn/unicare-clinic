@@ -97,11 +97,9 @@
                                     <i class="fa fa-ambulance"></i>
                                 </div>
                                 <div class="single-content">
-                                    <span>Lorem Amet</span>
-                                    <h4>Emergency Cases</h4>
+                                    <h4>Hỗ Trợ Y Tế 24/7</h4>
                                     <p>
-                                        Lorem ipsum sit amet consectetur adipiscing elit. Vivamus
-                                        et erat in lacus convallis sodales.
+                                        Luôn sẵn sàng hỗ trợ trong mọi tình huống khẩn cấp. Hãy liên hệ ngay khi bạn cần!
                                     </p>
                                     <a href="#">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
                                 </div>
@@ -115,11 +113,9 @@
                                     <i class="icofont-prescription"></i>
                                 </div>
                                 <div class="single-content">
-                                    <span>Fusce Porttitor</span>
-                                    <h4>Doctors Timetable</h4>
+                                    <h4>Dịch Vụ Y Tế</h4>
                                     <p>
-                                        Lorem ipsum sit amet consectetur adipiscing elit. Vivamus
-                                        et erat in lacus convallis sodales.
+                                        Cung cấp đa dạng dịch vụ khám chữa bệnh, xét nghiệm, và tư vấn sức khỏe toàn diện.
                                     </p>
                                     <a href="#">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
                                 </div>
@@ -133,17 +129,11 @@
                                     <i class="icofont-ui-clock"></i>
                                 </div>
                                 <div class="single-content">
-                                    <span>Donec luctus</span>
-                                    <h4>Opening Hours</h4>
-                                    <ul class="time-sidual">
-                                        <li class="day">
-                                            Monday - Fridayp <span>8.00-20.00</span>
-                                        </li>
-                                        <li class="day">Saturday <span>9.00-18.30</span></li>
-                                        <li class="day">
-                                            Monday - Thusday <span>9.00-15.00</span>
-                                        </li>
-                                    </ul>
+                                    <h4>Chăm Sóc Tận Tâm</h4>
+                                    <p>
+                                        Đội ngũ y bác sĩ giàu kinh nghiệm, tận tâm với từng bệnh nhân, cam kết mang đến dịch
+                                        vụ tốt nhất.
+                                    </p>
                                     <a href="#">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
