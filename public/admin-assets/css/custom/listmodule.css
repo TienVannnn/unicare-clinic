@@ -1,6 +1,7 @@
 .search-container {
+    width: 100%;
+    max-width: 500px;
     position: relative;
-    width: 250px;
 }
 
 .search-container form {
@@ -10,6 +11,22 @@
     border-radius: 20px;
     border: 1px solid #ddd;
     overflow: hidden;
+    padding: 3px 5px;
+}
+
+.search-container input,
+.search-container select {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+    background: transparent;
+    color: #333;
+}
+
+.search-container select {
+    cursor: pointer;
 }
 
 .search-container button {
@@ -24,17 +41,7 @@
 }
 
 .search-container .search-icon {
-    font-size: 14px;
-}
-
-.search-container input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 10px;
-    font-size: 14px;
-    background: transparent;
-    color: #333;
+    font-size: 16px;
 }
 
 .table-container {

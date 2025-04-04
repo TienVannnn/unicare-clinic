@@ -3,27 +3,67 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/custom/listmodule.css') }}">
 @endsection
 @section('content')
+    @php
+        use Carbon\Carbon;
+        $filters = [];
+        if (request()->filled('q')) {
+            $filters[] = 'Từ khóa: <strong>' . e(request('q')) . '</strong>';
+        }
+        if (request()->filled('dob')) {
+            $dobFormatted = Carbon::createFromFormat('Y-m-d', request('dob'))->format('d/m/Y');
+            $filters[] = 'Ngày sinh: <strong>' . e($dobFormatted) . '</strong>';
+        }
+        if (request()->filled('gender')) {
+            $genderText = request('gender') == '1' ? 'Nam' : 'Nữ';
+            $filters[] = 'Giới tính: <strong>' . $genderText . '</strong>';
+        }
+    @endphp
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                @if (count($filters))
+                    Tìm kiếm bệnh nhân
+                @else
+                    Danh sách bệnh nhân
+                @endif
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('patient.index') }}">Quản lý bệnh
+                    nhân</a>
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="search-container">
+                <div class="d-flex justify-content-center">
+                    <div class="search-container" title="Tìm kiếm bệnh nhân">
                         <form action="{{ route('admin.search', ['type' => 'patient']) }}" method="GET">
+                            <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
+                                title="Tìm kiếm theo từ khóa">
+                            <input type="date" name="dob" value="{{ request('dob') }}"
+                                title="Tìm kiếm theo ngày sinh">
+                            <select name="gender" title="Tìm kiếm theo giới tính">
+                                <option value="">Giới tính</option>
+                                <option value="1" {{ request('gender') == '1' ? 'selected' : '' }}>Nam</option>
+                                <option value="0" {{ request('gender') == '0' ? 'selected' : '' }}>Nữ</option>
+                            </select>
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tên bệnh nhân" name="name">
                         </form>
                     </div>
-                    @can('them-nhan-vien')
-                        <a href="{{ route('patient.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                            Thêm bệnh nhân</a>
-                    @endcan
                 </div>
+
             </div>
             <div class="card-body">
+                @can('them-nhan-vien')
+                    <div class="d-flex justify-content-end my-2">
+                        <a href="{{ route('patient.create') }}" class="btn btn-secondary">
+                            <i class="fas fa-plus me-1"></i> Thêm bệnh nhân
+                        </a>
+                    </div>
+                @endcan
                 @if ($patients->count() > 0)
-                    @if (request()->has('name') && request()->input('name') != '')
+                    @if (count($filters))
                         <p class="alert alert-info">
-                            Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
+                            Kết quả tìm kiếm: {!! implode(', ', $filters) !!}
                         </p>
                     @endif
                     <div class="table-responsive">
@@ -36,6 +76,7 @@
                                     <th scope="col">Giới tính</th>
                                     <th scope="col">Ngày sinh</th>
                                     <th scope="col">SĐT</th>
+                                    <th scope="col">Địa chỉ</th>
                                     @can(['chinh-sua-nhan-vien', 'xoa-nhan-vien'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -58,6 +99,9 @@
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }}</td>
                                         <td>{{ $patient->phone }}</td>
+                                        <td class="text-truncate" style="display: block; width: 200px">
+                                            {{ $patient->address }}
+                                        </td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-nhan-vien')

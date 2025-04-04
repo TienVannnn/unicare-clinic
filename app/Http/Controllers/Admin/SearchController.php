@@ -24,7 +24,7 @@ class SearchController extends Controller
 {
     public function search(Request $request, $type)
     {
-        $query = $request->input('name');
+        $query = $request->input('q');
         $title = '';
 
         if ($type === 'role') {
@@ -69,10 +69,27 @@ class SearchController extends Controller
             return view('admin.clinic.list', compact('clinics', 'title'));
         }
         if ($type === 'patient') {
-            $patients = Patient::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
+            $patients = Patient::query();
+            $filters = request()->only(['q', 'dob', 'gender']);
+            if (!empty($filters['q'])) {
+                $patients->where(function ($query) use ($filters) {
+                    $query->where('name', 'like', "%" . $filters['q'] . "%")
+                        ->orWhere('patient_code', 'like', "%" . $filters['q'] . "%")
+                        ->orWhere('phone', 'like', "%" . $filters['q'] . "%")
+                        ->orWhere('address', 'like', "%" . $filters['q'] . "%");
+                });
+            }
+            if (!empty($filters['dob'])) {
+                $patients->whereDate('dob', $filters['dob']);
+            }
+            if (isset($filters['gender']) && $filters['gender'] !== '') {
+                $patients->where('gender', $filters['gender']);
+            }
+            $patients = $patients->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm bệnh nhân';
             return view('admin.patient.list', compact('patients', 'title'));
         }
+
         if ($type === 'medical_service') {
             $medical_services = MedicalService::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm dịch vụ khám';

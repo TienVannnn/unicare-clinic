@@ -6,19 +6,27 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
             <div class="text-uppercase fw-bold">
-                <a href="{{ route('patient.index') }}">Danh sách bệnh nhân</a> / Lịch sử khám bệnh
+                {{ $patient->name }} - {{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }}
             </div>
             <div class="fw-bold text-capitalize">
-                {{ $patient->name }} - {{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }}
+                <a href="{{ route('patient.index') }}">Danh sách bệnh nhân</a> / Lịch sử khám bệnh
             </div>
         </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="search-container">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="search-container" title="Tìm kiếm bệnh nhân">
                         <form action="{{ route('admin.search', ['type' => 'patient']) }}" method="GET">
+                            <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
+                                title="Tìm kiếm theo từ khóa">
+                            <input type="date" name="dob" value="{{ request('dob') }}"
+                                title="Tìm kiếm theo ngày sinh">
+                            <select name="gender" title="Tìm kiếm theo giới tính">
+                                <option value="">Giới tính</option>
+                                <option value="1" {{ request('gender') == '1' ? 'selected' : '' }}>Nam</option>
+                                <option value="0" {{ request('gender') == '0' ? 'selected' : '' }}>Nữ</option>
+                            </select>
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tên bệnh nhân" name="name">
                         </form>
                     </div>
                 </div>
@@ -53,7 +61,7 @@
                         </table>
                     </div>
                 @else
-                    Bệnh nhân này chưa có hồ sơ khám nào!
+                    <p class="text-danger"> Bệnh nhân này chưa có hồ sơ khám nào!</p>
                 @endif
             </div>
         </div>
