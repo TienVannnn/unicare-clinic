@@ -60,12 +60,12 @@
                         </a>
                     </div>
                 @endcan
+                @if (count($filters))
+                    <p class="alert alert-info">
+                        Kết quả tìm kiếm: {!! implode(', ', $filters) !!}
+                    </p>
+                @endif
                 @if ($patients->count() > 0)
-                    @if (count($filters))
-                        <p class="alert alert-info">
-                            Kết quả tìm kiếm: {!! implode(', ', $filters) !!}
-                        </p>
-                    @endif
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="table-primary">

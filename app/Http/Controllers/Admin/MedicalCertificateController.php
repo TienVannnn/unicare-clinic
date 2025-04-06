@@ -208,6 +208,7 @@ class MedicalCertificateController extends Controller
                 'medical_status' => 2,
                 'discharge_date' => Carbon::now()
             ]);
+            if (!$medical_certificate->medical_time) $medical_certificate->update(['medical_time' => Carbon::now()]);
             if ($request->hasFile('result_file')) {
                 $file = $request->file('result_file');
                 $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);

@@ -85,8 +85,12 @@
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <h5>📅 Ngày khám</h5>
-                        <p>{{ \Carbon\Carbon::parse($medical_certificate->medical_time)->format('H:i d/m/Y') }}
+                        <p>
+                            {{ $medical_certificate->medical_time
+                                ? \Carbon\Carbon::parse($medical_certificate->medical_time)->format('H:i d/m/Y')
+                                : 'Chưa khám' }}
                         </p>
+
                     </div>
                     <div class="col-md-4">
                         <h5>🏥 Ngày xuất viện</h5>

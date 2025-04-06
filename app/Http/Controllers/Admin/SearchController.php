@@ -103,10 +103,44 @@ class SearchController extends Controller
         }
 
         if ($type === 'medical_certificate') {
-            $medical_certificates = MedicalCertificate::where('medical_certificate_code', 'like', "%$query%")->with('patient', 'doctor')->orderByDesc('id')->paginate(15);
+            $certificates = MedicalCertificate::query();
+
+            if (request()->filled('q')) {
+                $certificates->where(function ($q) {
+                    $q->where('medical_certificate_code', 'like', '%' . request('q') . '%')
+                        ->orWhereHas('patient', function ($query) {
+                            $query->where('name', 'like', '%' . request('q') . '%')
+                                ->orWhere('phone', 'like', '%' . request('q') . '%');
+                        })
+                        ->orWhereHas('doctor', function ($query) {
+                            $query->where('name', 'like', '%' . request('q') . '%');
+                        })
+                        ->orWhereHas('clinic', function ($query) {
+                            $query->where('name', 'like', '%' . request('q') . '%');
+                        });
+                });
+            }
+
+
+            if (request()->filled('medical_time')) {
+                $certificates->whereDate('medical_time', request('medical_time'));
+            }
+
+            if (request()->filled('medical_status')) {
+                $certificates->where('medical_status', request('medical_status'));
+            }
+
+            if (request()->filled('payment_status')) {
+                $certificates->where('payment_status', request('payment_status'));
+            }
+
+            $medical_certificates = $certificates->orderByDesc('id')->paginate(15);
+
             $title = 'Tìm kiếm giấy khám bệnh';
+
             return view('admin.medical-certificate.list', compact('medical_certificates', 'title'));
         }
+
         if ($type === 'news-category') {
             $categories = NewsCategory::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
             $title = 'Tìm kiếm danh mục tin tức';
