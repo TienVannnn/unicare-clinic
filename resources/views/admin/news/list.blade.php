@@ -3,29 +3,89 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/custom/listmodule.css') }}">
 @endsection
 @section('content')
+    @php
+        use Carbon\Carbon;
+        $filters = [];
+        if (request()->filled('q')) {
+            $filters[] = 'Từ khóa: <strong>' . e(request('q')) . '</strong>';
+        }
+        if (request()->filled('filter_mode')) {
+            $mode = request('filter_mode');
+            $label = match ($mode) {
+                'today' => 'Hôm nay',
+                'this_week' => 'Tuần này',
+                'this_month' => 'Tháng này',
+                'this_year' => 'Năm nay',
+                default => null,
+            };
+            if ($label) {
+                $filters[] = 'Chế độ lọc: <strong>' . $label . '</strong>';
+            }
+        }
+        if (request()->filled('status')) {
+            $statusText = request('status') == '1' ? 'Hoạt động' : 'Ẩn';
+            $filters[] = 'Trạng thái: <strong>' . $statusText . '</strong>';
+        }
+    @endphp
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                @if (request()->has('q') && request()->input('q') != '')
+                    Tìm kiếm tin tức
+                @else
+                    Danh sách tin tức
+                @endif
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('news.index') }}">Quản
+                    lý tin tức</a>
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="search-container">
+                <div class="d-flex justify-content-center">
+                    <div class="search-container" title="Tìm kiếm bệnh nhân">
                         <form action="{{ route('admin.search', ['type' => 'news']) }}" method="GET">
+                            <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
+                                title="Tìm kiếm theo từ khóa">
+                            <select name="status" title="Tìm kiếm theo trạng thái">
+                                <option value="">Trạng thái</option>
+                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Hoạt động</option>
+                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Ẩn</option>
+                            </select>
+                            <select name="filter_mode" title="Tìm kiếm theo ngày">
+                                <option value="">Chọn chế độ</option>
+                                <option value="today" {{ request('filter_mode') == 'today' ? 'selected' : '' }}>Hôm nay
+                                </option>
+                                <option value="this_week" {{ request('filter_mode') == 'this_week' ? 'selected' : '' }}>
+                                    Tuần này
+                                </option>
+                                <option value="this_month" {{ request('filter_mode') == 'this_month' ? 'selected' : '' }}>
+                                    Tháng này
+                                </option>
+                                <option value="this_year" {{ request('filter_mode') == 'this_year' ? 'selected' : '' }}>
+                                    Năm
+                                    này
+                                </option>
+                            </select>
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tiêu đề tin tức" name="name">
                         </form>
                     </div>
-                    @can('them-tin-tuc')
-                        <a href="{{ route('news.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                            Thêm tin tức</a>
-                    @endcan
                 </div>
             </div>
             <div class="card-body">
+                @can('them-tin-tuc')
+                    <div class="d-flex justify-content-end my-2">
+                        <a href="{{ route('news.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
+                            Thêm tin tức</a>
+                    </div>
+                @endcan
+                @if (count($filters))
+                    <p class="alert alert-info">
+                        Kết quả tìm kiếm: {!! implode(', ', $filters) !!}
+                    </p>
+                @endif
                 @if ($news->count() > 0)
-                    @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-info">
-                            Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
-                        </p>
-                    @endif
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="table-primary">

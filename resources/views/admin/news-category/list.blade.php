@@ -4,28 +4,45 @@
 @endsection
 @section('content')
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                @if (request()->has('q') && request()->input('q') != '')
+                    Tìm kiếm danh mục tin tức
+                @else
+                    Danh sách danh mục tin tức
+                @endif
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('news-category.index') }}">Quản
+                    lý danh mục tin tức</a>
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="search-container">
-                        <form action="{{ route('admin.search', ['type' => 'news-category']) }}" method="GET">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                    <div class="search-container" title="Tìm kiếm danh mục tin tức">
+                        <form action="{{ route('admin.search', ['type' => 'news_category']) }}" method="GET">
+                            <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
+                                title="Tìm kiếm danh mục tin tức">
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tên danh mục tin tức" name="name">
                         </form>
                     </div>
                     @can('them-danh-muc-tin-tuc')
-                        <a href="{{ route('news-category.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                            Thêm danh mục tin tức</a>
+                        <div class="d-flex justify-content-end my-2">
+                            <a href="{{ route('news-category.create') }}" class="btn btn-secondary"><i
+                                    class="fas fa-plus me-1"></i>
+                                Thêm danh mục tin tức</a>
+                        </div>
                     @endcan
                 </div>
             </div>
             <div class="card-body">
+                @if (request()->has('q') && request()->input('q') != '')
+                    <p class="alert alert-info">
+                        Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('q') }}</strong>
+                    </p>
+                @endif
                 @if ($categories->count() > 0)
-                    @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-info">
-                            Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
-                        </p>
-                    @endif
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="table-primary">

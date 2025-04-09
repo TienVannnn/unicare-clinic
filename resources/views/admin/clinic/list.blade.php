@@ -4,28 +4,44 @@
 @endsection
 @section('content')
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                @if (request()->has('q') && request()->input('q') != '')
+                    Tìm kiếm phòng khám
+                @else
+                    Danh sách phòng khám
+                @endif
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('clinic.index') }}">Quản
+                    lý phòng khám</a>
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="search-container">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                    <div class="search-container" title="Tìm kiếm phòng khám">
                         <form action="{{ route('admin.search', ['type' => 'clinic']) }}" method="GET">
+                            <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
+                                title="Tìm kiếm phòng khám">
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập tên phòng khám" name="name">
                         </form>
                     </div>
-                    @can('them-quyen')
-                        <a href="{{ route('clinic.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                            Thêm phòng khám</a>
+                    @can('them-phong-kham')
+                        <div class="d-flex justify-content-end my-2">
+                            <a href="{{ route('clinic.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
+                                Thêm phòng khám</a>
+                        </div>
                     @endcan
                 </div>
             </div>
             <div class="card-body">
+                @if (request()->has('q') && request()->input('q') != '')
+                    <p class="alert alert-info">
+                        Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('q') }}</strong>
+                    </p>
+                @endif
                 @if ($clinics->count() > 0)
-                    @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-info">
-                            Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
-                        </p>
-                    @endif
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="table-primary">

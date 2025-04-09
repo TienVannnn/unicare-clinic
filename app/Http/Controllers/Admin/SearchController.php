@@ -26,157 +26,297 @@ class SearchController extends Controller
     {
         $query = $request->input('q');
         $title = '';
+        $perPage = 15;
 
-        if ($type === 'role') {
-            $roles = Role::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm vai trò';
-            return view('admin.role.list', compact('roles', 'title'));
+        switch ($type) {
+            case 'role':
+                return $this->searchRoles($query, $title, $perPage);
+            case 'permission':
+                return $this->searchPermissions($query, $title, $perPage);
+            case 'manager':
+                return $this->searchManagers($query, $title, $perPage);
+            case 'category':
+                return $this->searchCategories($query, $title, $perPage);
+            case 'medicine':
+                return $this->searchMedicines($query, $title, $perPage);
+            case 'department':
+                return $this->searchDepartments($query, $title, $perPage);
+            case 'clinic':
+                return $this->searchClinics($query, $title, $perPage);
+            case 'patient':
+                return $this->searchPatients($query, $title, $perPage);
+            case 'medical_service':
+                return $this->searchMedicalServices($query, $title, $perPage);
+            case 'prescription':
+                return $this->searchPrescriptions($query, $title, $perPage);
+            case 'medical_certificate':
+                return $this->searchMedicalCertificates($query, $title, $perPage);
+            case 'news_category':
+                return $this->searchNewsCategory($query, $title, $perPage);
+            case 'news':
+                return $this->searchNews($query, $title, $perPage);
+            case 'contact':
+                return $this->searchContacts($query, $title, $perPage);
+            case 'appointment':
+                return $this->searchAppointments($query, $title, $perPage);
+            default:
+                return abort(404);
         }
-
-        if ($type === 'permission') {
-            $permissions = Permission::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm quyền';
-            return view('admin.permission.list', compact('permissions', 'title'));
-        }
-
-        if ($type === 'manager') {
-            $managers = Admin::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm nhân viên';
-            return view('admin.manager.list', compact('managers', 'title'));
-        }
-
-        if ($type === 'category') {
-            $categories = MedicineCategory::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm loại thuốc';
-            return view('admin.medicine-category.list', compact('categories', 'title'));
-        }
-
-        if ($type === 'medicine') {
-            $medicines = Medicine::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm thuốc';
-            return view('admin.medicine.list', compact('medicines', 'title'));
-        }
-
-        if ($type === 'department') {
-            $departments = Department::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm chuyên khoa';
-            return view('admin.department.list', compact('departments', 'title'));
-        }
-
-        if ($type === 'clinic') {
-            $clinics = Clinic::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm phòng khám';
-            return view('admin.clinic.list', compact('clinics', 'title'));
-        }
-        if ($type === 'patient') {
-            $patients = Patient::query();
-            $filters = request()->only(['q', 'dob', 'gender']);
-            if (!empty($filters['q'])) {
-                $patients->where(function ($query) use ($filters) {
-                    $query->where('name', 'like', "%" . $filters['q'] . "%")
-                        ->orWhere('patient_code', 'like', "%" . $filters['q'] . "%")
-                        ->orWhere('phone', 'like', "%" . $filters['q'] . "%")
-                        ->orWhere('address', 'like', "%" . $filters['q'] . "%");
-                });
-            }
-            if (!empty($filters['dob'])) {
-                $patients->whereDate('dob', $filters['dob']);
-            }
-            if (isset($filters['gender']) && $filters['gender'] !== '') {
-                $patients->where('gender', $filters['gender']);
-            }
-            $patients = $patients->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm bệnh nhân';
-            return view('admin.patient.list', compact('patients', 'title'));
-        }
-
-        if ($type === 'medical_service') {
-            $medical_services = MedicalService::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm dịch vụ khám';
-            return view('admin.medical_service.list', compact('medical_services', 'title'));
-        }
-
-        if ($type === 'prescription') {
-            $prescriptions = Prescription::where('prescription_code', 'like', "%$query%")->with('medical_certificate', 'doctor')->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm đơn thuốc';
-            return view('admin.prescription.list', compact('prescriptions', 'title'));
-        }
-
-        if ($type === 'medical_certificate') {
-            $certificates = MedicalCertificate::query();
-
-            if (request()->filled('q')) {
-                $certificates->where(function ($q) {
-                    $q->where('medical_certificate_code', 'like', '%' . request('q') . '%')
-                        ->orWhereHas('patient', function ($query) {
-                            $query->where('name', 'like', '%' . request('q') . '%')
-                                ->orWhere('phone', 'like', '%' . request('q') . '%');
-                        })
-                        ->orWhereHas('doctor', function ($query) {
-                            $query->where('name', 'like', '%' . request('q') . '%');
-                        })
-                        ->orWhereHas('clinic', function ($query) {
-                            $query->where('name', 'like', '%' . request('q') . '%');
-                        });
-                });
-            }
-
-
-            if (request()->filled('medical_time')) {
-                $certificates->whereDate('medical_time', request('medical_time'));
-            }
-
-            if (request()->filled('medical_status')) {
-                $certificates->where('medical_status', request('medical_status'));
-            }
-
-            if (request()->filled('payment_status')) {
-                $certificates->where('payment_status', request('payment_status'));
-            }
-
-            $medical_certificates = $certificates->orderByDesc('id')->paginate(15);
-
-            $title = 'Tìm kiếm giấy khám bệnh';
-
-            return view('admin.medical-certificate.list', compact('medical_certificates', 'title'));
-        }
-
-        if ($type === 'news-category') {
-            $categories = NewsCategory::where('name', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm danh mục tin tức';
-            return view('admin.news-category.list', compact('categories', 'title'));
-        }
-        if ($type === 'news') {
-            $news = News::where('title', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm tin tức';
-            return view('admin.news.list', compact('news', 'title'));
-        }
-
-        if ($type === 'contact') {
-            $contacts = Contact::where('title', 'like', "%$query%")->orderByDesc('id')->paginate(15);
-            $title = 'Tìm kiếm tin nhắn liên hệ';
-            return view('admin.contact.list', compact('contacts', 'title'));
-        }
-
-        if ($type === 'appointment') {
-            $appointments = Appointment::where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where('name', 'like', "%$query%")
-                    ->orWhere('email', 'like', "%$query%")
-                    ->orWhere('phone', 'like', "%$query%");
-            })
-                ->orWhereHas('department', function ($q) use ($query) {
-                    $q->where('name', 'like', "%$query%");
-                })
-                ->orWhereHas('doctor', function ($q) use ($query) {
-                    $q->where('name', 'like', "%$query%");
-                })
-                ->orderByDesc('id')
-                ->paginate(15);
-            $title = 'Tìm kiếm lịch hẹn khám';
-            return view('admin.appointment.list', compact('appointments', 'title'));
-        }
-
-
         return abort(404);
+    }
+
+    private function searchRoles($query, &$title, $perPage)
+    {
+        $roles = Role::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+
+        $title = 'Tìm kiếm vai trò';
+        return view('admin.role.list', compact('roles', 'title'));
+    }
+
+    private function searchPermissions($query, &$title, $perPage)
+    {
+        $permissions = Permission::when($query, function ($q) use ($query) {
+            $q->where('name_permission', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+
+        $title = 'Tìm kiếm quyền';
+        return view('admin.permission.list', compact('permissions', 'title'));
+    }
+
+    private function searchManagers($query, &$title, $perPage)
+    {
+        $managers = Admin::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->orWhere('phone', 'like', '%' . $query . '%')
+                ->orWhereHas('roless', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                })
+                ->orWhereHas('clinic', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                });
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm nhân viên';
+        return view('admin.manager.list', compact('managers', 'title'));
+    }
+
+    private function searchCategories($query, &$title, $perPage)
+    {
+        $categories = MedicineCategory::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm loại thuốc';
+        return view('admin.medicine-category.list', compact('categories', 'title'));
+    }
+
+    private function searchMedicines($query, &$title, $perPage)
+    {
+        $medicines = Medicine::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%')
+                ->orWhereHas('medicineCategories', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                });
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm thuốc';
+        return view('admin.medicine.list', compact('medicines', 'title'));
+    }
+
+    private function searchDepartments($query, &$title, $perPage)
+    {
+        $departments = Department::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm chuyên khoa';
+        return view('admin.department.list', compact('departments', 'title'));
+    }
+
+    private function searchClinics($query, &$title, $perPage)
+    {
+        $clinics = Clinic::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('clinic_code', 'like', '%' . $query . '%')
+                ->orWhereHas('doctors', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                })
+                ->orWhereHas('department', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                });
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm phòng khám';
+        return view('admin.clinic.list', compact('clinics', 'title'));
+    }
+
+    private function searchPatients($query, &$title, $perPage)
+    {
+        $patients = Patient::query();
+        if (request()->filled('q')) {
+            $patients->where(function ($q) use ($query) {
+                $q->where('patient_code', 'like', '%' . $query . '%')
+                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhere('phone', 'like', '%' . $query . '%')
+                    ->orWhere('address', 'like', '%' . $query . '%');
+            });
+        }
+        if (request()->filled('dob')) {
+            $patients->whereDate('dob', request('dob'));
+        }
+        if (request()->filled('gender')) {
+            $patients->where('gender', request('gender'));
+        }
+        $patients = $patients->orderByDesc('id')->paginate(15)->appends(request()->query());;
+        $title = 'Tìm kiếm bệnh nhân';
+        return view('admin.patient.list', compact('patients', 'title'));
+    }
+
+    private function searchMedicalCertificates($query, &$title, $perPage)
+    {
+        $certificates = MedicalCertificate::query();
+        if (request()->filled('q')) {
+            $certificates->where(function ($q) use ($query) {
+                $q->where('medical_certificate_code', 'like', '%' . $query . '%')
+                    ->orWhereHas('patient', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%')
+                            ->orWhere('phone', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('doctor', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('clinic', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    });
+            });
+        }
+        if (request()->filled('medical_time')) {
+            $certificates->whereDate('medical_time', request('medical_time'));
+        }
+        if (request()->filled('medical_status')) {
+            $certificates->where('medical_status', request('medical_status'));
+        }
+        if (request()->filled('payment_status')) {
+            $certificates->where('payment_status', request('payment_status'));
+        }
+        $medical_certificates = $certificates->orderByDesc('id')->paginate(15)->appends(request()->query());
+        $title = 'Tìm kiếm giấy khám bệnh';
+        return view('admin.medical-certificate.list', compact('medical_certificates', 'title'));
+    }
+
+    private function searchMedicalServices($query, &$title, $perPage)
+    {
+        $medical_services = MedicalService::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('medical_service_code', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%')
+                ->orWhereHas('clinics', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                });
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm dịch vụ khám';
+        return view('admin.medical_service.list', compact('medical_services', 'title'));
+    }
+
+    private function searchPrescriptions($query, &$title, $perPage)
+    {
+        $prescriptions = Prescription::query();
+        if (request()->filled('q')) {
+            $prescriptions->where(function ($q) use ($query) {
+                $q->where('prescription_code', 'like', '%' . $query . '%')
+                    ->orWhereHas('doctor', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('medical_certificate', function ($q) use ($query) {
+                        $q->where('medical_certificate_code', 'like', '%' . $query . '%')
+                            ->orWhereHas('patient', function ($subQuery) use ($query) {
+                                $subQuery->where('name', 'like', '%' . $query . '%');
+                            });
+                    });
+            });
+        }
+        if (request()->filled('status')) {
+            $prescriptions->where('status', request('status'));
+        }
+        $prescriptions = $prescriptions->orderByDesc('id')->paginate(15)->appends(request()->query());
+        $title = 'Tìm kiếm đơn thuốc';
+        return view('admin.prescription.list', compact('prescriptions', 'title'));
+    }
+
+    private function searchNewsCategory($query, &$title, $perPage)
+    {
+        $categories = NewsCategory::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+
+        $title = 'Tìm kiếm danh mục tin tức';
+        return view('admin.news-category.list', compact('categories', 'title'));
+    }
+
+    private function searchNews($query, &$title, $perPage)
+    {
+        $news = News::query();
+        if (request()->filled('q')) {
+            $news->where(function ($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                    ->orWhereHas('poster', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('newsCategories', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    });
+            });
+        }
+        if (request()->filled('status')) {
+            $news->where('status', request('status'));
+        }
+        if (request()->filled('filter_mode')) {
+            switch (request('filter_mode')) {
+                case 'today':
+                    $news->whereDate('created_at', today());
+                    break;
+                case 'this_week':
+                    $news->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'this_month':
+                    $news->whereMonth('created_at', now()->month)
+                        ->whereYear('created_at', now()->year);
+                    break;
+                case 'this_year':
+                    $news->whereYear('created_at', now()->year);
+                    break;
+            }
+        }
+        $news = $news->orderByDesc('id')->paginate(15)->appends(request()->query());
+        $title = 'Tìm kiếm tin tức';
+        return view('admin.news.list', compact('news', 'title'));
+    }
+
+    private function searchContacts($query, &$title, $perPage)
+    {
+        $contacts = Contact::when($query, function ($q) use ($query) {
+            $q->where('title', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+
+        $title = 'Tìm kiếm tin nhắn liên hệ';
+        return view('admin.contact.list', compact('contacts', 'title'));
+    }
+
+    private function searchAppointments($query, &$title, $perPage)
+    {
+        $appointments = Appointment::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->orWhere('phone', 'like', '%' . $query . '%')
+                ->orWhereHas('doctor', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                })
+                ->orWhereHas('department', function ($q) use ($query) {
+                    $q->where('name', 'like', '%' . $query . '%');
+                });
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm lịch hẹn khám';
+        return view('admin.appointment.list', compact('appointments', 'title'));
     }
 }

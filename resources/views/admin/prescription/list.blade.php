@@ -3,29 +3,63 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/custom/listmodule.css') }}">
 @endsection
 @section('content')
+    @php
+        $filters = [];
+        if (request()->filled('q')) {
+            $filters[] = 'Từ khóa: <strong>' . e(request('q')) . '</strong>';
+        }
+        if (request()->filled('status')) {
+            $statuses = ['0' => 'Chưa thanh toán', '1' => 'Đã thanh toán'];
+            $filters[] = 'Trạng thái: <strong>' . ($statuses[request('status')] ?? 'Không rõ') . '</strong>';
+        }
+    @endphp
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center m-4">
+            <div class="text-uppercase fw-bold">
+                @if (count($filters))
+                    Tìm kiếm đơn thuốc
+                @else
+                    Danh sách đơn thuốc
+                @endif
+            </div>
+            <div class="fw-bold text-capitalize">
+                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('prescription.index') }}">Quản
+                    lý đơn thuốc</a>
+            </div>
+        </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="search-container">
+                <div class="d-flex justify-content-between align-items-center flex-column flex-md-row">
+                    <div class="search-container" title="Tìm kiếm đơn thuốc">
                         <form action="{{ route('admin.search', ['type' => 'prescription']) }}" method="GET">
+                            <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
+                                title="Tìm kiếm theo từ khóa">
+                            <select name="status" title="Tìm kiếm theo trạng thái">
+                                <option value="">Trạng thái</option>
+                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Chưa thanh toán
+                                </option>
+                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đã thanh toán
+                                </option>
+                            </select>
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                            <input type="text" placeholder="Nhập mã đơn thuốc" name="name">
                         </form>
                     </div>
                     @can('them-don-thuoc')
-                        <a href="{{ route('prescription.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                            Thêm đơn thuốc</a>
+                        <div class="d-flex justify-content-end my-2">
+                            <a href="{{ route('prescription.create') }}" class="btn btn-secondary"><i
+                                    class="fas fa-plus me-1"></i>
+                                Thêm đơn thuốc</a>
+                        </div>
                     @endcan
                 </div>
             </div>
             <div class="card-body">
+                @if (count($filters))
+                    <p class="alert alert-info">
+                        Kết quả tìm kiếm: {!! implode(', ', $filters) !!}
+                    </p>
+                @endif
                 @if ($prescriptions->count() > 0)
-                    @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-info">
-                            Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('name') }}</strong>
-                        </p>
-                    @endif
                     <div class="table-responsive">
                         <table class="table text-center">
                             <thead class="table-primary">
