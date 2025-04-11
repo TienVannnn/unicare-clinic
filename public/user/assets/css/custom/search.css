@@ -4,7 +4,6 @@
     align-items: center;
 }
 
-/* Icon nút */
 .search-btn {
     background: transparent;
     border: none;
@@ -12,7 +11,6 @@
     cursor: pointer;
 }
 
-/* Ô input tìm kiếm ẩn lúc đầu */
 .search-box {
     display: flex;
     align-items: center;
@@ -47,21 +45,20 @@
     cursor: pointer;
 }
 
-/* Khi mở */
 .search-wrapper.active .search-box {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    z-index: 1000;
 }
 
-/* Responsive: mobile dưới input */
 @media (max-width: 768px) {
     .search-box {
         position: fixed;
-        top: 60px;
-        left: 10px;
+        top: 67px;
         right: 10px;
-        width: auto;
+        left: auto;
+        width: 270px;
     }
 
     .search-box input {
