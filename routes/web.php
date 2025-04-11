@@ -133,7 +133,7 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::post('/medical-history/get-patient', [AuthUserController::class, 'handle_get_patient'])->name('user.medical-history.get-patient');
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
 });
-
+Route::get('/search', [HomeController::class, 'search'])->name('user.search');
 Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');
 Route::get('/contact', [HomeController::class, 'contact_form'])->name('user.contact');
 Route::post('/contact', [HomeController::class, 'contact'])->name('user.contact');

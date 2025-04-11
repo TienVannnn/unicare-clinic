@@ -12,6 +12,7 @@
 <script src="/user/assets/js/bootstrap.min.js"></script>
 <script src="/user/assets/js/main.js"></script>
 <script src="/admin-assets/js/toastr.min.js"></script>
+<script src="/user/assets/js/custom/search.js"></script>
 
 {!! Toastr::message() !!}
 <script>

@@ -17,9 +17,19 @@
                 <div class="col-lg-6 col-md-5 col-12">
                     <!-- Top Contact -->
                     <ul class="top-link">
-                        <li class="">
-                            <input type="search" class="form-control d-none" />
-                            <a href="" class="input-search"><i class="fa fa-search"></i></a>
+                        <li class="search-wrapper">
+                            <button id="toggle-search" class="search-btn">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <form action="{{ route('user.search') }}" method="GET">
+                                <div id="search-box" class="search-box">
+                                    <input type="text" placeholder="Tìm kiếm..." name="q"
+                                        value="{{ request('q') }}" required />
+                                    <button class="search-submit" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
                         </li>
                         <li>
                             <i class="fa fa-envelope mr-1"></i><a href="mailto:support@yourmail.com">Vi</a>

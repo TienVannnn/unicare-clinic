@@ -84,4 +84,15 @@ class HomeController extends Controller
 
         return response()->json($doctors);
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $news = News::when($query, function ($q) use ($query) {
+            $q->where('title', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate(12)->appends(request()->query());
+
+        $title = 'Tìm kiếm bài viết';
+        return view('user.news.search', compact('news', 'title'));
+    }
 }
