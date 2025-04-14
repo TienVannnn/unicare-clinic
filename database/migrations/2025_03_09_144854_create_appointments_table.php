@@ -20,10 +20,12 @@ return new class extends Migration
             $table->tinyInteger('gender');
             $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
             $table->foreignId('doctor_id')->nullable()->constrained('admins')->onDelete('set null');
-            $table->timestamp('time');
+            $table->date('appointment_date');
+            $table->time('start_time');
             $table->text('note');
             $table->boolean('is_viewed');
             $table->tinyInteger('status');
+            $table->string('cancel_token')->nullable()->unique();
             $table->timestamps();
         });
     }

@@ -66,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     departmentSelect.addEventListener("change", function () {
         const departmentId = this.value;
+        const slotSelect = document.getElementById("slot_select");
+        slotSelect.innerHTML = '<option value="">-- Chọn giờ khám --</option>';
         if (departmentId) {
             fetch(`/get-doctors/${departmentId}`)
                 .then((response) => response.json())
@@ -85,3 +87,44 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+document.getElementById("doctor_id").addEventListener("change", fetchSlots);
+document
+    .getElementById("appointment_date")
+    .addEventListener("change", fetchSlots);
+
+function fetchSlots() {
+    const doctorId = document.getElementById("doctor_id").value;
+    const date = document.getElementById("appointment_date").value;
+    const select = document.getElementById("slot_select");
+
+    if (!doctorId || !date) return;
+
+    const url = route("appointments.slots", {
+        doctor_id: doctorId,
+        date: date,
+    });
+
+    fetch(url)
+        .then((res) => res.json())
+        .then((slots) => {
+            if (slots.length === 0) {
+                const opt = document.createElement("option");
+                opt.text = "Không có khung giờ trống";
+                opt.disabled = true;
+                select.appendChild(opt);
+                return;
+            }
+            const defaultOption = document.createElement("option");
+            defaultOption.text = "-- Chọn giờ khám --";
+            defaultOption.value = "";
+            select.appendChild(defaultOption);
+
+            slots.forEach((slot) => {
+                const opt = document.createElement("option");
+                opt.value = slot.start;
+                opt.text = `${slot.start} - ${slot.end}`;
+                select.appendChild(opt);
+            });
+        });
+}

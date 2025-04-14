@@ -29,7 +29,8 @@ class BookAppointmentRequest extends FormRequest
             'gender' => 'in:1,2',
             'department_id' => 'required|exists:departments,id',
             'doctor_id' => 'required|exists:admins,id',
-            'time' => 'required|after_or_equal:today',
+            'appointment_date' => 'required|after:today',
+            'start_time' => 'required',
             'note' => 'required'
         ];
     }
@@ -48,8 +49,9 @@ class BookAppointmentRequest extends FormRequest
             'department_id.exists' => 'Phòng ban không tồn tại.',
             'doctor_id.required' => 'Vui lòng chọn bác sĩ.',
             'doctor_id.exists' => 'Bác sĩ không tồn tại.',
-            'time.required' => 'Vui lòng chọn thời gian.',
-            'time.after_or_equal' => 'Thời gian phải từ hôm nay trở đi.',
+            'appointment_date.required' => 'Vui lòng chọn ngày khám.',
+            'appointment_date.after' => 'Ngày khám phải từ ngày mai.',
+            'start_time.required' => 'Vui lòng chọn giờ khám.',
             'note.required' => 'Vui lòng nhập ghi chú.',
         ];
     }

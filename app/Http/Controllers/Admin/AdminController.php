@@ -55,7 +55,13 @@ class AdminController extends Controller
                 'password' => Hash::make($rand),
                 'clinic_id' => $request->clinic
             ]);
-
+            $admin->schedule()->create([
+                'morning_start' => '08:00',
+                'morning_end' => '11:30',
+                'afternoon_start' => '13:30',
+                'afternoon_end' => '17:00',
+                'slot_duration' => 15
+            ]);
             if ($request->has('role')) {
                 $admin->assignRole($request->role);
             }

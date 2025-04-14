@@ -37,7 +37,8 @@
 
                                     <div class="info-block">
                                         <div class="section-title">THÔNG TIN LỊCH HẸN KHÁM</div>
-                                        <p><strong>NGÀY ĐẶT HẸN:</strong> {{ $appointment->created_at->format('H:i d/m/y') }}</p>
+                                        <p><strong>NGÀY ĐẶT HẸN:</strong> {{ $appointment->start_time }} -
+                                            {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d/m/Y') }}</p>
                                         <p><strong>BÁC SĨ:</strong> Bs. {{ $appointment->doctor->name }}</p>
                                         <p><strong>CHUYÊN KHOA:</strong> {{ $appointment->department->name }}</p>
                                     </div>
@@ -50,6 +51,7 @@
                                         <p><strong>Điện thoại:</strong> {{ $appointment->phone }}</p>
                                         <p><strong>Email:</strong> <a href="mailto:{{ $appointment->email }}">{{ $appointment->email }}</a></p>
                                         <p><strong>Lời nhắn:</strong>{{ $appointment->note }}</p>
+                                        <p class="text-center text-danger">Vui lòng đến đúng giờ để được hướng dẫn khám, chữa bệnh.</p>
                                     </div>
                             </textarea>
                             </td>

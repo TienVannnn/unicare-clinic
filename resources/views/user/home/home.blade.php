@@ -211,7 +211,7 @@
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="doctor" class="form-label">Bác sĩ</label>
-                                    <select name="doctor_id" class="form-custom">
+                                    <select name="doctor_id" class="form-custom" id="doctor_id">
                                         <option value="" selected>Chọn bác sĩ</option>
                                         @if ($doctors)
                                             @foreach ($doctors as $doctor)
@@ -224,8 +224,16 @@
 
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="time" class="form-label">Thời gian khám</label>
-                                    <input type="datetime-local" name="time" id="time">
+                                    <label for="appointment_date" class="form-label">Ngày khám</label>
+                                    <input type="date" name="appointment_date" id="appointment_date">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="slot_list" class="form-label">Khung giờ khám</label>
+                                    <select id="slot_select" name="start_time" class="form-custom">
+                                        <option value="">-- Chọn giờ khám --</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12 col-12">

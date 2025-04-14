@@ -7,13 +7,17 @@ use App\Events\ContactEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\BookAppointmentRequest;
 use App\Http\Requests\User\ContactRequest;
+use App\Jobs\AppointmentJob;
 use App\Models\Admin;
 use App\Models\Appointment;
 use App\Models\Contact;
 use App\Models\Department;
+use App\Models\WorkSchedule;
 use App\Models\News;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -52,6 +56,51 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
+
+    public function getAvailableSlots(Request $request)
+    {
+        $doctor_id = $request->query('doctor_id');
+        $date = $request->query('date');
+        $schedule = WorkSchedule::where('staff_id', $doctor_id)->first();
+        if (!$schedule) return response()->json([]);
+
+        $weekday = Carbon::parse($date)->dayOfWeek;
+        if ($weekday < 1 || $weekday > 5) return response()->json([]);
+
+        $duration = $schedule->slot_duration;
+
+        $slots = array_merge(
+            $this->generateSlots($schedule->morning_start, $schedule->morning_end, $duration),
+            $this->generateSlots($schedule->afternoon_start, $schedule->afternoon_end, $duration)
+        );
+
+        $booked = Appointment::where('doctor_id', $doctor_id)
+            ->where('appointment_date', $date)
+            ->pluck('start_time')
+            ->map(fn($t) => Carbon::parse($t)->format('H:i'))
+            ->toArray();
+
+        $available = array_filter($slots, fn($slot) => !in_array($slot['start'], $booked));
+        return response()->json(array_values($available));
+    }
+
+    private function generateSlots($start, $end, $duration)
+    {
+        $slots = [];
+        $current = Carbon::parse($start);
+        $end = Carbon::parse($end);
+
+        while ($current->lt($end)) {
+            $slots[] = [
+                'start' => $current->format('H:i'),
+                'end' => $current->copy()->addMinutes($duration)->format('H:i'),
+            ];
+            $current->addMinutes($duration);
+        }
+
+        return $slots;
+    }
+
     public function book_appointment(BookAppointmentRequest $request)
     {
         try {
@@ -63,13 +112,16 @@ class HomeController extends Controller
                 'gender' => $request->gender,
                 'department_id' => $request->department_id,
                 'doctor_id' => $request->doctor_id,
-                'time' => $request->time,
+                'appointment_date' => $request->appointment_date,
+                'start_time' => $request->start_time,
                 'note' => $request->note,
                 'is_viewed' => false,
-                'status' => 0
+                'status' => 0,
+                'cancel_token' => Str::uuid(),
             ]);
             $count = Appointment::where('is_viewed', false)->count();
             event(new AppointmentEvent($data['name'], $data['id'], $count));
+            AppointmentJob::dispatch($data->email, $data->cancel_token)->delay(now()->addSecond(10));
             return response()->json(['success' => true, 'message' => 'Đặt lịch khám thành công']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Có lỗi khi đặt lịch khám!']);
@@ -78,12 +130,23 @@ class HomeController extends Controller
 
     public function getDoctors($department_id)
     {
-        $doctors = Admin::whereHas('clinic', function ($query) use ($department_id) {
+        $doctors = Admin::role('Bác sĩ')->whereHas('clinic', function ($query) use ($department_id) {
             $query->where('department_id', $department_id);
         })->get();
 
         return response()->json($doctors);
     }
+
+    public function cancel($token)
+    {
+        $appointment = Appointment::where('cancel_token', $token)->first();
+        if (!$appointment) {
+            return redirect()->route('home')->with('error', 'Lịch hẹn không tồn tại hoặc đã bị hủy.');
+        }
+        $appointment->delete();
+        return redirect()->route('home')->with('success', 'Lịch hẹn đã được hủy thành công.');
+    }
+
 
     public function search(Request $request)
     {

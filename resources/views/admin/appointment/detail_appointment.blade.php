@@ -22,7 +22,14 @@
                         <td>{{ $appointment->name }} <i class="fas fa-angle-left"></i>{{ $appointment->email }}<i
                                 class="fas fa-angle-right"></i> <br> Điện thoại:
                             {{ $appointment->phone }} <br>
-                            Thời gian: {{ $appointment->created_at->format('H:i d/m/Y') }}
+                            Thời gian gửi yêu cầu: {{ $appointment->created_at->format('H:i d/m/Y') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; white-space: nowrap; font-weight: 600;text-transform: capitalize;">Thời gian
+                            khám</td>
+                        <td>{{ $appointment->start_time }} -
+                            {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d/m/Y') }}
                         </td>
                     </tr>
                     <tr>

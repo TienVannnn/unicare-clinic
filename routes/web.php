@@ -137,6 +137,9 @@ Route::get('/search', [HomeController::class, 'search'])->name('user.search');
 Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');
 Route::get('/contact', [HomeController::class, 'contact_form'])->name('user.contact');
 Route::post('/contact', [HomeController::class, 'contact'])->name('user.contact');
+Route::get('/appointments/available-slots', [HomeController::class, 'getAvailableSlots'])->name('appointments.slots');
+Route::get('/cancel-appointment/{token}', [HomeController::class, 'cancel'])->name('user.appointment.cancel');
+
 Route::post('/book-appointment', [HomeController::class, 'book_appointment'])->name('user.book-appointment');
 Route::get('/get-doctors/{department_id}', [HomeController::class, 'getDoctors'])->name('user.get.doctors');
 

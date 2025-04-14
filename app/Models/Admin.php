@@ -33,4 +33,9 @@ class Admin extends Authenticatable
     {
         return $this->belongsTo(Clinic::class);
     }
+
+    public function schedule()
+    {
+        return $this->hasOne(WorkSchedule::class, 'staff_id');
+    }
 }

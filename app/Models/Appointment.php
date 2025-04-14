@@ -17,10 +17,12 @@ class Appointment extends Model
         'gender',
         'department_id',
         'doctor_id',
-        'time',
+        'appointment_date',
+        'start_time',
         'note',
         'is_viewed',
-        'status'
+        'status',
+        'cancel_token'
     ];
 
     public function department()
