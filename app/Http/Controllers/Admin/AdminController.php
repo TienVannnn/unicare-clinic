@@ -90,10 +90,7 @@ class AdminController extends Controller
     public function edit(string $id)
     {
         $this->authorize('chinh-sua-nhan-vien');
-        $manager = Admin::find($id);
-        if (!$manager) {
-            abort('404');
-        }
+        $manager = Admin::with('schedule')->findOrFail($id);
         $title = 'Chỉnh sửa người quản lý';
         $rolesChecked = $manager->roless->pluck('id')->toArray();
         $roles = Role::orderByDesc('id')->get();
@@ -107,10 +104,7 @@ class AdminController extends Controller
     public function update(ManagerRequest $request, string $id)
     {
         $this->authorize('chinh-sua-nhan-vien');
-        $manager = Admin::find($id);
-        if (!$manager) {
-            abort('404');
-        }
+        $manager = Admin::findOrFail($id);
         try {
             DB::beginTransaction();
             $manager->fill([
@@ -126,6 +120,10 @@ class AdminController extends Controller
             }
             $manager->save();
             $manager->syncRoles($request->role ?? []);
+            $manager->schedule()->updateOrCreate(
+                ['staff_id' => $manager->id],
+                $request->only(['morning_start', 'morning_end', 'afternoon_start', 'afternoon_end', 'slot_duration'])
+            );
             DB::commit();
             Session::flash('success', 'Cập nhật nhân viên thành công');
             return redirect()->route('manager.index');

@@ -101,7 +101,8 @@
             <p>Bạn đã đăng ký thành công lịch hẹn khám tại Unicare Nha Trang.</p>
             <p>Chúng tôi sẽ liên hệ sớm nhất với bạn để hoàn thành lịch hẹn khám.</p>
             <p>Nếu có vấn đề gì muốn hủy lịch hẹn. Vui lòng nhấn vào link này:
-                <a href="{{ route('user.appointment.cancel', ['token' => $token]) }}">
+                <a href="https://unicaremedic.ntu264.vpsttt.vn/cancel-appointment/{{ $token }}"
+                    onclick="return confirm('Bạn có chắc chắn muốn hủy lịch hẹn này không?')">
                     Hủy lịch hẹn
                 </a>
             </p>

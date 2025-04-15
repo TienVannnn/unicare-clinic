@@ -101,12 +101,41 @@
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Địa chỉ</label>
-                            <input type="text" value="{{ $manager->address }}" placeholder="Nhập số điện thoại"
+                            <input type="text" value="{{ $manager->address }}"
                                 class="form-control @error('address') is-invalid @enderror" id="address" name="address"
                                 placeholder="Nhập địa chỉ">
                             @error('address')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <hr>
+                        <h5 class="text-primary">Lịch làm việc (Thứ 2 đến Thứ 6)</h5>
+                        <div class="row">
+                            <div class="mb-3 col-md-3 col-sm-6">
+                                <label for="morning_start" class="form-label">Bắt đầu sáng</label>
+                                <input type="time" id="morning_start" name="morning_start" class="form-control"
+                                    value="{{ $manager->schedule->morning_start ?? '' }}">
+                            </div>
+                            <div class="mb-3 col-md-3 col-sm-6">
+                                <label for="morning_end" class="form-label">Kết thúc sáng</label>
+                                <input type="time" id="morning_end" name="morning_end" class="form-control"
+                                    value="{{ $manager->schedule->morning_end ?? '' }}">
+                            </div>
+                            <div class="mb-3 col-md-3 col-sm-6">
+                                <label for="afternoon_start" class="form-label">Bắt đầu chiều</label>
+                                <input type="time" id="afternoon_start" name="afternoon_start" class="form-control"
+                                    value="{{ $manager->schedule->afternoon_start ?? '' }}">
+                            </div>
+                            <div class="mb-3 col-md-3 col-sm-6">
+                                <label for="afternoon_end" class="form-label">Kết thúc chiều</label>
+                                <input type="time" id="afternoon_end" name="afternoon_end" class="form-control"
+                                    value="{{ $manager->schedule->afternoon_end ?? '' }}">
+                            </div>
+                            <div class="mb-3 col-md-3">
+                                <label for="slot_duration" class="form-label">Thời lượng mỗi lượt (phút)</label>
+                                <input type="number" id="slot_duration" name="slot_duration" class="form-control"
+                                    value="{{ $manager->schedule->slot_duration ?? '' }}">
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Lưu lại</button>
