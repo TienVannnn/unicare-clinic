@@ -25,7 +25,8 @@ class ClinicRequest extends FormRequest
         return [
             'name' => $clinicId ?  "required|min:2|string|unique:clinics,name,$clinicId"
                 : 'required|min:2|string|unique:clinics,name',
-            'department' => 'required|exists:departments,id'
+            'department' => 'required|exists:departments,id',
+            'status' => 'required|in:1,0'
         ];
     }
 
@@ -37,7 +38,9 @@ class ClinicRequest extends FormRequest
             'name.string' => 'Định dạng không hợp lệ',
             'name.unique' => 'Tên phòng khám đã tồn tại',
             'department.required' => 'Chuyên khoa không được bỏ trống',
-            'department.exists' => 'Chuyên khoa không tồn tại'
+            'department.exists' => 'Chuyên khoa không tồn tại',
+            'status.required' => 'Vui lòng chọn trạng thái',
+            'status.in' => 'Trạng thái không hợp lệ'
         ];
     }
 }

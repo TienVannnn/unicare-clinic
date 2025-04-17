@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('clinic_code', 10)->nullable()->unique();
             $table->string('name');
             $table->foreignId('department_id')->constrained('departments')->onDelete('restrict');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

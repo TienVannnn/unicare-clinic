@@ -43,7 +43,8 @@ class DepartmentController extends Controller
         try {
             Department::create([
                 'name' => $request->name,
-                'description' => $request->description
+                'description' => $request->description,
+                'status' => $request->status
             ]);
             Session::flash('success', 'Thêm chuyên khoa thành công');
         } catch (\Exception $e) {
@@ -83,7 +84,8 @@ class DepartmentController extends Controller
             if (!$department) abort(404);
             $department->update([
                 'name' => $request->name,
-                'description' => $request->description
+                'description' => $request->description,
+                'status' => $request->status
             ]);
             Session::flash('success', 'Cập nhật chuyên khoa thành công');
         } catch (\Exception $e) {

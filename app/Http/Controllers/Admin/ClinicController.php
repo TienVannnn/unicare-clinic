@@ -32,7 +32,7 @@ class ClinicController extends Controller
     {
         $this->authorize('them-quyen');
         $title = 'Thêm mới phòng khám';
-        $departments = Department::orderByDesc('id')->get();
+        $departments = Department::where('status', 1)->orderByDesc('id')->get();
         return view('admin.clinic.create', compact('title', 'departments'));
     }
 
@@ -45,7 +45,8 @@ class ClinicController extends Controller
         try {
             Clinic::create([
                 'name' => $request->name,
-                'department_id' => $request->department
+                'department_id' => $request->department,
+                'status' => $request->status
             ]);
             Session::flash('success', 'Thêm phòng khám thành công');
         } catch (\Exception $e) {
@@ -71,7 +72,7 @@ class ClinicController extends Controller
         $clinic = Clinic::find($id);
         if (!$clinic) abort(404);
         $title = 'Chỉnh sửa phòng khám ';
-        $departments = Department::orderByDesc('id')->get();
+        $departments = Department::where('status', 1)->orderByDesc('id')->get();
         return view('admin.clinic.edit', compact('title', 'clinic', 'departments'));
     }
 
@@ -86,7 +87,8 @@ class ClinicController extends Controller
             if (!$clinic) abort(404);
             $clinic->update([
                 'name' => $request->name,
-                'department_id' => $request->department
+                'department_id' => $request->department,
+                'status' => $request->status
             ]);
             Session::flash('success', 'Cập nhật phòng khám thành công');
         } catch (\Exception $e) {

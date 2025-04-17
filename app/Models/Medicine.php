@@ -14,6 +14,7 @@ class Medicine extends Model
         'unit',
         'price',
         'quantity',
+        'status'
     ];
     public function medicineCategories()
     {

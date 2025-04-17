@@ -11,7 +11,8 @@ class Clinic extends Model
     protected $fillable = [
         'name',
         'clinic_code',
-        'department_id'
+        'department_id',
+        'status'
     ];
     protected static function boot()
     {

@@ -25,7 +25,8 @@ class NewsCategoryRequest extends FormRequest
         return [
             'name' => $categoryId
                 ? "required|unique:news_categories,name,$categoryId"
-                : 'required|unique:news_categories,name'
+                : 'required|unique:news_categories,name',
+            'status' => 'required|in:1,0'
         ];
     }
 
@@ -34,6 +35,8 @@ class NewsCategoryRequest extends FormRequest
         return [
             'name.required' => 'Tên loại tin tức không được bỏ trống',
             'name.unique' => 'Tên loại tin tức đã tồn tại',
+            'status.required' => 'Vui lòng chọn trạng thái',
+            'status.in' => 'Trạng thái không hợp lệ'
         ];
     }
 }

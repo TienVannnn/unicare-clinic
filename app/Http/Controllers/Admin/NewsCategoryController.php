@@ -44,6 +44,7 @@ class NewsCategoryController extends Controller
             NewsCategory::create([
                 'name' => $request->name,
                 'slug' => Helper::createSlug($request->name),
+                'status' => $request->status
             ]);
             Session::flash('success', 'Tạo danh mục tin tức thành công');
             return redirect()->route('news-category.index');
@@ -75,6 +76,7 @@ class NewsCategoryController extends Controller
             $category->update([
                 'name' => $request->name,
                 'slug' => Helper::createSlug($request->name),
+                'status' => $request->status
             ]);
             Session::flash('success', 'Cập nhật danh mục tin tức thành công');
             return redirect()->route('news-category.index');

@@ -25,7 +25,8 @@ class DepartmentRequest extends FormRequest
         return [
             'name' => $departmentId ?  "required|min:2|string|unique:departments,name,$departmentId"
                 : 'required|min:2|string|unique:departments,name',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'status' => 'required|in:1,0'
         ];
     }
 
@@ -36,7 +37,9 @@ class DepartmentRequest extends FormRequest
             'name.min' => 'Trường này ít nhất có 2 ký tự',
             'name.string' => 'Định dạng không hợp lệ',
             'name.unique' => 'Tên chuyên môn đã tồn tại',
-            'description.string' => 'Định dạng không hợp lệ'
+            'description.string' => 'Định dạng không hợp lệ',
+            'status.required' => 'Vui lòng chọn trạng thái',
+            'status.in' => 'Trạng thái không hợp lệ'
         ];
     }
 }

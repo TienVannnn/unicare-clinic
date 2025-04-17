@@ -34,7 +34,7 @@ class NewsController extends Controller
     {
         $this->authorize('them-tin-tuc');
         $title = 'Thêm tin tức';
-        $categories = NewsCategory::orderByDesc('id')->get();
+        $categories = NewsCategory::where('status', 1)->orderByDesc('id')->get();
         return view('admin.news.create', compact('title', 'categories'));
     }
 
@@ -84,7 +84,7 @@ class NewsController extends Controller
         $this->authorize('chinh-sua-tin-tuc');
         $title = 'Chỉnh sửa tin tức';
         $news = News::findOrFail($id);
-        $categories = NewsCategory::orderByDesc('id')->get();
+        $categories = NewsCategory::where('status', 1)->orderByDesc('id')->get();
         return view('admin.news.edit', compact('title', 'news', 'categories'));
     }
 

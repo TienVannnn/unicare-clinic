@@ -28,15 +28,6 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="description" class="form-label">Mô tả <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $medicine->description }}"
-                                class="form-control @error('description') is-invalid @enderror" id="description"
-                                name="description">
-                            @error('description')
-                                <div class="message-error">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3 col-md-6">
                             <label for="medicine_categories" class="form-label">Loại thuốc <span
                                     class="text-danger">*</span></label>
                             <select class="form-control tag-select" multiple="multiple" id="medicine_categories"
@@ -75,6 +66,25 @@
                                 id="quantity" name="quantity" placeholder="Nhập số lượng"
                                 value="{{ $medicine->quantity }}">
                             @error('quantity')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="1" {{ $medicine->status == 1 ? 'selected' : '' }}>Hoạt động</option>
+                                <option value="0" {{ $medicine->status == 0 ? 'selected' : '' }}>Tạm ngưng</option>
+                            </select>
+                            @error('status')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Mô tả <span class="text-danger">*</span></label>
+                            <input type="text" value="{{ $medicine->description }}"
+                                class="form-control @error('description') is-invalid @enderror" id="description"
+                                name="description">
+                            @error('description')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>

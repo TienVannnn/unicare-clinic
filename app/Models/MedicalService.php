@@ -13,6 +13,7 @@ class MedicalService extends Model
         'medical_service_code',
         'description',
         'price',
+        'status'
     ];
     public function clinics()
     {

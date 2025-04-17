@@ -30,7 +30,8 @@ class MedicineRequest extends FormRequest
             'unit' => 'required|string',
             'price' => 'required|numeric|min:0.01',
             'quantity' => 'required|integer|min:0',
-            'medicine_categories' => 'required|exists:medicine_categories,id'
+            'medicine_categories' => 'required|exists:medicine_categories,id',
+            'status' => 'required|in:1,0'
         ];
     }
 
@@ -51,6 +52,8 @@ class MedicineRequest extends FormRequest
             'quantity.min' => 'Số lượng không thể âm.',
             'medicine_categories.required' => 'Vui lòng chọn ít nhất một loại thuốc.',
             'medicine_categories.exists' => 'Loại thuốc không hợp lệ.',
+            'status.required' => 'Vui lòng chọn trạng thái',
+            'status.in' => 'Trạng thái không hợp lệ'
         ];
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('unit');
             $table->integer('price');
             $table->integer('quantity');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

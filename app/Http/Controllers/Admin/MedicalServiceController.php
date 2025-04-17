@@ -31,7 +31,7 @@ class MedicalServiceController extends Controller
     {
         $this->authorize('them-dich-vu-kham');
         $title = 'Thêm dịch vụ khám';
-        $clinics = Clinic::orderByDesc('id')->get();
+        $clinics = Clinic::where('status', 1)->orderByDesc('id')->get();
         return view('admin.medical_service.create', compact('title', 'clinics'));
     }
 
@@ -45,7 +45,8 @@ class MedicalServiceController extends Controller
             $medical_service = MedicalService::create([
                 'name' => $request->name,
                 'description' => $request->description,
-                'price' => $request->price
+                'price' => $request->price,
+                'status' => $request->status
             ]);
             $medical_service->clinics()->attach($request->clinic_ids);
             Session::flash('success', 'Tạo dịch vụ khám thành công');
@@ -72,7 +73,7 @@ class MedicalServiceController extends Controller
         $this->authorize('chinh-sua-dich-vu-kham');
         $medical_service = MedicalService::findOrFail($id);
         $title = 'Chỉnh sửa dịch vụ khám';
-        $clinics = Clinic::orderByDesc('id')->get();
+        $clinics = Clinic::where('status', 1)->orderByDesc('id')->get();
         $clinicsChecked = $medical_service->clinics->pluck('id')->toArray();
         return view('admin.medical_service.edit', compact('title', 'medical_service', 'clinics', 'clinicsChecked'));
     }
@@ -88,7 +89,8 @@ class MedicalServiceController extends Controller
             $medical_service->update([
                 'name' => $request->name,
                 'description' => $request->description,
-                'price' => $request->price
+                'price' => $request->price,
+                'status' => $request->status
             ]);
             $medical_service->clinics()->sync($request->clinic_ids);
             Session::flash('success', 'Cập nhật dịch vụ khám thành công');

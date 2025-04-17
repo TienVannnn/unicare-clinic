@@ -53,6 +53,7 @@
                                     <th scope="col">Mô tả</th>
                                     <th scope="col">Giá (VNĐ)</th>
                                     <th scope="col">Phòng khám</th>
+                                    <th scope="col">Trạng thái</th>
                                     @can(['chinh-sua-dich-vu-kham', 'xoa-dich-vu-kham'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -71,6 +72,12 @@
                                                 <span class="badge badge-info">{{ $clinic->name }}</span>
                                             @endforeach
                                         </td>
+                                        <td>
+                                            {!! $medical_service->status == 1
+                                                ? '<span class="badge badge-success">Hoạt động</span>'
+                                                : '<span class="badge badge-warning">Tạm ngưng</span>' !!}
+                                        </td>
+
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-dich-vu-kham')

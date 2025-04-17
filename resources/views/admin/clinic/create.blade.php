@@ -37,6 +37,16 @@
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="1">Hoạt động</option>
+                                <option value="0">Tạm ngưng</option>
+                            </select>
+                            @error('status')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Lưu lại</button>
                 </form>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('clinic_id');
             $table->unsignedBigInteger('medical_service_id');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->foreign('clinic_id')->references('id')->on('clinics')->onDelete('cascade');
             $table->foreign('medical_service_id')->references('id')->on('medical_services')->onDelete('cascade');

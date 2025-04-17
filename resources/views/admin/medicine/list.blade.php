@@ -53,6 +53,7 @@
                                     <th scope="col">Đơn vị</th>
                                     <th scope="col">Giá</th>
                                     <th scope="col">Số lượng</th>
+                                    <th scope="col">Trạng thái</th>
                                     @can(['chinh-sua-thuoc', 'xoa-thuoc'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -72,6 +73,12 @@
                                         <td>{{ $medicine->unit }}</td>
                                         <td>{{ number_format($medicine->price, 0, ',', '.') }}</td>
                                         <td>{{ $medicine->quantity }}</td>
+                                        <td>
+                                            {!! $medicine->status == 1
+                                                ? '<span class="badge badge-success">Hoạt động</span>'
+                                                : '<span class="badge badge-warning">Tạm ngưng</span>' !!}
+                                        </td>
+
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-thuoc')

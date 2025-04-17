@@ -31,7 +31,7 @@ class MedicineController extends Controller
     {
         $this->authorize('them-thuoc');
         $title = 'Thêm thuốc';
-        $medicineCategories = MedicineCategory::orderByDesc('id')->get();
+        $medicineCategories = MedicineCategory::where('status', 1)->orderByDesc('id')->get();
         return view('admin.medicine.create', compact('title', 'medicineCategories'));
     }
 
@@ -68,7 +68,7 @@ class MedicineController extends Controller
         $this->authorize('chinh-sua-thuoc');
         $medicine = Medicine::findOrFail($id);
         $title = 'Chỉnh sửa thuốc';
-        $medicineCategories = MedicineCategory::orderByDesc('id')->get();
+        $medicineCategories = MedicineCategory::where('status', 1)->orderByDesc('id')->get();
         return view('admin.medicine.edit', compact('title', 'medicine', 'medicineCategories'));
     }
 

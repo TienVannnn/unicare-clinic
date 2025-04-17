@@ -28,7 +28,8 @@ class MedicalServiceRequest extends FormRequest
             'description' => 'nullable|string',
             'price' => 'required',
             'clinic_ids' => 'required|array',
-            'clinic_ids.*' => 'exists:clinics,id'
+            'clinic_ids.*' => 'exists:clinics,id',
+            'status' => 'required|in:1,0'
         ];
     }
 
@@ -46,6 +47,8 @@ class MedicalServiceRequest extends FormRequest
 
             'clinic.required' => 'Phòng khám là bắt buộc.',
             'clinic.exists' => 'Phòng khám không hợp lệ.',
+            'status.required' => 'Vui lòng chọn trạng thái',
+            'status.in' => 'Trạng thái không hợp lệ'
         ];
     }
 }

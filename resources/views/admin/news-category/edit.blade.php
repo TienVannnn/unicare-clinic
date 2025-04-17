@@ -17,14 +17,26 @@
                 <form action="{{ route('news-category.update', $category->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3 col-md-6">
-                        <label for="name" class="form-label">Tên danh mục tin tức <span
-                                class="text-danger">*</span></label>
-                        <input type="text" value="{{ $category->name }}"
-                            class="form-control @error('name') is-invalid @enderror" id="name" name="name">
-                        @error('name')
-                            <div class="message-error">{{ $message }}</div>
-                        @enderror
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Tên danh mục tin tức <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" value="{{ $category->name }}"
+                                class="form-control @error('name') is-invalid @enderror" id="name" name="name">
+                            @error('name')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>Hoạt động</option>
+                                <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>Tạm ngưng</option>
+                            </select>
+                            @error('status')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Lưu lại</button>
                 </form>

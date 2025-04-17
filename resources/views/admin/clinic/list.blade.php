@@ -51,6 +51,7 @@
                                     <th scope="col">Tên phòng khám</th>
                                     <th scope="col">Bác sĩ</th>
                                     <th scope="col">Chuyên khoa</th>
+                                    <th scope="col">Trạng thái</th>
                                     @can(['chinh-sua-quyen', 'xoa-quyen'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -72,6 +73,12 @@
                                             @endif
                                         </td>
                                         <td><span class="badge badge-info">{{ $clinic->department->name }}</span></td>
+                                        <td>
+                                            {!! $clinic->status == 1
+                                                ? '<span class="badge badge-success">Hoạt động</span>'
+                                                : '<span class="badge badge-warning">Tạm ngưng</span>' !!}
+                                        </td>
+
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-quyen')

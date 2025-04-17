@@ -51,6 +51,7 @@
                                     <th scope="col">STT</th>
                                     <th scope="col">Tên chuyên khoa</th>
                                     <th scope="col">Mô tả</th>
+                                    <th scope="col">Trạng thái</th>
                                     @can(['chinh-sua-chuyen-khoa', 'xoa-chuyen-khoa'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -62,6 +63,12 @@
                                         <td>{{ $departments->firstItem() + $key }}</td>
                                         <td>{{ $department->name }}</td>
                                         <td>{{ $department->description ?? 'Chưa cập nhật' }}</td>
+                                        <td>
+                                            {!! $department->status == 1
+                                                ? '<span class="badge badge-success">Hoạt động</span>'
+                                                : '<span class="badge badge-warning">Tạm ngưng</span>' !!}
+                                        </td>
+
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-chuyen-khoa')

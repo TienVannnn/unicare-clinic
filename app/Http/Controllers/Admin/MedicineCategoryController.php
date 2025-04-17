@@ -42,7 +42,8 @@ class MedicineCategoryController extends Controller
         try {
             MedicineCategory::create([
                 'name' => $request->name,
-                'description' => $request->description
+                'description' => $request->description,
+                'status' => $request->status
             ]);
             Session::flash('success', 'Tạo loại thuốc thành công');
             return redirect()->route('medicine-category.index');
@@ -83,7 +84,8 @@ class MedicineCategoryController extends Controller
         try {
             $category->update([
                 'name' => $request->name,
-                'description' => $request->description
+                'description' => $request->description,
+                'status' => $request->status
             ]);
             Session::flash('success', 'Cập nhật loại thuốc thành công');
             return redirect()->route('medicine-category.index');

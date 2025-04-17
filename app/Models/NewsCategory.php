@@ -10,7 +10,8 @@ class NewsCategory extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+        'status'
     ];
 
     public function news()

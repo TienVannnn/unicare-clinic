@@ -49,6 +49,7 @@
                                 <tr>
                                     <th scope="col">STT</th>
                                     <th scope="col">Tên danh mục</th>
+                                    <th scope="col">Trạng thái</th>
                                     @can(['chinh-sua-danh-muc-tin-tuc', 'xoa-danh-muc-tin-tuc'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -59,6 +60,12 @@
                                     <tr>
                                         <td>{{ $categories->firstItem() + $key }}</td>
                                         <td>{{ $category->name }}</td>
+                                        <td>
+                                            {!! $category->status == 1
+                                                ? '<span class="badge badge-success">Hoạt động</span>'
+                                                : '<span class="badge badge-warning">Tạm ngưng</span>' !!}
+                                        </td>
+
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-danh-muc-tin-tuc')
