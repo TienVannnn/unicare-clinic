@@ -3,10 +3,20 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/custom/listmodule.css') }}">
 @endsection
 @section('content')
+    @php
+        $filters = [];
+        if (request()->filled('q')) {
+            $filters[] = 'Từ khóa: <strong>' . e(request('q')) . '</strong>';
+        }
+        if (request()->filled('status')) {
+            $statuses = ['0' => 'Tạm ngưng', '1' => 'Hoạt động'];
+            $filters[] = 'Trạng thái: <strong>' . ($statuses[request('status')] ?? 'Không rõ') . '</strong>';
+        }
+    @endphp
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
             <div class="text-uppercase fw-bold">
-                @if (request()->has('q') && request()->input('q') != '')
+                @if (count($filters))
                     Tìm kiếm dịch vụ khám
                 @else
                     Danh sách dịch vụ khám
@@ -19,11 +29,18 @@
         </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <div class="search-container" title="Tìm kiếm dịch vụ khám">
                         <form action="{{ route('admin.search', ['type' => 'medical_service']) }}" method="GET">
                             <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
                                 title="Tìm kiếm dịch vụ khám">
+                            <select name="status" title="Tìm kiếm theo trạng thái">
+                                <option value="">Trạng thái</option>
+                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Tạm ngưng
+                                </option>
+                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Hoạt động
+                                </option>
+                            </select>
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
                         </form>
                     </div>
@@ -37,9 +54,9 @@
                 </div>
             </div>
             <div class="card-body">
-                @if (request()->has('q') && request()->input('q') != '')
+                @if (count($filters))
                     <p class="alert alert-info">
-                        Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('q') }}</strong>
+                        Kết quả tìm kiếm: {!! implode(', ', $filters) !!}
                     </p>
                 @endif
                 @if ($medical_services->count() > 0)
@@ -105,13 +122,7 @@
                         </table>
                     </div>
                 @else
-                    @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-danger">Không tìm thấy kết quả nào cho từ khóa
-                            <strong>{{ request()->input('name') }}</strong>!
-                        </p>
-                    @else
-                        <p class="alert alert-danger">Chưa có dịch vụ khám nào!</p>
-                    @endif
+                    <p class="alert alert-danger">Chưa có dịch vụ khám nào!</p>
                 @endif
             </div>
 

@@ -14,7 +14,9 @@
             <li>
                 <div class="dropdown-title d-flex justify-content-between align-items-center">
                     Liên hệ
-                    <a href="{{ route('contact.unread') }}" class="small">{{ $count }} tin nhắn chưa đọc</a>
+                    @if ($count > 0)
+                        <a href="{{ route('contact.unread') }}" class="small">{{ $count }} tin nhắn chưa đọc</a>
+                    @endif
                 </div>
             </li>
             <li>

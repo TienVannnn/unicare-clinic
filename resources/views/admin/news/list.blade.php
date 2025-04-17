@@ -30,7 +30,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
             <div class="text-uppercase fw-bold">
-                @if (request()->has('q') && request()->input('q') != '')
+                @if (count($filters))
                     Tìm kiếm tin tức
                 @else
                     Danh sách tin tức
@@ -147,13 +147,7 @@
                         </table>
                     </div>
                 @else
-                    @if (request()->has('name') && request()->input('name') != '')
-                        <p class="alert alert-danger">Không tìm thấy tin tức nào cho từ khóa
-                            <strong>{{ request()->input('name') }}</strong>!
-                        </p>
-                    @else
-                        <p class="alert alert-danger">Chưa có tin tức nào!</p>
-                    @endif
+                    <p class="alert alert-danger">Chưa có tin tức nào!</p>
                 @endif
             </div>
             <div class="d-flex justify-content-center ">

@@ -58,6 +58,22 @@
                         </a>
                     </li>
                 @endcan
+                @can('xem-danh-sach-lien-he')
+                    <li class="nav-item {{ request()->routeIs('contact.*') ? 'active' : '' }}">
+                        <a href="{{ route('contact.index') }}">
+                            <i class="fa fa-envelope"></i>
+                            <p class="text-capitalize">Liên hệ</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('xem-danh-sach-lich-hen-kham')
+                    <li class="nav-item {{ request()->routeIs('appointment.*') ? 'active' : '' }}">
+                        <a href="{{ route('appointment.index') }}">
+                            <i class="fa fa-bell"></i>
+                            <p class="text-capitalize">Lịch hẹn khám</p>
+                        </a>
+                    </li>
+                @endcan
                 @can('xem-danh-sach-loai-thuoc')
                     <li class="nav-item {{ request()->routeIs('medicine-category.*') ? 'active' : '' }}">
                         <a href="{{ route('medicine-category.index') }}">

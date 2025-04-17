@@ -85,9 +85,9 @@
                         </table>
                     </div>
                 @else
-                    @if (request()->has('name') && request()->input('name') != '')
+                    @if (request()->has('q') && request()->input('q') != '')
                         <p class="alert alert-danger">Không tìm thấy vai trò nào cho từ khóa
-                            <strong>{{ request()->input('name') }}</strong>!
+                            <strong>{{ request()->input('q') }}</strong>!
                         </p>
                     @else
                         <p class="alert alert-danger">Chưa có quyền nào!</p>
