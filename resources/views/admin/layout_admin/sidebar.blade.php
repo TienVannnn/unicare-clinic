@@ -154,62 +154,14 @@
                         </a>
                     </li>
                 @endcan
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#setting">
-                        <i class="fas fa-cog"></i>
-                        <p class="text-capitalize">Cài đặt</p>
-                        <span class="badge badge-success">4</span>
-                    </a>
-                    <div class="collapse" id="setting">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="components/avatars.html">
-                                    <span class="sub-item">Avatars</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/buttons.html">
-                                    <span class="sub-item">Buttons</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/gridsystem.html">
-                                    <span class="sub-item">Grid System</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/panels.html">
-                                    <span class="sub-item">Panels</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/notifications.html">
-                                    <span class="sub-item">Notifications</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/sweetalert.html">
-                                    <span class="sub-item">Sweet Alert</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/font-awesome-icons.html">
-                                    <span class="sub-item">Font Awesome Icons</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/simple-line-icons.html">
-                                    <span class="sub-item">Simple Line Icons</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/typography.html">
-                                    <span class="sub-item">Typography</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                @can('xem-danh-sach-menu')
+                    <li class="nav-item {{ request()->routeIs('menu.*') ? 'active' : '' }}">
+                        <a href="{{ route('menu.index') }}">
+                            <i class="fas fa-sitemap"></i>
+                            <p class="text-capitalize">Menu Site</p>
+                        </a>
+                    </li>
+                @endcan
             </ul>
         </div>
     </div>

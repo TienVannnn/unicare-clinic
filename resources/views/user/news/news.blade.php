@@ -6,11 +6,11 @@
             <div class="bread-inner">
                 <div class="row">
                     <div class="col-12">
-                        <h2>Tin tức</h2>
+                        <h2>{{ $category->name }}</h2>
                         <ul class="bread-list">
                             <li><a href="/">Trang chủ</a></li>
                             <li><i class="icofont-simple-right"></i></li>
-                            <li class="active">Tin tức</li>
+                            <li class="active">{{ $category->name }}</li>
                         </ul>
                     </div>
                 </div>

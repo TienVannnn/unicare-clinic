@@ -161,7 +161,7 @@ class AppointmentController extends Controller
                 'admin_id' => auth()->guard('admin')->id(),
                 'appointment_id' => $appointment->id
             ]);
-            $appointment->update(['status' => 1]);
+            $appointment->update(['status' => $request->status]);
             Session::flash('success', 'Phản hồi lịch hẹn khám thành công');
             ContactReplyJob::dispatch($title, $request->email, $content)->delay(now()->addSecond(10));
             return redirect()->route('appointment.show', $appointment->id);

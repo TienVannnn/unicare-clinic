@@ -73,20 +73,9 @@
                                 lại</a>&nbsp;
                             @can('tra-loi-lich-hen-kham')
                                 <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
-                                    class="btn btn-primary">Gửi
-                                    phản hồi</a>
+                                    class="btn btn-success"><i class="fas fa-reply me-2"></i>Phản hồi</a>
                                 &nbsp;
                             @endcan
-                            @if ($appointment->status != 1)
-                                <a href="{{ route('admin.confirm-appointment', $appointment->id) }}" title="Gửi phản hồi"
-                                    class="btn btn-success">Xác nhận</a>
-                                &nbsp;
-                            @endif
-                            @if ($appointment->status != -1)
-                                <a href="{{ route('admin.cancle-appointment', $appointment->id) }}" title="Gửi phản hồi"
-                                    class="btn btn-danger">Hủy</a>
-                                &nbsp;
-                            @endif
                             @can('xoa-lich-hen-kham')
                                 <form action="{{ route('admin.appointment-delete', $appointment->id) }}" method="POST"
                                     class="delete-form" style="display: inline-block">

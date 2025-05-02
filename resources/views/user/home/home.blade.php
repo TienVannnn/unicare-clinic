@@ -34,8 +34,8 @@
                                     Đặt lịch khám, lấy mẫu
                                 </p>
                                 <div class="button">
-                                    <a href="#" class="btn">Đặt lịch khám</a>
-                                    <a href="#" class="btn primary">Xem thêm</a>
+                                    <a href="{{ route('user.book-appointment-page') }}" class="btn">Đặt lịch khám</a>
+                                    <a href="{{ route('user.news', 'dich-vu-y-te') }}" class="btn primary">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
@@ -55,8 +55,8 @@
                                     Khám sức khỏe tổng quát
                                 </p>
                                 <div class="button">
-                                    <a href="#" class="btn">Đặt lịch khám</a>
-                                    <a href="#" class="btn primary">Xem thêm</a>
+                                    <a href="{{ route('user.book-appointment-page') }}" class="btn">Đặt lịch khám</a>
+                                    <a href="{{ route('user.news', 'dich-vu-y-te') }}" class="btn primary">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
@@ -76,8 +76,8 @@
                                     Bảng giá dịch vụ
                                 </p>
                                 <div class="button">
-                                    <a href="#" class="btn">Đặt lịch khám</a>
-                                    <a href="#" class="btn primary">Xem thêm</a>
+                                    <a href="{{ route('user.book-appointment-page') }}" class="btn">Đặt lịch khám</a>
+                                    <a href="{{ route('user.news', 'dich-vu-y-te') }}" class="btn primary">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                     <p>
                                         Luôn sẵn sàng hỗ trợ trong mọi tình huống khẩn cấp. Hãy liên hệ ngay khi bạn cần!
                                     </p>
-                                    <a href="#">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
+                                    <a href="{{ route('user.contact') }}">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,8 @@
                                     <p>
                                         Cung cấp đa dạng dịch vụ khám chữa bệnh, xét nghiệm, và tư vấn sức khỏe toàn diện.
                                     </p>
-                                    <a href="#">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
+                                    <a href="{{ route('user.news', 'dich-vu-y-te') }}">Xem thêm<i
+                                            class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +135,7 @@
                                         Đội ngũ y bác sĩ giàu kinh nghiệm, tận tâm với từng bệnh nhân, cam kết mang đến dịch
                                         vụ tốt nhất.
                                     </p>
-                                    <a href="#">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
+                                    <a href="{{ route('user.doctors') }}">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +325,7 @@
                     <div class="single-fun">
                         <i class="icofont icofont-home"></i>
                         <div class="content">
-                            <span class="counter">3468</span>
+                            <span class="counter">{{ $clinic }}</span>
                             <p>Phòng khám</p>
                         </div>
                     </div>
@@ -333,7 +334,7 @@
                     <div class="single-fun">
                         <i class="icofont icofont-user-alt-3"></i>
                         <div class="content">
-                            <span class="counter">557</span>
+                            <span class="counter">{{ $doctors->count() }}</span>
                             <p>Bác sĩ chuyên gia</p>
                         </div>
                     </div>
@@ -342,7 +343,7 @@
                     <div class="single-fun">
                         <i class="icofont-simple-smile"></i>
                         <div class="content">
-                            <span class="counter">4379</span>
+                            <span class="counter">{{ $patient }}</span>
                             <p>Bệnh nhân hạnh phúc</p>
                         </div>
                     </div>
@@ -351,7 +352,7 @@
                     <div class="single-fun">
                         <i class="icofont icofont-table"></i>
                         <div class="content">
-                            <span class="counter">32</span>
+                            <span class="counter">10</span>
                             <p>Năm kinh nghiệm</p>
                         </div>
                     </div>
@@ -359,62 +360,6 @@
             </div>
         </div>
     </div>
-    <section class="portfolio section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Chúng tôi duy trì các quy tắc sạch sẽ bên trong bệnh viện của chúng tôi</h2>
-                        <img src="/user/assets/img/section-img.png" alt="#" />
-                        <p>
-                            Chúng tôi luôn tuân thủ nghiêm ngặt các quy tắc vệ sinh để đảm bảo môi trường bệnh viện sạch sẽ
-                            và an toàn cho mọi bệnh nhân
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-12">
-                    <div class="owl-carousel portfolio-slider">
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf1.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf2.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf3.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf4.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf1.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf2.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf3.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                        <div class="single-pf">
-                            <img src="/user/assets/img/pf4.jpg" alt="#" />
-                            <a href="portfolio-details.html" class="btn">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <section class="services section">
         <div class="container">
             <div class="row">
@@ -432,7 +377,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-service">
                         <i class="icofont icofont-prescription"></i>
-                        <h4><a href="service-details.html">Gói Khám Sức Khỏe Cơ Bản</a></h4>
+                        <h4><a href="{{ route('user.news', 'goi-kham-suc-khoe') }}">Gói Khám Sức Khỏe Cơ Bản</a></h4>
                         <p>
                             Sức khỏe là vàng nhưng thực tế hiện nay có không ít người vẫn còn chần chừ chưa chủ động đi kiểm
                             tra, tầm soát sức
@@ -442,7 +387,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-service">
                         <i class="icofont icofont-tooth"></i>
-                        <h4><a href="service-details.html">Đặt lịch khám lấy mẫu
+                        <h4><a href="{{ route('user.book-appointment-page') }}">Đặt lịch khám lấy mẫu
                             </a></h4>
                         <p>
                             Quý khách vui lòng Đặt lịch hẹn online qua trang web hoặc hotline (0258) 3871 134
@@ -462,7 +407,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-service">
                         <i class="icofont icofont-listening"></i>
-                        <h4><a href="service-details.html">Khám chữa bệnh chủ động</a></h4>
+                        <h4><a href="{{ route('user.contact') }}">Khám chữa bệnh chủ động</a></h4>
                         <p>
                             Quý khách vui lòng đến địa chỉ 59 LÊ THÀNH PHƯƠNG, P. PHƯƠNG SÀI, TP. NHA TRANG để được các bác
                             sĩ chuyên
@@ -472,7 +417,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-service">
                         <i class="icofont icofont-eye-alt"></i>
-                        <h4><a href="service-details.html">Hội chẩn chuyên gia Hồ Chí Minh và Hà Nội</a></h4>
+                        <h4><a href="{{ route('user.doctors') }}">Hội chẩn chuyên gia Hồ Chí Minh và Hà Nội</a></h4>
                         <p>
                             Đội ngũ bác sĩ chuyên môn giỏi, giàu kinh nghiệm. Tất cả các bác sĩ và kỹ thuật viên tại đây với
                             nhiều năm kinh nghiệm,...
@@ -482,7 +427,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-service">
                         <i class="icofont icofont-blood"></i>
-                        <h4><a href="service-details.html">Tư vấn online</a></h4>
+                        <h4><a href="#">Tư vấn online</a></h4>
                         <p>
                             Quý khách vui lòng đặt câu hỏi online qua trang web của chúng tôi hoặc hotline (0258) 3871 134
                             để được tư vấn trực...
@@ -528,6 +473,11 @@
                             </div>
                         </div>
                     @endforeach
+                @endif
+                @if ($news->count() == 9)
+                    <div class="mx-auto mt-3">
+                        <a href="{{ route('user.news', 'tin-tuc-y-hoc') }}" class="btn primary text-white">Xem thêm</a>
+                    </div>
                 @endif
             </div>
         </div>

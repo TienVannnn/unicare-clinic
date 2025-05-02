@@ -10,10 +10,12 @@ use App\Http\Requests\User\ContactRequest;
 use App\Jobs\AppointmentJob;
 use App\Models\Admin;
 use App\Models\Appointment;
+use App\Models\Clinic;
 use App\Models\Contact;
 use App\Models\Department;
 use App\Models\WorkSchedule;
 use App\Models\News;
+use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -26,8 +28,10 @@ class HomeController extends Controller
         $title = 'Trang chủ';
         $departments = Department::orderByDesc('id')->get();
         $doctors = Admin::role('Bác sĩ')->orderByDesc('id')->get();
-        $news = News::orderByDesc('id')->get();
-        return view('user.home.home', compact('title', 'news', 'departments', 'doctors'));
+        $news = News::orderByDesc('id')->take(9)->get();
+        $clinic = Clinic::count();
+        $patient = Patient::count();
+        return view('user.home.home', compact('title', 'news', 'departments', 'doctors', 'clinic', 'patient'));
     }
 
     public function contact_form()
@@ -99,6 +103,14 @@ class HomeController extends Controller
         }
 
         return $slots;
+    }
+
+    public function book_appointment_page()
+    {
+        $title = 'Đặt lịch hẹn khám';
+        $departments = Department::where('status', 1)->orderByDesc('id')->get();
+        $doctors = Admin::role('Bác sĩ')->orderByDesc('id')->get();
+        return view('user.home.booking_appointment', compact('title', 'departments', 'doctors'));
     }
 
     public function book_appointment(BookAppointmentRequest $request)

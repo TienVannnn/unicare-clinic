@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\MedicalCertificateController;
 use App\Http\Controllers\Admin\MedicalServiceController;
 use App\Http\Controllers\Admin\MedicineCategoryController;
 use App\Http\Controllers\Admin\MedicineController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NewsCategoryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PatientController;
@@ -82,6 +83,13 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/get-doctors-by-clinic', [MedicalCertificateController::class, 'getDoctorsByClinic'])->name('get-doctors-by-clinic');
     Route::resource('/news-category', NewsCategoryController::class);
     Route::resource('/news', NewsController::class);
+    Route::resource('/menu', MenuController::class);
+    Route::get('/menu/{id}/menu-item/{parent}/edit', [MenuController::class, 'edit_menu_item'])->name('admin.edit-menu-item');
+    Route::post('/menu-item/create', [MenuController::class, 'create_menu_item'])->name('admin.menu.create-item');
+    Route::put('/menu-item/update/{parent}', [MenuController::class, 'update_menu_item'])->name('admin.menu.update-item');
+    Route::get('/menu/{id}/menu-item/{parent_id}', [MenuController::class, 'menu_items'])->name('admin.menu_items');
+    Route::get('/menu/{id}/menu-item/{parent}/edit/{children}', [MenuController::class, 'edit_menu_item_children'])->name('admin.edit-menu-item-children');
+    Route::delete('/menu-item/{id}/', [MenuController::class, 'destroy_menuItem'])->name('admin.menu_item.destroy');
 
     Route::get('/contact/unread', [ContactController::class, 'unreadAppointments'])->name('contact.unread');
     Route::resource('/contact', ContactController::class);
@@ -139,7 +147,7 @@ Route::get('/contact', [HomeController::class, 'contact_form'])->name('user.cont
 Route::post('/contact', [HomeController::class, 'contact'])->name('user.contact');
 Route::get('/appointments/available-slots', [HomeController::class, 'getAvailableSlots'])->name('appointments.slots');
 Route::get('/cancel-appointment/{token}', [HomeController::class, 'cancel'])->name('user.appointment.cancel');
-
+Route::get('/book-appointment', [HomeController::class, 'book_appointment_page'])->name('user.book-appointment-page');
 Route::post('/book-appointment', [HomeController::class, 'book_appointment'])->name('user.book-appointment');
 Route::get('/get-doctors/{department_id}', [HomeController::class, 'getDoctors'])->name('user.get.doctors');
 
