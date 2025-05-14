@@ -58,6 +58,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/permission', PermissionController::class);
     Route::resource('/role', RoleController::class);
     Route::resource('/manager', AdminController::class);
+    Route::get('/department/{id}/clinics', [AdminController::class, 'getClinicsByDepartment'])->name('admin.getClinicsByDepartment');
     Route::resource('/medicine-category', MedicineCategoryController::class);
     Route::resource('/medicine', MedicineController::class);
     Route::resource('/department', DepartmentController::class);
@@ -136,6 +137,7 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::get('/change-password', [AuthUserController::class, 'page_change_password'])->name('user.change-password');
     Route::post('/change-password', [AuthUserController::class, 'change_password'])->name('user.change-password');
     Route::get('/logout', [AuthUserController::class, 'logout'])->name('user.logout');
+    Route::get('/delete-account', [AuthUserController::class, 'delete_account'])->name('user.delete-account');
     Route::get('/medical-history', [AuthUserController::class, 'medical_history'])->name('user.medical-history');
     Route::get('/medical-history/{id}', [AuthUserController::class, 'medical_history_detail'])->name('user.medical-history-detail');
     Route::post('/medical-history/get-patient', [AuthUserController::class, 'handle_get_patient'])->name('user.medical-history.get-patient');

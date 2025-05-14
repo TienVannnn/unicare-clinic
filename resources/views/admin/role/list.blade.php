@@ -57,7 +57,7 @@
                                 @foreach ($roles as $key => $role)
                                     <tr>
                                         <td>{{ $roles->firstItem() + $key }}</td>
-                                        <td>{{ $role->name }}</td>
+                                        <td>{{ $role->name }} ({{ $role->users->count() }})</td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-vai-tro')
@@ -90,7 +90,7 @@
                             <strong>{{ request()->input('q') }}</strong>!
                         </p>
                     @else
-                        <p class="alert alert-danger">Chưa có quyền nào!</p>
+                        <p class="alert alert-danger">Chưa có vai trò nào!</p>
                     @endif
                 @endif
             </div>

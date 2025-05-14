@@ -28,11 +28,13 @@ class ManagerRequest extends FormRequest
                 ? "required|email|unique:admins,email,$adminId"
                 : 'required|email|unique:admins,email',
             'clinic' => 'required|exists:clinics,id',
+            'department' => 'nullable|exists:departments,id',
             'role' => 'required|exists:roles,name',
             'password' => 'nullable|min:5|confirmed',
             'phone' => ['nullable', 'unique:admins,phone,' .  $adminId, 'regex:/^(0|\+84)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$/'],
             'address' => 'nullable|string',
-            'gender' => 'nullable|in:1,2'
+            'gender' => 'nullable|in:1,2',
+            'status' => 'required|in:1,0'
         ];
     }
 
@@ -49,6 +51,8 @@ class ManagerRequest extends FormRequest
 
             'clinic.required' => 'Vui lòng chọn phòng khám.',
             'clinic.exists' => 'Phòng khám không hợp lệ.',
+
+            'department.exists' => 'Chuyên khoa không hợp lệ.',
 
             'role.required' => 'Vui lòng chọn vai trò.',
             'role.exists' => 'Vai trò không hợp lệ.',

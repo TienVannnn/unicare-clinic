@@ -21,7 +21,7 @@ class RoleController extends Controller
     {
         $this->authorize('xem-danh-sach-vai-tro');
         $title = 'Danh sách vai trò';
-        $roles = Role::orderByDesc('id')->paginate(15);
+        $roles = Role::with('users')->orderByDesc('id')->paginate(15);
         return view('admin.role.list', compact('title', 'roles'));
     }
 

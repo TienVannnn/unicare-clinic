@@ -29,12 +29,16 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $cre = $request->only('email', 'password');
+        $cre = [
+            'email' => $request->email,
+            'password' => $request->password,
+            'status' => 1,
+        ];
         if (auth()->guard('admin')->attempt($cre, $request->has('remember'))) {
             Session::flash('success', 'Đăng nhập admin thành công');
             return redirect()->route('admin.dashboard');
         }
-        Session::flash('error', 'Email hoặc mật khẩu không đúng');
+        Session::flash('error', 'Tài khoản không hợp lệ hoặc đang bị khóa');
         return redirect()->back();
     }
 

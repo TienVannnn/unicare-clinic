@@ -77,6 +77,13 @@ class AuthController extends Controller
         return redirect()->route('home');
     }
 
+    public function delete_account()
+    {
+        auth()->delete();
+        Session::flash('success', 'Xóa tài khoản thành công');
+        return redirect()->route('home');
+    }
+
     public function overview()
     {
         $title = 'Thông tin tài khoản';

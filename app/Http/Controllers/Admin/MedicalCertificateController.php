@@ -40,7 +40,7 @@ class MedicalCertificateController extends Controller
         $this->authorize('them-giay-kham-benh');
         $title = 'Thêm giấy khám bệnh';
         $patients = Patient::orderByDesc('id')->get();
-        $clinics = Clinic::orderByDesc('id')->get();
+        $clinics = Clinic::where('clinic_code', '!=', 'PK005')->get();
         return view('admin.medical-certificate.create', compact('title', 'patients', 'clinics'));
     }
 

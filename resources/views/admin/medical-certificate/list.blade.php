@@ -114,7 +114,7 @@
                                         <td>{{ $medical_certificate->medical_certificate_code }}</td>
                                         <td>{{ $medical_certificate->patient->name }}</td>
                                         <td>{{ $medical_certificate->doctor->name ?? 'Chưa khám' }}</td>
-                                        <td>{{ $medical_certificate->clinic->name }}</td>
+                                        <td>{{ $medical_certificate->clinic->name ?? 'Chưa có' }}</td>
                                         <td>
                                             {{ $medical_certificate->medical_time
                                                 ? \Carbon\Carbon::parse($medical_certificate->medical_time)->format('H:i d/m/Y')
@@ -155,7 +155,7 @@
                                                 @can('xac-nhan-thanh-toan')
                                                     @if ($medical_certificate->payment_status != 1)
                                                         @if (
-                                                            !$medical_certificate->medical_service_id ||
+                                                            $medical_certificate->conclude ||
                                                                 ($medical_certificate->medical_service_id && $medical_certificate->payment_status == 2))
                                                             <button type="button"
                                                                 class="btn btn-outline-success btn-xs pay-btn me-2"

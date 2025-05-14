@@ -19,14 +19,7 @@
         </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
-                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-                    <div class="search-container" title="Tìm kiếm menu">
-                        <form action="{{ route('admin.search', ['type' => 'menu']) }}" method="GET">
-                            <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
-                                title="Tìm kiếm menu">
-                            <button type="submit"><i class="fas fa-search search-icon"></i></button>
-                        </form>
-                    </div>
+                <div class="d-flex flex-column flex-sm-row justify-content-end align-items-center">
                     @can('them-menu')
                         <div class="d-flex justify-content-end my-2">
                             <a href="{{ route('menu.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
@@ -36,17 +29,12 @@
                 </div>
             </div>
             <div class="card-body">
-                @if (request()->has('q') && request()->input('q') != '')
-                    <p class="alert alert-info">
-                        Kết quả tìm kiếm cho từ khóa: <strong>{{ request()->input('q') }}</strong>
-                    </p>
-                @endif
                 @if ($menus->count() > 0)
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="table-primary">
                                 <tr>
-                                    <th scope="col">STT</th>
+                                    <th scope="col">ID</th>
                                     <th scope="col">Khối Menu</th>
                                     <th scope="col">Menu trực thuộc</th>
                                     @can(['sua-menu', 'xoa-menu'])
@@ -57,7 +45,7 @@
                             <tbody>
                                 @foreach ($menus as $key => $menu)
                                     <tr>
-                                        <td>{{ $menus->firstItem() + $key }}</td>
+                                        <td>{{ $menu->id }}</td>
                                         <td><a href="{{ route('menu.show', $menu->id) }}">{{ $menu->name }}</a></td>
                                         <td>
                                             @if ($menu->items->count() > 0)
@@ -95,13 +83,7 @@
                         </table>
                     </div>
                 @else
-                    @if (request()->has('q') && request()->input('q') != '')
-                        <p class="alert alert-danger">Không tìm thấy menu nào cho từ khóa
-                            <strong>{{ request()->input('q') }}</strong>!
-                        </p>
-                    @else
-                        <p class="alert alert-danger">Chưa có menu nào!</p>
-                    @endif
+                    <p class="alert alert-danger">Chưa có menu nào!</p>
                 @endif
             </div>
             <div class="d-flex justify-content-center ">

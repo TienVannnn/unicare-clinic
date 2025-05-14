@@ -41,7 +41,7 @@
                                 <option value="" selected>Chọn phòng khám</option>
                                 @if (!empty($clinics))
                                     @foreach ($clinics as $clinic)
-                                        <option value="{{ $clinic->id }}">{{ $clinic->name }}
+                                        <option value="{{ $clinic->id }}">{{ $clinic->clinic_code }} - {{ $clinic->name }}
                                         </option>
                                     @endforeach
                                 @endif

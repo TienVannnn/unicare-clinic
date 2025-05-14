@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\ManagerRequest;
 use App\Jobs\MailAccountJob;
 use App\Models\Admin;
 use App\Models\Clinic;
+use App\Models\Department;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -35,9 +36,43 @@ class AdminController extends Controller
     {
         $this->authorize('them-nhan-vien');
         $title = 'Thêm mới nhân viên';
-        $roles = Role::orderByDesc('id')->get();
-        $clinics = Clinic::orderByDesc('id')->get();
-        return view('admin.manager.create', compact('title', 'roles', 'clinics'));
+        $roles = Role::with('users')->orderByDesc('id')->get();
+        $departments = Department::orderByDesc('id')->get();
+        $clinics = Clinic::with(['doctors.roles'])->get();
+        foreach ($clinics as $clinic) {
+            $roleCounts = [];
+            foreach ($clinic->doctors as $doctor) {
+                foreach ($doctor->roles as $role) {
+                    if (!isset($roleCounts[$role->name])) {
+                        $roleCounts[$role->name] = 0;
+                    }
+                    $roleCounts[$role->name]++;
+                }
+            }
+            $clinic->role_summary = $roleCounts;
+        }
+        return view('admin.manager.create', compact('title', 'roles', 'clinics', 'departments'));
+    }
+
+    public function getClinicsByDepartment($departmentId)
+    {
+        $clinics = Clinic::with(['doctors.roles'])->where('department_id', $departmentId)->get();
+        $clinics->transform(function ($clinic) {
+            $roleSummary = [];
+            foreach ($clinic->doctors as $doctor) {
+                foreach ($doctor->roles as $role) {
+                    $roleSummary[$role->name] = ($roleSummary[$role->name] ?? 0) + 1;
+                }
+            }
+            return [
+                'id' => $clinic->id,
+                'clinic_code' => $clinic->clinic_code,
+                'name' => $clinic->name,
+                'role_summary' => $roleSummary,
+            ];
+        });
+
+        return response()->json($clinics);
     }
 
     /**
@@ -53,7 +88,9 @@ class AdminController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($rand),
-                'clinic_id' => $request->clinic
+                'clinic_id' => $request->clinic,
+                'department_id' => $request->department,
+                'status' => $request->status
             ]);
             $admin->schedule()->create([
                 'morning_start' => '08:00',
@@ -77,14 +114,6 @@ class AdminController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
@@ -94,8 +123,21 @@ class AdminController extends Controller
         $title = 'Chỉnh sửa người quản lý';
         $rolesChecked = $manager->roless->pluck('id')->toArray();
         $roles = Role::orderByDesc('id')->get();
-        $clinics = Clinic::orderByDesc('id')->get();
-        return view('admin.manager.edit', compact('title', 'manager', 'rolesChecked', 'roles', 'clinics'));
+        $departments = Department::orderByDesc('id')->get();
+        $clinics = Clinic::with(['doctors.roles'])->get();
+        foreach ($clinics as $clinic) {
+            $roleCounts = [];
+            foreach ($clinic->doctors as $doctor) {
+                foreach ($doctor->roles as $role) {
+                    if (!isset($roleCounts[$role->name])) {
+                        $roleCounts[$role->name] = 0;
+                    }
+                    $roleCounts[$role->name]++;
+                }
+            }
+            $clinic->role_summary = $roleCounts;
+        }
+        return view('admin.manager.edit', compact('title', 'manager', 'rolesChecked', 'roles', 'clinics', 'departments'));
     }
 
     /**
@@ -113,7 +155,9 @@ class AdminController extends Controller
                 'clinic_id' => $request->clinic,
                 'phone' => $request->phone,
                 'address' => $request->address,
-                'gender' => $request->gender
+                'gender' => $request->gender,
+                'department_id' => $request->department,
+                'status' => $request->status
             ]);
             if ($request->password) {
                 $manager->password = Hash::make($request->password);

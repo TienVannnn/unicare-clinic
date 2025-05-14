@@ -52,8 +52,7 @@
                                     <th scope="col">Vai trò</th>
                                     <th scope="col">Phòng ban</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">SĐT</th>
-                                    <th scope="col">Giới tính</th>
+                                    <th scope="col">Trạng thái</th>
                                     @can(['chinh-sua-nhan-vien', 'xoa-nhan-vien'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -79,18 +78,13 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <span class="badge badge-black">{{ $manager->clinic->name }}</span>
+                                            <span class="badge badge-warning">{{ $manager->clinic->name }}</span>
                                         </td>
                                         <td>{{ $manager->email }}</td>
-                                        <td>{{ $manager->phone ?? 'Chưa cập nhật' }}</td>
                                         <td>
-                                            @if ($manager->gender == 1)
-                                                Nam
-                                            @elseif ($manager->gender == 2)
-                                                Nữ
-                                            @else
-                                                Chưa cập nhật
-                                            @endif
+                                            {!! $manager->status == 1
+                                                ? '<span class="badge badge-success">Hoạt động</span>'
+                                                : '<span class="badge badge-danger">Khóa</span>' !!}
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">

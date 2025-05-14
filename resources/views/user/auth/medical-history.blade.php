@@ -17,7 +17,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
                     @foreach ($medical_history as $key => $his)
                         <tr>
                             <td>{{ $medical_history->firstItem() + $key }}</td>

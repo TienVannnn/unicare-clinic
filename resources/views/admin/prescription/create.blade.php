@@ -59,7 +59,10 @@
                                         <option value="" selected></option>
                                         @if (!empty($medicines))
                                             @foreach ($medicines as $medicine)
-                                                <option value="{{ $medicine->id }}">{{ $medicine->name }}</option>
+                                                <option value="{{ $medicine->id }}"
+                                                    data-quantity="{{ $medicine->quantity }}">{{ $medicine->name }}
+                                                    ({{ $medicine->quantity }} {{ $medicine->unit }} còn lại)
+                                                </option>
                                             @endforeach
                                         @endif
                                     </select>

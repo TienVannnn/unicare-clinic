@@ -57,25 +57,32 @@ class PrescriptionController extends Controller
                 'status' => 0,
                 'total_payment' => 0,
             ]);
-
-            if (!empty($request->medicines)) {
-                foreach ($request->medicines as $medicine) {
-                    $med = Medicine::find($medicine['medicine']);
-                    if ($med) {
-                        $subtotal = $med->price * $medicine['quantity'];
-                        $totalPayment += $subtotal;
-                        $prescription->medicines()->attach($medicine['medicine'], [
-                            'quantity' => $medicine['quantity'],
-                            'dosage' => $medicine['dosage'],
-                            'price' => $med->price,
-                            'subtotal' => $subtotal,
-                        ]);
-                    }
+            foreach ($request->medicines as $medicine) {
+                $med = Medicine::find($medicine['medicine']);
+                if (!$med) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Thuốc không tồn tại.',
+                    ]);
                 }
+                if ($medicine['quantity'] > $med->quantity) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Thuốc '{$med->name}' không đủ tồn kho. Chỉ còn {$med->quantity} trong kho.",
+                    ]);
+                }
+                $subtotal = $med->price * $medicine['quantity'];
+                $totalPayment += $subtotal;
+                $prescription->medicines()->attach($medicine['medicine'], [
+                    'quantity' => $medicine['quantity'],
+                    'dosage' => $medicine['dosage'],
+                    'price' => $med->price,
+                    'subtotal' => $subtotal,
+                ]);
+                $med->quantity -= $medicine['quantity'];
+                $med->save();
             }
-
             $prescription->update(['total_payment' => $totalPayment]);
-
             Session::flash('success', 'Đơn thuốc đã được lưu thành công');
             return response()->json([
                 'success' => true,
@@ -84,10 +91,11 @@ class PrescriptionController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Có lỗi xảy ra.',
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage(),
             ]);
         }
     }
+
 
 
     /**
@@ -120,32 +128,49 @@ class PrescriptionController extends Controller
     public function update(PrescriptionRequest $request, string $id)
     {
         $this->authorize('chinh-sua-don-thuoc');
+
         try {
             $prescription = Prescription::findOrFail($id);
+            foreach ($prescription->medicines as $oldMedicine) {
+                $medicineModel = Medicine::find($oldMedicine->id);
+                if ($medicineModel) {
+                    $medicineModel->quantity += $oldMedicine->pivot->quantity;
+                    $medicineModel->save();
+                }
+            }
+            $prescription->medicines()->detach();
             $prescription->update([
                 'medical_certificate_id' => $request->medical_certificate_id,
                 'doctor_id' => auth()->guard('admin')->id(),
-                'note' => $request->note
+                'note' => $request->note,
             ]);
-            $prescription->medicines()->detach();
             $totalPayment = 0;
-            if (!empty($request->medicines)) {
-                foreach ($request->medicines as $medicine) {
-                    $med = Medicine::find($medicine['medicine']);
-                    if ($med) {
-                        $subtotal = $med->price * $medicine['quantity'];
-                        $totalPayment += $subtotal;
-                        $prescription->medicines()->attach($medicine['medicine'], [
-                            'quantity' => $medicine['quantity'],
-                            'dosage' => $medicine['dosage'],
-                            'price' => $med->price,
-                            'subtotal' => $subtotal,
-                        ]);
-                    }
+            foreach ($request->medicines as $medicine) {
+                $med = Medicine::find($medicine['medicine']);
+                if (!$med) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Thuốc không tồn tại.',
+                    ]);
                 }
+                if ($medicine['quantity'] > $med->quantity) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Thuốc '{$med->name}' không đủ tồn kho. Chỉ còn {$med->quantity} trong kho.",
+                    ]);
+                }
+                $subtotal = $med->price * $medicine['quantity'];
+                $totalPayment += $subtotal;
+                $prescription->medicines()->attach($medicine['medicine'], [
+                    'quantity' => $medicine['quantity'],
+                    'dosage' => $medicine['dosage'],
+                    'price' => $med->price,
+                    'subtotal' => $subtotal,
+                ]);
+                $med->quantity -= $medicine['quantity'];
+                $med->save();
             }
             $prescription->update(['total_payment' => $totalPayment]);
-
             Session::flash('success', 'Cập nhật đơn thuốc thành công');
             return response()->json([
                 'success' => true,
@@ -154,11 +179,10 @@ class PrescriptionController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi cập nhật đơn thuốc.',
+                'message' => 'Có lỗi xảy ra khi cập nhật đơn thuốc: ' . $e->getMessage(),
             ]);
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

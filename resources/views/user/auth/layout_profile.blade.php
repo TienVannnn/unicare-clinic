@@ -26,6 +26,11 @@
                             class="list-group-item list-group-item-action text-danger">
                             Thoát
                         </a>
+                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này không? Tất cả dữ liệu liên quan đến tài khoản sẽ mất hết?')"
+                            href="{{ route('user.delete-account') }}"
+                            class="list-group-item list-group-item-action text-danger">
+                            Xóa tài khoản
+                        </a>
                     </div>
                 </div>
             </div>

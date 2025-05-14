@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         app(PermissionRegistrar::class)->setPermissionClass(Permission::class);
         FacadesView::composer('*', function ($view) {
-            $menuItems = MenuItem::whereNull('parent_id')
+            $menuItems = MenuItem::where('menu_id', 1)->whereNull('parent_id')
                 ->with('children')
                 ->get();
             $view->with('menuItems', $menuItems);

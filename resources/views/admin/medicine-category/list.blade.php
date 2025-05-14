@@ -76,7 +76,9 @@
                                 @foreach ($categories as $key => $category)
                                     <tr>
                                         <td>{{ $categories->firstItem() + $key }}</td>
-                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->name }}
+                                            ({{ $category->medicines->count() }})
+                                        </td>
                                         <td>{{ $category->description ?? 'Không có' }}</td>
                                         <td>
                                             {!! $category->status == 1

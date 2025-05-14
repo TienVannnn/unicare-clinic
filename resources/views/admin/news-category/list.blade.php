@@ -76,7 +76,7 @@
                                 @foreach ($categories as $key => $category)
                                     <tr>
                                         <td>{{ $categories->firstItem() + $key }}</td>
-                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->name }} ({{ $category->news->count() }} bài viết)</td>
                                         <td>
                                             {!! $category->status == 1
                                                 ? '<span class="badge badge-success">Hoạt động</span>'

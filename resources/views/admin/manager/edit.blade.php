@@ -74,6 +74,50 @@
                             <input type="text" class="form-control" id="confirm" name="password_confirmation"
                                 placeholder="Nhập xác nhận mật khẩu">
                         </div>
+
+                        <div class="mb-3 col-md-6">
+                            <label for="clinic" class="form-label">Chuyên khoa <span class="text-danger">*</span></label>
+                            <select class="form-control tag-select3" id="department" name="department">
+                                <option value="" selected>Chọn chuyên khoa</option>
+                                @if (!empty($departments))
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department->id }}"
+                                            {{ $department->id === $manager->department->id ? 'selected' : '' }}>
+                                            {{ $department->name }}
+                                            ({{ $department->clinics->count() }} phòng khám)
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('department')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="clinic" class="form-label">Phòng ban <span class="text-danger">*</span></label>
+                            <select class="form-control tag-select2" id="clinic" name="clinic"
+                                data-selected="{{ old('clinic', $manager->clinic_id ?? '') }}">
+                                @if (!empty($clinics))
+                                    @foreach ($clinics as $clinic)
+                                        <option value="{{ $clinic->id }}"
+                                            {{ $clinic->id === $manager->clinic->id ? 'selected' : '' }}>
+                                            {{ $clinic->clinic_code }} -
+                                            {{ $clinic->name }}
+                                            @if (!empty($clinic->role_summary))
+                                                (@foreach ($clinic->role_summary as $role => $count)
+                                                    {{ $role }}: {{ $count }}{{ !$loop->last ? ',' : '' }}
+                                                @endforeach)
+                                            @else
+                                                (Không có nhân viên)
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('clinic')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="mb-3 col-md-6">
                             <label for="role" class="form-label">Vai trò <span class="text-danger">*</span></label>
                             <select class="form-control tag-select" multiple="multiple" id="role" name="role[]">
@@ -86,18 +130,16 @@
                                 @endif
                             </select>
                         </div>
-
                         <div class="mb-3 col-md-6">
-                            <label for="clinic" class="form-label">Phòng ban <span class="text-danger">*</span></label>
-                            <select class="form-control tag-select" id="clinic" name="clinic">
-                                @if (!empty($clinics))
-                                    @foreach ($clinics as $clinic)
-                                        <option value="{{ $clinic->id }}"
-                                            {{ $clinic->id === $manager->clinic->id ? 'selected' : '' }}>
-                                            {{ $clinic->name }}</option>
-                                    @endforeach
-                                @endif
+                            <label for="status" class="form-label">Trạng thái <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="1" {{ $manager->status == 1 ? 'selected' : '' }}>Hoạt động</option>
+                                <option value="0" {{ $manager->status == 0 ? 'selected' : '' }}>Khóa</option>
                             </select>
+                            @error('status')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Địa chỉ</label>
@@ -152,11 +194,5 @@
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $(function() {
-            $('.tag-select').select2({
-                placeholder: "Chọn vai trò"
-            })
-        })
-    </script>
+    <script src="{{ asset('admin-assets/js/custom/admin.js') }}"></script>
 @endsection

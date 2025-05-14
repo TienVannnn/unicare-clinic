@@ -29,7 +29,9 @@
                                 <option value="" selected>Chọn chuyên khoa</option>
                                 @if (!empty($departments))
                                     @foreach ($departments as $department)
-                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                        <option value="{{ $department->id }}">{{ $department->name }}
+                                            ({{ $department->clinics->count() }} phòng khám)
+                                        </option>
                                     @endforeach
                                 @endif
                             </select>

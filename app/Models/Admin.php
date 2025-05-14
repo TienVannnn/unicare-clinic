@@ -20,7 +20,9 @@ class Admin extends Authenticatable
         'phone',
         'address',
         'gender',
+        'department_id',
         'clinic_id',
+        'status',
         'token_reset_password',
         'token_duration'
     ];
@@ -32,6 +34,11 @@ class Admin extends Authenticatable
     public function clinic()
     {
         return $this->belongsTo(Clinic::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 
     public function schedule()

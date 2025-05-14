@@ -39,7 +39,9 @@ function addRow() {
 function getMedicineOptions() {
     let options = '<option value="" selected>Chọn thuốc</option>';
     medicines.forEach((medicine) => {
-        options += `<option value="${medicine.id}">${medicine.name}</option>`;
+        options += `<option value="${medicine.id}" data-quantity="${medicine.quantity}">
+                        ${medicine.name} (${medicine.quantity} ${medicine.unit} còn lại)
+                    </option>`;
     });
     return options;
 }
@@ -157,4 +159,27 @@ $(document).ready(function () {
 
         return `${day}/${month}/${year}`;
     }
+
+    $(document).on("change", ".tag-select3", function () {
+        const selectedOption = $(this).find("option:selected");
+        const quantity = selectedOption.data("quantity");
+        const row = $(this).closest(".medicine-row");
+        const quantityInput = row.find('input[type="number"]');
+        if (quantity) {
+            quantityInput.attr("max", quantity);
+            quantityInput.attr("placeholder", `Tối đa ${quantity}`);
+        } else {
+            quantityInput.removeAttr("max");
+            quantityInput.attr("placeholder", "Nhập số lượng");
+        }
+    });
+    $(document).on("input", 'input[type="number"]', function () {
+        const max = parseInt($(this).attr("max"));
+        const val = parseInt($(this).val());
+
+        if (max && val > max) {
+            $(this).val(max);
+            toastr.warning(`Số lượng không được vượt quá ${max}`);
+        }
+    });
 });

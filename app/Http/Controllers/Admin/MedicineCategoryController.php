@@ -19,7 +19,7 @@ class MedicineCategoryController extends Controller
     {
         $this->authorize('xem-danh-sach-loai-thuoc');
         $title = 'Danh sách loại thuốc';
-        $categories = MedicineCategory::orderByDesc('id')->paginate(15);
+        $categories = MedicineCategory::with('medicines')->orderByDesc('id')->paginate(15);
         return view('admin.medicine-category.list', compact('title', 'categories'));
     }
 

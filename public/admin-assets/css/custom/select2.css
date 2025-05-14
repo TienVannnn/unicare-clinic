@@ -33,3 +33,6 @@
 .select2-selection__clear {
     margin-top: 6px;
 }
+.select2-container {
+    width: 100% !important;
+}

@@ -77,7 +77,7 @@
                                 @foreach ($departments as $key => $department)
                                     <tr>
                                         <td>{{ $departments->firstItem() + $key }}</td>
-                                        <td>{{ $department->name }}</td>
+                                        <td>{{ $department->name }} ({{ $department->clinics->count() }} phòng khám)</td>
                                         <td>{{ $department->description ?? 'Chưa cập nhật' }}</td>
                                         <td>
                                             {!! $department->status == 1
