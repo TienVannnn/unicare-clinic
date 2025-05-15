@@ -13,8 +13,10 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Contact;
 use App\Models\Department;
+use App\Models\MedicalService;
 use App\Models\WorkSchedule;
 use App\Models\News;
+use App\Models\NewsCategory;
 use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,7 +30,7 @@ class HomeController extends Controller
         $title = 'Trang chủ';
         $departments = Department::orderByDesc('id')->get();
         $doctors = Admin::role('Bác sĩ')->orderByDesc('id')->get();
-        $news = News::orderByDesc('id')->take(9)->get();
+        $news = News::with('newsCategories')->orderByDesc('id')->take(9)->get();
         $clinic = Clinic::count();
         $patient = Patient::count();
         return view('user.home.home', compact('title', 'news', 'departments', 'doctors', 'clinic', 'patient'));
@@ -178,5 +180,14 @@ class HomeController extends Controller
 
         $title = 'Tìm kiếm bài viết';
         return view('user.news.search', compact('news', 'title'));
+    }
+
+    public function service_price()
+    {
+        $medical_services = MedicalService::orderByDesc('id')->paginate(12);
+        $news = News::with('newsCategories')->orderByDesc('id')->take(5)->get();
+        $categories = NewsCategory::orderByDesc('id')->get();
+        $title = 'Bảng giá dịch vụ';
+        return view('user.home.service-price', compact('title', 'medical_services', 'news', 'categories'));
     }
 }

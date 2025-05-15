@@ -144,8 +144,9 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
 });
 Route::get('/search', [HomeController::class, 'search'])->name('user.search');
-Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');
-Route::get('/doctor/{slugDoctor}', [DoctorController::class, 'doctor_detail'])->name('user.doctor-detail');
+Route::get('/doi-ngu-chuyen-gia', [DoctorController::class, 'doctors'])->name('user.doctors');
+Route::get('/bang-gia-dich-vu', [HomeController::class, 'service_price'])->name('user.service-price');
+Route::get('/bac-si/{slugDoctor}', [DoctorController::class, 'doctor_detail'])->name('user.doctor-detail');
 Route::get('/contact', [HomeController::class, 'contact_form'])->name('user.contact');
 Route::post('/contact', [HomeController::class, 'contact'])->name('user.contact');
 Route::get('/appointments/available-slots', [HomeController::class, 'getAvailableSlots'])->name('appointments.slots');

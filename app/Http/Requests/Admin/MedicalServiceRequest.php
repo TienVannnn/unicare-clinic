@@ -26,7 +26,8 @@ class MedicalServiceRequest extends FormRequest
             'name' => $medical_serviceId ?  "required|min:2|string|unique:medical_services,name,$medical_serviceId"
                 : 'required|min:2|string|unique:medical_services,name',
             'description' => 'nullable|string',
-            'price' => 'required',
+            'price' => 'required|min:0',
+            'insurance_price' => 'required|min:0',
             'clinic_ids' => 'required|array',
             'clinic_ids.*' => 'exists:clinics,id',
             'status' => 'required|in:1,0'
@@ -44,6 +45,9 @@ class MedicalServiceRequest extends FormRequest
             'description.string' => 'Mô tả dịch vụ phải là một chuỗi.',
 
             'price.required' => 'Giá dịch vụ là bắt buộc.',
+            'price.min' => 'Giá dịch vụ không được bé hơn 0',
+            'insurance_price.required' => 'Giá BHYT là bắt buộc.',
+            'insurance_price.min' => 'Giá BHYT không được bé hơn 0',
 
             'clinic.required' => 'Phòng khám là bắt buộc.',
             'clinic.exists' => 'Phòng khám không hợp lệ.',

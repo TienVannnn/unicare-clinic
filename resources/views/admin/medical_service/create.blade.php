@@ -33,9 +33,20 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="price" class="form-label">Giá <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('price') is-invalid @enderror" id="price"
-                                name="price" placeholder="Nhập giá dịch vụ khám" value="{{ old('price') }}">
+                            <input type="number" min="0" class="form-control @error('price') is-invalid @enderror"
+                                id="price" name="price" placeholder="Nhập giá dịch vụ khám"
+                                value="{{ old('price') }}">
                             @error('price')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="insurance_price" class="form-label">Giá BHYT<span
+                                    class="text-danger">*</span></label>
+                            <input type="number" min="0"
+                                class="form-control @error('insurance_price') is-invalid @enderror" id="insurance_price"
+                                name="insurance_price" placeholder="Nhập giá BHYT" value="{{ old('insurance_price') }}">
+                            @error('insurance_price')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>

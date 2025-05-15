@@ -46,6 +46,7 @@ class MedicalServiceController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
+                'insurance_price' => $request->insurance_price,
                 'status' => $request->status
             ]);
             $medical_service->clinics()->attach($request->clinic_ids);
@@ -90,6 +91,7 @@ class MedicalServiceController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
+                'insurance_price' => $request->insurance_price,
                 'status' => $request->status
             ]);
             $medical_service->clinics()->sync($request->clinic_ids);

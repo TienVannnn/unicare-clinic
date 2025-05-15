@@ -39,9 +39,20 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="price" class="form-label">Giá (VNĐ) <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $medical_service->price }}"
+                            <input type="number" min="0" value="{{ $medical_service->price }}"
                                 class="form-control @error('price') is-invalid @enderror" id="price" name="price">
                             @error('price')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="insurance_price" class="form-label">Giá BHYT<span
+                                    class="text-danger">*</span></label>
+                            <input type="number" min="0"
+                                class="form-control @error('insurance_price') is-invalid @enderror" id="insurance_price"
+                                value="{{ $medical_service->insurance_price }}" name="insurance_price"
+                                placeholder="Nhập giá BHYT" value="{{ old('insurance_price') }}">
+                            @error('insurance_price')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>

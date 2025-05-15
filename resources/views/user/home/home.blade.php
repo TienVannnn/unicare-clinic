@@ -97,11 +97,13 @@
                                     <i class="fa fa-ambulance"></i>
                                 </div>
                                 <div class="single-content">
-                                    <h4>Hỗ Trợ Y Tế 24/7</h4>
+                                    <h4>Bảng giá dịch vụ</h4>
                                     <p>
-                                        Luôn sẵn sàng hỗ trợ trong mọi tình huống khẩn cấp. Hãy liên hệ ngay khi bạn cần!
+                                        Chúng tôi cung cấp cho bạn bảng giá các dịch vụ để bạn có thể tham khảo các dịch vụ
+                                        phòng khám của chúng tôi!
                                     </p>
-                                    <a href="{{ route('user.contact') }}">Xem thêm<i class="fa fa-long-arrow-right"></i></a>
+                                    <a href="{{ route('user.service-price') }}">Xem thêm<i
+                                            class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -463,7 +465,8 @@
                                         <div class="date">{{ \Carbon\Carbon::parse($new->created_at)->format('d/m/Y') }}
                                         </div>
                                         <h2>
-                                            <a href="blog-single.html">{{ $new->title }}</a>
+                                            <a
+                                                href="{{ route('user.news-detail', ['slugCategory' => $new->newsCategories->first()->slug, 'slug' => $new->slug]) }}">{{ $new->title }}</a>
                                         </h2>
                                         <p class="text">
                                             {!! Str::limit(strip_tags($new->content), 150, '...') !!}

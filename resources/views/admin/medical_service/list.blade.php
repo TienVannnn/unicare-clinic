@@ -69,6 +69,7 @@
                                     <th scope="col">Tên dịch vụ khám</th>
                                     <th scope="col">Mô tả</th>
                                     <th scope="col">Giá (VNĐ)</th>
+                                    <th scope="col">Giá BHYT (VNĐ)</th>
                                     <th scope="col">Phòng khám</th>
                                     <th scope="col">Trạng thái</th>
                                     @can(['chinh-sua-dich-vu-kham', 'xoa-dich-vu-kham'])
@@ -84,6 +85,7 @@
                                         <td>{{ $medical_service->name }}</td>
                                         <td>{{ $medical_service->description ?? 'Chưa có mô tả' }}</td>
                                         <td>{{ number_format($medical_service->price, 0, ',', '.') }}</td>
+                                        <td>{{ number_format($medical_service->insurance_price, 0, ',', '.') }}</td>
                                         <td>
                                             @foreach ($medical_service->clinics as $clinic)
                                                 <span class="badge badge-info">{{ $clinic->name }}</span>
