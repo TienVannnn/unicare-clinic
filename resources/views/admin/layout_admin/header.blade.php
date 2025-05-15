@@ -57,7 +57,8 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i class="icon-pencil me-2"></i>Cài đặt tài
+                                <a class="dropdown-item" href="{{ route('admin.edit-account') }}"><i
+                                        class="icon-pencil me-2"></i>Cài đặt tài
                                     khoản</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('admin.change-password') }}"><i

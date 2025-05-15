@@ -14,12 +14,14 @@ class Admin extends Authenticatable
 
     protected $fillable = [
         'name',
+        'slug',
         'email',
         'password',
         'avatar',
         'phone',
         'address',
         'gender',
+        'experience',
         'department_id',
         'clinic_id',
         'status',

@@ -534,7 +534,7 @@ Preloader Area CSS
     top: 0;
     height: 100%;
     width: 100%;
-    background: #f05a28;
+    background: #fafafa;
     opacity: 0.8;
 }
 /* Bread Crumbs */
@@ -551,7 +551,7 @@ Preloader Area CSS
     text-align: center;
 }
 .breadcrumbs h2 {
-    color: #fff;
+    color: #f05a28;
     text-transform: capitalize;
     font-size: 38px;
     font-weight: 700;
@@ -565,7 +565,7 @@ Preloader Area CSS
 .breadcrumbs ul li {
     display: inline-block;
     position: relative;
-    color: #fff;
+    color: #f05a28;
     font-size: 15px;
     font-weight: 500;
     text-transform: capitalize;
@@ -574,10 +574,10 @@ Preloader Area CSS
     margin: 0px 10px;
     font-size: 14px;
     font-weight: 600;
-    color: #fff;
+    color: black;
 }
 .breadcrumbs ul li a {
-    color: #fff;
+    color: black;
     font-size: 15px;
     font-weight: 500;
     text-transform: capitalize;

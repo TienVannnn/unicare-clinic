@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="card-body">
-                <form action="{{ route('manager.update', $manager->id) }}" method="POST">
+                <form action="{{ route('manager.update', $manager->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -141,7 +141,7 @@
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 col-md-6">
                             <label for="address" class="form-label">Địa chỉ</label>
                             <input type="text" value="{{ $manager->address }}"
                                 class="form-control @error('address') is-invalid @enderror" id="address" name="address"
@@ -149,6 +149,16 @@
                             @error('address')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="avatar" class="form-label">Ảnh đại diện</label>
+                            <input type="file" class="form-control" id="avatar" name="avatar">
+                            @error('avatar')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                            @if ($manager->avatar)
+                                <img src="{{ $manager->avatar }}" alt="" width="100">
+                            @endif
                         </div>
                         <hr>
                         <h5 class="text-primary">Lịch làm việc (Thứ 2 đến Thứ 6)</h5>

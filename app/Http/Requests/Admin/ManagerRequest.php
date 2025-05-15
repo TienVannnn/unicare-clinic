@@ -28,13 +28,14 @@ class ManagerRequest extends FormRequest
                 ? "required|email|unique:admins,email,$adminId"
                 : 'required|email|unique:admins,email',
             'clinic' => 'required|exists:clinics,id',
-            'department' => 'nullable|exists:departments,id',
+            'department' => 'required|exists:departments,id',
             'role' => 'required|exists:roles,name',
             'password' => 'nullable|min:5|confirmed',
             'phone' => ['nullable', 'unique:admins,phone,' .  $adminId, 'regex:/^(0|\+84)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$/'],
             'address' => 'nullable|string',
             'gender' => 'nullable|in:1,2',
-            'status' => 'required|in:1,0'
+            'status' => 'required|in:1,0',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
@@ -51,14 +52,17 @@ class ManagerRequest extends FormRequest
 
             'clinic.required' => 'Vui lòng chọn phòng khám.',
             'clinic.exists' => 'Phòng khám không hợp lệ.',
-
+            'department.required' => 'Vui lòng chọn chuyên khoa.',
             'department.exists' => 'Chuyên khoa không hợp lệ.',
 
             'role.required' => 'Vui lòng chọn vai trò.',
             'role.exists' => 'Vai trò không hợp lệ.',
 
             'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
-            'password.confirmed' => 'Mật khẩu xác nhận không khớp.'
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            'avatar.image' => 'Vui lòng chọn ảnh',
+            'avatar.mimes' => 'Ảnh không đúng định dạng',
+            'avatar.max' => 'Kích thước ảnh vượt quá giới hạn'
         ];
     }
 }

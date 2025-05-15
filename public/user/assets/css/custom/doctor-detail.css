@@ -1,0 +1,74 @@
+.phoneAndMailDoctor {
+    margin-top: 15px;
+    position: relative;
+    padding-bottom: 15px;
+}
+.phoneAndMailDoctor::after {
+    height: 1px;
+    content: "";
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: #f6f6f6;
+    width: calc(50% - 10px);
+    width: -ms-calc(50% - 10px);
+    width: -o-calc(50% - 10px);
+}
+.phoneAndMailDoctor a {
+    color: #888888;
+    font-size: 14px;
+    line-height: 20px;
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    line-height: 30px;
+    font-weight: 300;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    margin-left: 30px;
+}
+.phoneAndMailDoctor a .iconContactDoctor {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #888888;
+    padding: 6px;
+    display: block;
+    position: absolute;
+    top: -2px;
+    left: 0;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+}
+.phoneAndMailDoctor a svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+    color: #888888;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+}
+.phoneAndMailDoctor a.phone {
+    font-weight: 700;
+    margin-right: 30px;
+}
+.phoneAndMailDoctor a:first-child {
+    margin-left: 0;
+}
+.phoneAndMailDoctor a:hover {
+    color: #f05a28;
+}
+.phoneAndMailDoctor a:hover svg {
+    color: #f05a28;
+}
+.phoneAndMailDoctor a:hover .iconContactDoctor {
+    border: 1px solid #f05a28;
+}

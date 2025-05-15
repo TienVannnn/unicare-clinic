@@ -56,7 +56,9 @@
                                     <option value="" selected>Chọn chuyên khoa</option>
                                     @if ($departments)
                                         @foreach ($departments as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            <option value="{{ $department->id }}"
+                                                @if (isset($selectedDepartmentId) && $selectedDepartmentId == $department->id) selected @endif>{{ $department->name }}
+                                            </option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -69,7 +71,9 @@
                                         <option value="" selected>Chọn bác sĩ</option>
                                         @if ($doctors)
                                             @foreach ($doctors as $doctor)
-                                                <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
+                                                <option value="{{ $doctor->id }}"
+                                                    @if (isset($selectedDoctor) && $selectedDoctor->id == $doctor->id) selected @endif>{{ $doctor->name }}
+                                                </option>
                                             @endforeach
                                         @endif
                                     </select>

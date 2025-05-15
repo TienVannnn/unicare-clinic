@@ -145,6 +145,7 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
 });
 Route::get('/search', [HomeController::class, 'search'])->name('user.search');
 Route::get('/doctors', [DoctorController::class, 'doctors'])->name('user.doctors');
+Route::get('/doctor/{slugDoctor}', [DoctorController::class, 'doctor_detail'])->name('user.doctor-detail');
 Route::get('/contact', [HomeController::class, 'contact_form'])->name('user.contact');
 Route::post('/contact', [HomeController::class, 'contact'])->name('user.contact');
 Route::get('/appointments/available-slots', [HomeController::class, 'getAvailableSlots'])->name('appointments.slots');

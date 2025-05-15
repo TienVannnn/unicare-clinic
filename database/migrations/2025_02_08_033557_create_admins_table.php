@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->string('avatar')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone', 11)->nullable();
             $table->string('address')->nullable();
             $table->integer('gender')->nullable();
+            $table->mediumText('experience');
             $table->foreignId('clinic_id')->constrained('clinics')->onDelete('restrict');
             $table->string('token_reset_password')->nullable();
             $table->timestamp('token_duration')->nullable();

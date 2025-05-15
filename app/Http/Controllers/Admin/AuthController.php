@@ -113,7 +113,6 @@ class AuthController extends Controller
         $request->validate([
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
         $admin = Auth::guard('admin')->user();
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');

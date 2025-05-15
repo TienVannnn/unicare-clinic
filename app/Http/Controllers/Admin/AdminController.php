@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ManagerRequest;
 use App\Jobs\MailAccountJob;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -86,6 +88,7 @@ class AdminController extends Controller
             $rand = rand(100000, 999999);
             $admin = Admin::create([
                 'name' => $request->name,
+                'slug' => Helper::createSlug($request->name),
                 'email' => $request->email,
                 'password' => Hash::make($rand),
                 'clinic_id' => $request->clinic,
@@ -151,6 +154,7 @@ class AdminController extends Controller
             DB::beginTransaction();
             $manager->fill([
                 'name' => $request->name,
+                'slug' => Helper::createSlug($request->name),
                 'email' => $request->email,
                 'clinic_id' => $request->clinic,
                 'phone' => $request->phone,
@@ -161,6 +165,17 @@ class AdminController extends Controller
             ]);
             if ($request->password) {
                 $manager->password = Hash::make($request->password);
+            }
+            if ($request->hasFile('avatar')) {
+                $file = $request->file('avatar');
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $filename = time() . '_' . Str::slug($originalName) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/avatars'), $filename);
+
+                if ($manager->avatar && file_exists(public_path($manager->avatar))) {
+                    unlink(public_path($manager->avatar));
+                }
+                $manager->avatar = '/uploads/avatars/' . $filename;
             }
             $manager->save();
             $manager->syncRoles($request->role ?? []);

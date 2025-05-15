@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->mediumText('description')->nullable();
             $table->bigInteger('price');
+            $table->decimal('insurance_price');
             $table->timestamps();
         });
     }

@@ -34,22 +34,24 @@
                 @if ($doctors)
                     @foreach ($doctors as $doctor)
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="team-item position-relative rounded overflow-hidden">
-                                <div class="overflow-hidden">
-                                    <img class="img-fluid img-doctor"
-                                        src="{{ $doctor->avatar ?? '/uploads/avatars/no-image.jpg' }}"
-                                        alt="website template image" />
-                                </div>
-                                <div class="team-text bg-light-second text-center p-4">
-                                    <h5>{{ $doctor->name }}</h5>
-                                    <p class="text-primary">{{ $doctor->clinic->name }}</p>
-                                    <div class="team-social text-center">
-                                        <a class="btnn btnn-square" href="/"><i class="icofont-facebook"></i></a>
-                                        <a class="btnn btnn-square" href="mailto:{{ $doctor->email }}"><i
-                                                class="icofont-google-plus"></i></a>
+                            <a href="{{ route('user.doctor-detail', $doctor->slug) }}">
+                                <div class="team-item position-relative rounded overflow-hidden">
+                                    <div class="overflow-hidden">
+                                        <img class="img-fluid img-doctor"
+                                            src="{{ $doctor->avatar ?? '/uploads/avatars/no-image.jpg' }}"
+                                            alt="website template image" />
+                                    </div>
+                                    <div class="team-text bg-light-second text-center p-4">
+                                        <h5>Bs {{ $doctor->name }}</h5>
+                                        <p class="text-bg-dark">{{ $doctor->department->name ?? $doctor->clinic->name }}</p>
+                                        <div class="team-social text-center">
+                                            <a class="btnn btnn-square" href="/"><i class="icofont-facebook"></i></a>
+                                            <a class="btnn btnn-square" href="mailto:{{ $doctor->email }}"><i
+                                                    class="icofont-google-plus"></i></a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
                 @endif

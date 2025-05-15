@@ -105,12 +105,21 @@ class HomeController extends Controller
         return $slots;
     }
 
-    public function book_appointment_page()
+    public function book_appointment_page(Request $request)
     {
         $title = 'Đặt lịch hẹn khám';
         $departments = Department::where('status', 1)->orderByDesc('id')->get();
         $doctors = Admin::role('Bác sĩ')->orderByDesc('id')->get();
-        return view('user.home.booking_appointment', compact('title', 'departments', 'doctors'));
+        $selectedDoctor = null;
+        $selectedDepartmentId = null;
+        if ($request->has('doctor_id')) {
+            $selectedDoctor = Admin::role('Bác sĩ')->with('department')->find($request->doctor_id);
+            if ($selectedDoctor) {
+                $selectedDepartmentId = $selectedDoctor->department->id;
+            }
+        }
+
+        return view('user.home.booking_appointment', compact('title', 'departments', 'doctors', 'selectedDoctor', 'selectedDepartmentId'));
     }
 
     public function book_appointment(BookAppointmentRequest $request)
