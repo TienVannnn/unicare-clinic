@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\ContactReplyJob;
+use App\Models\Admin;
 use App\Models\Appointment;
 use App\Models\AppointmentReply;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,6 +20,12 @@ class AppointmentController extends Controller
     public function index()
     {
         $this->authorize('xem-danh-sach-lich-hen-kham');
+        $admin = auth()->guard('admin')->user();
+        if ($admin->hasRole('Bác sĩ')) {
+            $title = 'Danh sách lịch hẹn khám của Bs ' . $admin->name;
+            $appointments = Appointment::where('doctor_id', $admin->id)->orderByDesc('id')->paginate(15);
+            return view('admin.appointment.list', compact('title', 'appointments'));
+        }
         $title = 'Danh sách lịch hẹn khám';
         $appointments = Appointment::orderByDesc('id')->paginate(15);
         return view('admin.appointment.list', compact('title', 'appointments'));
@@ -31,7 +38,8 @@ class AppointmentController extends Controller
         if ($appointment->is_viewed == 0) $appointment->update(['is_viewed' => 1]);
         $replies = $appointment->appointmentReplies;
         $title = 'Chi tiết lịch hẹn khám';
-        return view('admin.appointment.detail_appointment', compact('title', 'appointment', 'replies'));
+        $admin = auth()->guard('admin')->user();
+        return view('admin.appointment.detail_appointment', compact('title', 'appointment', 'replies', 'admin'));
     }
 
     public function destroy(string $id)
@@ -145,6 +153,12 @@ class AppointmentController extends Controller
         $this->authorize('tra-loi-lich-hen-kham');
         $title = 'Phản hồi lịch hẹn khám';
         $appointment = Appointment::findOrFail($id);
+        $admin = auth()->guard('admin')->user();
+        if ($admin->hasRole('Bác sĩ')) {
+            if ($admin->id == $appointment->doctor_id) {
+                return view('admin.appointment.appointment-reply', compact('title', 'appointment'));
+            } else abort(403);
+        }
         return view('admin.appointment.appointment-reply', compact('title', 'appointment'));
     }
 

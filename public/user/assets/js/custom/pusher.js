@@ -38,7 +38,11 @@ channel_appointment.bind("appointment-created", function (data) {
         </div>
         <div class="notif-content">
             <span class="block">${data.name} đã đặt lịch hẹn khám</span>
-            <span class="time">Vừa xong</span>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="time">Vừa xong</span>
+                <span style="color: #ff9523; font-size: 11px;">Bs
+                    ${data.doctor}</span>
+            </div>
         </div>
     </a>
 `;

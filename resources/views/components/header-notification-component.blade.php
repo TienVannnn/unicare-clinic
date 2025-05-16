@@ -57,7 +57,6 @@
     </li>
 @endcan
 @can('xem-danh-sach-lich-hen-kham')
-
     <li class="nav-item topbar-icon dropdown hidden-caret">
         <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -73,7 +72,7 @@
                 <li>
                     <a href="{{ route('appointment.unread') }}">
                         <div class="dropdown-title text-danger">
-                            Bạn có {{ $countAppointment }} lịch hẹn khám chưa đọc
+                            {{ $countAppointment }} lịch hẹn khám chưa đọc
                         </div>
                     </a>
                 </li>
@@ -85,7 +84,7 @@
                             @foreach ($appointments as $appointment)
                                 <a href="{{ route('appointment.show', $appointment->id) }}"
                                     class="{{ $appointment->is_viewed == 0 ? 'fw-bold text-black' : '' }}"
-                                    title="@if ($appointment->isviewed) Đã đọc
+                                    title="@if ($appointment->is_viewed) Đã đọc
                             @else
                             Chưa đọc @endif">
                                     <div class="notif-icon notif-primary">
@@ -95,7 +94,11 @@
                                         <span class="block"> <span
                                                 style="color: dodgerblue">{{ $appointment->name }}</span> đã đặt lịch hẹn
                                             khám</span>
-                                        <span class="time">{{ $appointment->created_at->diffForHumans() }}</span>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="time">{{ $appointment->created_at->diffForHumans() }}</span>
+                                            <span style="color: #ff9523; font-size: 11px;">Bs
+                                                {{ $appointment->doctor->name }}</span>
+                                        </div>
                                     </div>
                                 </a>
                             @endforeach

@@ -16,15 +16,17 @@ class AppointmentEvent implements ShouldBroadcast
     public $name;
     public $id;
     public $count;
+    public $doctor;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($name, $id, $count)
+    public function __construct($name, $id, $count, $doctor)
     {
         $this->name = $name;
         $this->id = $id;
         $this->count = $count;
+        $this->doctor = $doctor;
     }
 
     public function broadcastOn()
@@ -43,6 +45,7 @@ class AppointmentEvent implements ShouldBroadcast
             'name' => $this->name,
             'id' => $this->id,
             'count' => $this->count,
+            'doctor' => $this->doctor,
         ];
     }
 }

@@ -18,6 +18,5 @@
     @endif
 </script>
 
-
 <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
 <script src="{{ asset('user/assets/js/custom/pusher.js') }}"></script>

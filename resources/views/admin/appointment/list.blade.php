@@ -43,7 +43,7 @@
                 @if (count($filters))
                     Tìm kiếm lịch hẹn khám
                 @else
-                    Danh sách lịch hẹn khám
+                    {{ $title }}
                 @endif
             </div>
             <div class="fw-bold text-capitalize">

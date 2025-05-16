@@ -144,7 +144,8 @@ class HomeController extends Controller
             ]);
             AppointmentJob::dispatch($data->email, $data->cancel_token)->delay(now()->addSecond(10));
             $count = Appointment::where('is_viewed', false)->count();
-            event(new AppointmentEvent($data['name'], $data['id'], $count));
+            $doctor = Admin::find($data['doctor_id']);
+            event(new AppointmentEvent($data['name'], $data['id'], $count, $doctor->name));
             return response()->json(['success' => true, 'message' => 'Đặt lịch khám thành công']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Có lỗi khi đặt lịch khám!']);

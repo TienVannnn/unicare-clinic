@@ -23,6 +23,7 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AuthController as AuthUserController;
 use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\NewsController as UserNewsController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -116,7 +117,6 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/appointment/{id}/confirm', [AppointmentController::class, 'confirm'])->name('admin.confirm-appointment');
     Route::get('/appointment/{id}/cancle', [AppointmentController::class, 'cancle'])->name('admin.cancle-appointment');
 });
-
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::prefix('/auth')->group(function () {
     Route::get('/google/login', [AuthUserController::class, 'redirectToGoogle'])->name('user.google-login');

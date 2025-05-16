@@ -72,20 +72,38 @@
                                     class="fas fa-arrow-left me-2" data-bs-toggle="tooltip"></i>Quay
                                 lại</a>&nbsp;
                             @can('tra-loi-lich-hen-kham')
-                                <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
-                                    class="btn btn-success"><i class="fas fa-reply me-2"></i>Phản hồi</a>
-                                &nbsp;
+                                @if ($admin->hasRole('Bác sĩ') && $appointment->doctor_id == $admin->id)
+                                    <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
+                                        class="btn btn-success"><i class="fas fa-reply me-2"></i>Phản hồi</a>
+                                    &nbsp;
+                                @elseif(!$admin->hasRole('Bác sĩ'))
+                                    <a href="{{ route('admin.reply-appointment', $appointment->id) }}" title="Gửi phản hồi"
+                                        class="btn btn-success"><i class="fas fa-reply me-2"></i>Phản hồi</a>
+                                    &nbsp;
+                                @endif
                             @endcan
                             @can('xoa-lich-hen-kham')
-                                <form action="{{ route('admin.appointment-delete', $appointment->id) }}" method="POST"
-                                    class="delete-form" style="display: inline-block">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" title="Xóa lịch hẹn" class="btn btn-danger"
-                                        onclick="return confirm('Bạn có chắc chắn muốn xóa lịch hẹn này')">
-                                        <i class="fas fa-trash me-2" data-bs-toggle="tooltip" title="Xóa lịch hẹn"></i> Xóa
-                                    </button>
-                                </form>
+                                @if ($admin->hasRole('Bác sĩ') && $appointment->doctor_id == $admin->id)
+                                    <form action="{{ route('admin.appointment-delete', $appointment->id) }}" method="POST"
+                                        class="delete-form" style="display: inline-block">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" title="Xóa lịch hẹn" class="btn btn-danger"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa lịch hẹn này')">
+                                            <i class="fas fa-trash me-2" data-bs-toggle="tooltip" title="Xóa lịch hẹn"></i> Xóa
+                                        </button>
+                                    </form>
+                                @elseif(!$admin->hasRole('Bác sĩ'))
+                                    <form action="{{ route('admin.appointment-delete', $appointment->id) }}" method="POST"
+                                        class="delete-form" style="display: inline-block">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" title="Xóa lịch hẹn" class="btn btn-danger"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa lịch hẹn này')">
+                                            <i class="fas fa-trash me-2" data-bs-toggle="tooltip" title="Xóa lịch hẹn"></i> Xóa
+                                        </button>
+                                    </form>
+                                @endif
                             @endcan
                         </td>
                     </tr>
