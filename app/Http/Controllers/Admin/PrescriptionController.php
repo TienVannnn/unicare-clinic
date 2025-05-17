@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\PrescriptionRequest;
 use App\Models\Admin;
 use App\Models\MedicalCertificate;
 use App\Models\Medicine;
+use App\Models\MedicineBatch;
 use App\Models\Patient;
 use App\Models\Prescription;
 use App\Models\PrescriptionMedicine;
@@ -37,10 +38,36 @@ class PrescriptionController extends Controller
         $this->authorize('them-don-thuoc');
         $title = 'Thêm đơn thuốc';
         $doctors = Admin::role('Bác sĩ')->get();
-        $medicines = Medicine::orderByDesc('id')->get();
+        $medicines = Medicine::with(['batches' => function ($query) {
+            $query->orderBy('expiry_date', 'asc');
+        }])->orderByDesc('id')->get();
+        $medicines->map(function ($medicine) {
+            $firstBatch = $medicine->batches->first();
+            $medicine->batch_quantity_remaining = $firstBatch ? $firstBatch->total_quantity : 0;
+            return $medicine;
+        });
         $medical_certificates = MedicalCertificate::orderByDesc('id')->get();
         return view('admin.prescription.create', compact('doctors', 'medicines', 'title', 'medical_certificates'));
     }
+
+    public function getLatestBatch($medicineId)
+    {
+        $medicine = Medicine::findOrFail($medicineId);
+        $batch = $medicine->batches()->orderBy('expiry_date', 'asc')->first();
+        if (!$batch) {
+            return response()->json(['exists' => false]);
+        }
+        return response()->json([
+            'exists' => true,
+            'batch' => [
+                'id' => $batch->id,
+                'batch_number' => $batch->batch_code,
+                'total_quantity' => $batch->total_quantity,
+                'expiry_date' => $batch->expiry_date,
+            ]
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -50,6 +77,7 @@ class PrescriptionController extends Controller
         $this->authorize('them-don-thuoc');
         try {
             $totalPayment = 0;
+
             $prescription = Prescription::create([
                 'medical_certificate_id' => $request->medical_certificate_id,
                 'doctor_id' => auth()->guard('admin')->id(),
@@ -57,32 +85,53 @@ class PrescriptionController extends Controller
                 'status' => 0,
                 'total_payment' => 0,
             ]);
+
             foreach ($request->medicines as $medicine) {
-                $med = Medicine::find($medicine['medicine']);
+                $med = Medicine::with(['batches' => function ($q) {
+                    $q->orderBy('expiry_date', 'asc');
+                }])->find($medicine['medicine']);
+
                 if (!$med) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Thuốc không tồn tại.',
                     ]);
                 }
-                if ($medicine['quantity'] > $med->quantity) {
+
+                $remainingQty = $medicine['quantity'];
+                $price = $med->sale_price;
+                $subtotal = $price * $remainingQty;
+                $totalPayment += $subtotal;
+
+                $batchUsed = null;
+
+                foreach ($med->batches as $batch) {
+                    if ($batch->total_quantity >= $remainingQty) {
+                        $batch->total_quantity -= $remainingQty;
+                        $batch->save();
+                        $batchUsed = $batch->id;
+                        break;
+                    }
+                }
+
+                if (!$batchUsed) {
                     return response()->json([
                         'success' => false,
-                        'message' => "Thuốc '{$med->name}' không đủ tồn kho. Chỉ còn {$med->quantity} trong kho.",
+                        'message' => "Không đủ thuốc '{$med->name}' trong các lô.",
                     ]);
                 }
-                $subtotal = $med->price * $medicine['quantity'];
-                $totalPayment += $subtotal;
-                $prescription->medicines()->attach($medicine['medicine'], [
-                    'quantity' => $medicine['quantity'],
+
+                $prescription->medicines()->attach($med->id, [
+                    'quantity' => $remainingQty,
                     'dosage' => $medicine['dosage'],
-                    'price' => $med->price,
+                    'price' => $price,
                     'subtotal' => $subtotal,
+                    'medicine_batch_id' => $batchUsed,
                 ]);
-                $med->quantity -= $medicine['quantity'];
-                $med->save();
             }
+
             $prescription->update(['total_payment' => $totalPayment]);
+
             Session::flash('success', 'Đơn thuốc đã được lưu thành công');
             return response()->json([
                 'success' => true,
@@ -95,8 +144,6 @@ class PrescriptionController extends Controller
             ]);
         }
     }
-
-
 
     /**
      * Display the specified resource.
@@ -118,7 +165,14 @@ class PrescriptionController extends Controller
         $prescription = Prescription::with('doctor', 'medicines', 'medical_certificate')->findOrFail($id);
         $medical_certificates = MedicalCertificate::orderByDesc('id')->get();
         $doctors = Admin::role('Bác sĩ')->get();
-        $medicines = Medicine::orderByDesc('id')->get();
+        $medicines = Medicine::with(['batches' => function ($query) {
+            $query->orderBy('expiry_date', 'asc');
+        }])->orderByDesc('id')->get();
+        $medicines->map(function ($medicine) {
+            $firstBatch = $medicine->batches->first();
+            $medicine->batch_quantity_remaining = $firstBatch ? $firstBatch->total_quantity : 0;
+            return $medicine;
+        });
         return view('admin.prescription.edit', compact('prescription', 'doctors', 'medicines', 'title', 'medical_certificates'));
     }
 
@@ -128,49 +182,75 @@ class PrescriptionController extends Controller
     public function update(PrescriptionRequest $request, string $id)
     {
         $this->authorize('chinh-sua-don-thuoc');
-
         try {
-            $prescription = Prescription::findOrFail($id);
+            $prescription = Prescription::with('medicines')->findOrFail($id);
             foreach ($prescription->medicines as $oldMedicine) {
-                $medicineModel = Medicine::find($oldMedicine->id);
-                if ($medicineModel) {
-                    $medicineModel->quantity += $oldMedicine->pivot->quantity;
-                    $medicineModel->save();
+                $batchId = $oldMedicine->pivot->medicine_batch_id ?? null;
+                if ($batchId) {
+                    $batch = MedicineBatch::find($batchId);
+                    if ($batch) {
+                        $batch->total_quantity += $oldMedicine->pivot->quantity;
+                        $batch->save();
+                    }
                 }
             }
+
             $prescription->medicines()->detach();
+
             $prescription->update([
                 'medical_certificate_id' => $request->medical_certificate_id,
                 'doctor_id' => auth()->guard('admin')->id(),
                 'note' => $request->note,
             ]);
+
             $totalPayment = 0;
+
             foreach ($request->medicines as $medicine) {
-                $med = Medicine::find($medicine['medicine']);
+                $med = Medicine::with(['batches' => function ($q) {
+                    $q->orderBy('expiry_date', 'asc');
+                }])->find($medicine['medicine']);
+
                 if (!$med) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Thuốc không tồn tại.',
                     ]);
                 }
-                if ($medicine['quantity'] > $med->quantity) {
+
+                $remainingQty = $medicine['quantity'];
+                $price = $med->sale_price;
+                $subtotal = $price * $remainingQty;
+                $totalPayment += $subtotal;
+
+                $batchUsed = null;
+
+                foreach ($med->batches as $batch) {
+                    if ($batch->total_quantity >= $remainingQty) {
+                        $batch->total_quantity -= $remainingQty;
+                        $batch->save();
+                        $batchUsed = $batch->id;
+                        break;
+                    }
+                }
+
+                if (!$batchUsed) {
                     return response()->json([
                         'success' => false,
-                        'message' => "Thuốc '{$med->name}' không đủ tồn kho. Chỉ còn {$med->quantity} trong kho.",
+                        'message' => "Không đủ thuốc '{$med->name}' trong các lô.",
                     ]);
                 }
-                $subtotal = $med->price * $medicine['quantity'];
-                $totalPayment += $subtotal;
-                $prescription->medicines()->attach($medicine['medicine'], [
-                    'quantity' => $medicine['quantity'],
+
+                $prescription->medicines()->attach($med->id, [
+                    'quantity' => $remainingQty,
                     'dosage' => $medicine['dosage'],
-                    'price' => $med->price,
+                    'price' => $price,
                     'subtotal' => $subtotal,
+                    'medicine_batch_id' => $batchUsed,
                 ]);
-                $med->quantity -= $medicine['quantity'];
-                $med->save();
             }
+
             $prescription->update(['total_payment' => $totalPayment]);
+
             Session::flash('success', 'Cập nhật đơn thuốc thành công');
             return response()->json([
                 'success' => true,
@@ -183,6 +263,7 @@ class PrescriptionController extends Controller
             ]);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

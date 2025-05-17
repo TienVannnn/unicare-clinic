@@ -44,7 +44,7 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $medicine->name }}</td>
                                         <td>{{ $medicine->pivot->dosage }}</td>
-                                        <td>{{ $medicine->pivot->quantity }} {{ $medicine->unit }}</td>
+                                        <td>{{ $medicine->pivot->quantity }} {{ $medicine->base_unit }}</td>
                                         <td>{{ number_format($medicine->pivot->price) }} VNĐ</td>
                                         <td>{{ number_format($medicine->pivot->subtotal) }} VNĐ</td>
                                     </tr>
@@ -67,8 +67,7 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-between">
-                    <a href="{{ route('prescription.index') }}" class="btn btn-secondary">Quay lại</a>
-
+                    <a href="javascript:history.back()" class="btn btn-secondary">Quay lại</a>
                     @if ($prescription->status == 0)
                         <form action="{{ route('prescription.pay', $prescription->id) }}" method="POST" class="pay-form">
                             @csrf

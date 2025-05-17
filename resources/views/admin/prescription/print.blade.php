@@ -77,7 +77,6 @@
             </span>
         </p>
         <p><strong>Địa chỉ:</strong> {{ $prescription->medical_certificate->patient->address }}</p>
-        <p><strong>Số thẻ BHYT (nếu có):</strong> ......................................</p>
     </div>
 
     <table>
@@ -97,7 +96,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td><strong>{{ $medicine->name }}</strong></td>
                     <td>{{ $medicine->pivot->dosage }}</td>
-                    <td>{{ $medicine->pivot->quantity }} {{ $medicine->unit }}</td>
+                    <td>{{ $medicine->pivot->quantity }} {{ $medicine->base_unit }}</td>
                     <td>{{ number_format($medicine->pivot->price, 0, ',', '.') }} VND</td>
                     <td>{{ number_format($medicine->pivot->subtotal, 0, ',', '.') }} VND</td>
                 </tr>
@@ -106,7 +105,7 @@
     </table>
 
     <p><strong>Lời dặn:</strong> {{ $prescription->note }}</p>
-    <p><strong>Ngày tái khám:</strong> {{ $prescription->created_at->format('d/m/Y') }}</p>
+    <p><strong>Ngày khám:</strong> {{ $prescription->created_at->format('d/m/Y') }}</p>
     <p><strong>Tổng tiền:</strong> {{ number_format($prescription->total_payment, 0, ',', '.') }} VNĐ</p>
 
     <div class="sign">

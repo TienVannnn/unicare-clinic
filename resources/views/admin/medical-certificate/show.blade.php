@@ -77,9 +77,22 @@
                     </div>
                 @endif
 
-                <div class="mt-3">
-                    <h5>✅ Kết luận</h5>
-                    <p>{!! $medical_certificate->conclude !!}</p>
+                <div class="row">
+                    <div class="mt-3 col-md-6">
+                        <h5>✅ Kết luận</h5>
+                        <p>{!! $medical_certificate->conclude !!}</p>
+                    </div>
+                    <div class="mt-3 col-md-6">
+                        <h5>💊 Đơn thuốc</h5>
+
+                        @if ($medical_certificate->prescription)
+                            <a href="{{ route('prescription.show', $medical_certificate->prescription->id) }}">Xem đơn
+                                thuốc</a>
+                        @else
+                            <span class="text-danger">Chưa kê đơn</span>
+                        @endif
+                    </div>
+
                 </div>
 
                 <div class="row mt-3">
@@ -114,8 +127,7 @@
                 @endif
 
                 <div class="mt-4 d-flex justify-content-between">
-                    <a href="{{ route('medical-certificate.index') }}" class="btn btn-secondary">Quay lại</a>
-
+                    <a href="javascript:history.back()" class="btn btn-secondary">Quay lại</a>
                     @if ($medical_certificate->payment_status != 1)
                         @if ($medical_certificate->medical_service_id && $medical_certificate->payment_status != 2)
                             <button type="button" class="btn btn-warning pay-advance-btn"

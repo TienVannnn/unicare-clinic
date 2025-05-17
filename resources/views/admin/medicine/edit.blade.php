@@ -19,10 +19,19 @@
                     @method('PUT')
                     <div class="row">
                         <div class="mb-3 col-md-6">
+                            <label for="medicine_code" class="form-label">Mã thuốc <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('medicine_code') is-invalid @enderror"
+                                id="medicine_code" name="medicine_code" placeholder="Nhập mã thuốc"
+                                value="{{ $medicine->medicine_code }}">
+                            @error('medicine_code')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Tên thuốc <span class="text-danger">*</span></label>
                             <input type="text" value="{{ $medicine->name }}"
-                                class="form-control @error('name') is-invalid @enderror" id="name"
-                                aria-describedby="emailHelp" name="name">
+                                class="form-control @error('name') is-invalid @enderror" id="name" name="name">
                             @error('name')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
@@ -45,32 +54,69 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="unit" class="form-label">Đơn vị <span class="text-danger">*</span></label>
+                            <label for="ingredient" class="form-label">Thành phần hoạt chất </label>
+                            <input type="text" class="form-control @error('ingredient') is-invalid @enderror"
+                                id="ingredient" name="ingredient" placeholder="Nhập thành phần hoạt chất"
+                                value="{{ $medicine->ingredient }}">
+                            @error('ingredient')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <label for="dosage_strength" class="form-label">Hàm lượng </label>
+                            <input type="text" class="form-control @error('dosage_strength') is-invalid @enderror"
+                                id="dosage_strength" name="dosage_strength" placeholder="Nhập hàm lượng"
+                                value="{{ $medicine->dosage_strength }}">
+                            @error('dosage_strength')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="unit" class="form-label">Đơn vị tính <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('unit') is-invalid @enderror" id="unit"
-                                name="unit" placeholder="Nhập đơn vị tính" value="{{ $medicine->unit }}">
+                                name="unit" placeholder="Nhập đơn vị tính (ví dụ: viên, lọ)"
+                                value="{{ $medicine->unit }}">
                             @error('unit')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="mb-3 col-md-6">
-                            <label for="price" class="form-label">Giá <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('price') is-invalid @enderror" id="price"
-                                name="price" placeholder="Nhập giá" value="{{ $medicine->price }}">
-                            @error('price')
+                            <label for="packaging" class="form-label">Quy cách đóng gói <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('packaging') is-invalid @enderror"
+                                id="packaging" name="packaging" placeholder="Nhập quy cách đóng gói (ví dụ: hộp, vỉ)"
+                                value="{{ $medicine->packaging }}">
+                            @error('packaging')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <label for="base_unit" class="form-label">Đơn vị cơ sở <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('base_unit') is-invalid @enderror"
+                                id="base_unit" name="base_unit" placeholder="Nhập đơn vị cơ sở (ví dụ: viên)"
+                                value="{{ $medicine->base_unit }}">
+                            @error('base_unit')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <label for="quantity_per_unit" class="form-label">Số lượng theo đơn vị cơ sở <span
+                                    class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('quantity_per_unit') is-invalid @enderror"
+                                id="quantity_per_unit" name="quantity_per_unit"
+                                placeholder="Nhập số lượng theo đơn vị cơ sở" value="{{ $medicine->quantity_per_unit }}">
+                            @error('quantity_per_unit')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="quantity" class="form-label">Số lượng <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('quantity') is-invalid @enderror"
-                                id="quantity" name="quantity" placeholder="Nhập số lượng"
-                                value="{{ $medicine->quantity }}">
-                            @error('quantity')
-                                <div class="message-error">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                            <label for="status" class="form-label">Trạng thái <span
+                                    class="text-danger">*</span></label>
                             <select name="status" id="status" class="form-select">
                                 <option value="1" {{ $medicine->status == 1 ? 'selected' : '' }}>Hoạt động</option>
                                 <option value="0" {{ $medicine->status == 0 ? 'selected' : '' }}>Tạm ngưng</option>
@@ -79,12 +125,12 @@
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Mô tả <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $medicine->description }}"
-                                class="form-control @error('description') is-invalid @enderror" id="description"
-                                name="description">
-                            @error('description')
+                        <div class="mb-3 col-md-6">
+                            <label for="sale_price" class="form-label">Giá bán <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('sale_price') is-invalid @enderror"
+                                id="sale_price" name="sale_price" placeholder="Nhập giá bán"
+                                value="{{ $medicine->sale_price }}">
+                            @error('sale_price')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>

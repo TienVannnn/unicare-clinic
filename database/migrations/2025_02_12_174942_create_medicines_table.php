@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('medicines', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('medicine_code');
+            $table->string('ingredient')->nullable();
+            $table->string('dosage_strength')->nullable();
             $table->string('unit');
-            $table->integer('price');
-            $table->integer('quantity');
+            $table->string('packaging')->nullable();
+            $table->string('base_unit')->default('viên');
+            $table->integer('quantity_per_unit')->default(1);
+            $table->integer('sale_price');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

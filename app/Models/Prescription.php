@@ -19,7 +19,7 @@ class Prescription extends Model
 
     public function medicines()
     {
-        return $this->belongsToMany(Medicine::class, 'prescription_medicine', 'prescription_id',  'medicine_id')->withPivot('quantity', 'dosage', 'price', 'subtotal')
+        return $this->belongsToMany(Medicine::class, 'prescription_medicine', 'prescription_id',  'medicine_id')->withPivot('quantity', 'dosage', 'price', 'subtotal', 'medicine_batch_id')
             ->withTimestamps();
     }
 

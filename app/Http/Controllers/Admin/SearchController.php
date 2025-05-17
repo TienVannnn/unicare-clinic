@@ -11,6 +11,7 @@ use App\Models\Department;
 use App\Models\MedicalCertificate;
 use App\Models\MedicalService;
 use App\Models\Medicine;
+use App\Models\MedicineBatch;
 use App\Models\MedicineCategory;
 use App\Models\News;
 use App\Models\NewsCategory;
@@ -39,6 +40,8 @@ class SearchController extends Controller
                 return $this->searchCategories($query, $title, $perPage);
             case 'medicine':
                 return $this->searchMedicines($query, $title, $perPage);
+            case 'medicine-batch':
+                return $this->searchMedicineBatch($query, $title, $perPage);
             case 'department':
                 return $this->searchDepartments($query, $title, $perPage);
             case 'clinic':
@@ -125,7 +128,11 @@ class SearchController extends Controller
         if (request()->filled('q')) {
             $medicines->where(function ($q) use ($query) {
                 $q->where('name', 'like', '%' . $query . '%')
-                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('medicine_code', 'like', '%' . $query . '%')
+                    ->orWhere('unit', 'like', '%' . $query . '%')
+                    ->orWhere('packaging', 'like', '%' . $query . '%')
+                    ->orWhere('base_unit', 'like', '%' . $query . '%')
+                    ->orWhere('sale_price', 'like', '%' . $query . '%')
                     ->orWhereHas('medicineCategories', function ($q) use ($query) {
                         $q->where('name', 'like', '%' . $query . '%');
                     });
@@ -137,6 +144,28 @@ class SearchController extends Controller
         $medicines = $medicines->orderByDesc('id')->paginate(15)->appends(request()->query());
         $title = 'Tìm kiếm thuốc';
         return view('admin.medicine.list', compact('medicines', 'title'));
+    }
+
+    private function searchMedicineBatch($query, &$title, $perPage)
+    {
+        $batchs = MedicineBatch::query();
+        if (request()->filled('q')) {
+            $batchs->where(function ($q) use ($query) {
+                $q->where('manufacturer', 'like', '%' . $query . '%')
+                    ->orWhere('production_address', 'like', '%' . $query . '%')
+                    ->orWhere('manufacture_date', 'like', '%' . $query . '%')
+                    ->orWhere('expiry_date', 'like', '%' . $query . '%')
+                    ->orWhere('quantity_received', 'like', '%' . $query . '%')
+                    ->orWhere('purchase_price', 'like', '%' . $query . '%')
+                    ->orWhere('total_quantity', 'like', '%' . $query . '%')
+                    ->orWhereHas('medicine', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    });
+            });
+        }
+        $batchs = $batchs->orderByDesc('id')->paginate(15)->appends(request()->query());
+        $title = 'Tìm kiếm lô thuốc';
+        return view('admin.medicine-batch.list', compact('batchs', 'title'));
     }
 
     private function searchDepartments($query, &$title, $perPage)

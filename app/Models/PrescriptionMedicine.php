@@ -15,6 +15,7 @@ class PrescriptionMedicine extends Model
         'quantity',
         'price',
         'subtotal',
-        'dosage'
+        'dosage',
+        'medicine_batch_id'
     ];
 }

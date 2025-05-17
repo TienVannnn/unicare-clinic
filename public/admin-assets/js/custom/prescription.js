@@ -39,8 +39,10 @@ function addRow() {
 function getMedicineOptions() {
     let options = '<option value="" selected>Chọn thuốc</option>';
     medicines.forEach((medicine) => {
-        options += `<option value="${medicine.id}" data-quantity="${medicine.quantity}">
-                        ${medicine.name} (${medicine.quantity} ${medicine.unit} còn lại)
+        const quantity = medicine.batch_quantity_remaining || 0;
+        const unit = medicine.base_unit || "";
+        options += `<option value="${medicine.id}" data-quantity="${quantity}">
+                        ${medicine.name} (${quantity} ${unit} còn lại)
                     </option>`;
     });
     return options;
@@ -181,5 +183,37 @@ $(document).ready(function () {
             $(this).val(max);
             toastr.warning(`Số lượng không được vượt quá ${max}`);
         }
+    });
+    $(document).ready(function () {
+        $(document).on("change", 'select[name^="medicines["]', function () {
+            const selectedMedicineId = $(this).val();
+            const row = $(this).closest(".medicine-row");
+            const quantityInput = row.find('input[name$="[quantity]"]');
+
+            if (!selectedMedicineId) {
+                quantityInput.attr("placeholder", "Nhập số lượng");
+                return;
+            }
+
+            fetch(`/admin/medicines/${selectedMedicineId}/latest-batch`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.exists) {
+                        const remaining = data.batch.total_quantity;
+                        quantityInput.attr(
+                            "placeholder",
+                            `Tối đa: ${remaining}`
+                        );
+                        quantityInput.attr("max", remaining);
+                    } else {
+                        quantityInput.attr("placeholder", "Không có lô thuốc");
+                        quantityInput.removeAttr("max");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Lỗi khi lấy thông tin lô thuốc:", error);
+                    quantityInput.removeAttr("max");
+                });
+        });
     });
 });

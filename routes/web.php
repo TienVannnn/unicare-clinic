@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\MedicalCertificateController;
 use App\Http\Controllers\Admin\MedicalServiceController;
+use App\Http\Controllers\Admin\MedicineBatchController;
 use App\Http\Controllers\Admin\MedicineCategoryController;
 use App\Http\Controllers\Admin\MedicineController;
 use App\Http\Controllers\Admin\MenuController;
@@ -62,11 +63,16 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/department/{id}/clinics', [AdminController::class, 'getClinicsByDepartment'])->name('admin.getClinicsByDepartment');
     Route::resource('/medicine-category', MedicineCategoryController::class);
     Route::resource('/medicine', MedicineController::class);
+    Route::resource('/medicine-batch', MedicineBatchController::class);
+    Route::get('/medicine/{id}/medicine_batch', [MedicineBatchController::class, 'medicine_batch'])->name('admin.medicine-medicine-batch');
+    Route::get('/medicines/check-code', [MedicineController::class, 'checkCode']);
+
     Route::resource('/department', DepartmentController::class);
     Route::resource('/clinic', ClinicController::class);
     Route::resource('/patient', PatientController::class);
     Route::resource('/medical-service', MedicalServiceController::class);
     Route::resource('/prescription', PrescriptionController::class);
+    Route::get('/medicines/{id}/latest-batch', [PrescriptionController::class, 'getLatestBatch']);
     Route::post('prescription/{id}/payment', [PrescriptionController::class, 'payment_confirm'])->name('prescription.pay');
     Route::get('prescription/{id}/print', [PrescriptionController::class, 'print'])->name('prescription.print');
     Route::get('/medical-certificate/patient', [PrescriptionController::class, 'getPatient'])

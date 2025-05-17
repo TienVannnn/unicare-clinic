@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MedicineRequest extends FormRequest
+class MedicineEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,12 +33,6 @@ class MedicineRequest extends FormRequest
             'quantity_per_unit' => 'required|integer|min:1',
             'sale_price' => 'required|numeric|min:0',
             'status' => 'required|in:1,0',
-            'manufacturer' => 'required|string',
-            'production_address' => 'required|string',
-            'manufacture_date' => 'required|date|before_or_equal:today',
-            'expiry_date' => 'required|date|after:manufacture_date',
-            'quantity_received' => 'required|integer|min:1',
-            'purchase_price' => 'required|integer|min:1',
         ];
     }
 
@@ -83,28 +77,6 @@ class MedicineRequest extends FormRequest
 
             'status.required' => 'Trạng thái không được để trống.',
             'status.in' => 'Trạng thái không hợp lệ. (1: Hoạt động, 0: Tạm ngưng)',
-
-            'manufacturer.required' => 'Nhà sản xuất không được để trống.',
-            'manufacturer.string' => 'Nhà sản xuất phải là chuỗi ký tự.',
-
-            'production_address.required' => 'Nơi sản xuất không được để trống.',
-            'production_address.string' => 'Nơi sản xuất phải là chuỗi ký tự.',
-
-            'manufacture_date.required' => 'Ngày sản xuất không được để trống.',
-            'manufacture_date.date' => 'Ngày sản xuất phải đúng định dạng ngày.',
-            'manufacture_date.before_or_equal' => 'Ngày sản xuất không được lớn hơn ngày hiện tại.',
-
-            'expiry_date.required' => 'Ngày hết hạn không được để trống.',
-            'expiry_date.date' => 'Ngày hết hạn phải đúng định dạng ngày.',
-            'expiry_date.after' => 'Ngày hết hạn phải sau ngày sản xuất.',
-
-            'quantity_received.required' => 'Số lượng nhập không được để trống.',
-            'quantity_received.integer' => 'Số lượng nhập phải là số nguyên.',
-            'quantity_received.min' => 'Số lượng nhập phải lớn hơn 0.',
-
-            'purchase_price.required' => 'Giá nhập không được để trống.',
-            'purchase_price.integer' => 'Giá nhập phải là số nguyên.',
-            'purchase_price.min' => 'Giá nhập phải lớn hơn 0.',
         ];
     }
 }

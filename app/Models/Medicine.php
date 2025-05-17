@@ -10,15 +10,24 @@ class Medicine extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'description',
+        'medicine_code',
+        'ingredient',
+        'dosage_strength',
         'unit',
-        'price',
-        'quantity',
+        'packaging',
+        'base_unit',
+        'quantity_per_unit',
+        'sale_price',
         'status'
     ];
     public function medicineCategories()
     {
         return $this->belongsToMany(MedicineCategory::class, 'medicine_category_medicine', 'medicine_id', 'medicine_category_id');
+    }
+
+    public function batches()
+    {
+        return $this->hasMany(MedicineBatch::class);
     }
 
     public function prescriptions()

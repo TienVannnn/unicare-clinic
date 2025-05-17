@@ -42,6 +42,11 @@ class MedicalCertificate extends Model
         return $this->belongsTo(MedicalService::class, 'medical_service_id');
     }
 
+    public function prescription()
+    {
+        return $this->hasOne(Prescription::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

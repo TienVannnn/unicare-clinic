@@ -17,20 +17,20 @@
         <div class="d-flex justify-content-between align-items-center m-4">
             <div class="text-uppercase fw-bold">
                 @if (count($filters))
-                    Tìm kiếm thuốc
+                    Tìm kiếm lô thuốc
                 @else
-                    Danh sách thuốc
+                    {{ $title }}
                 @endif
             </div>
             <div class="fw-bold text-capitalize">
-                <a href="{{ route('admin.dashboard') }}">Quản lý</a> / <a href="{{ route('medicine.index') }}">Quản
-                    lý thuốc</a>
+                <a href="{{ route('medicine.index') }}">Quản lý thuốc</a> / <a href="{{ route('medicine-batch.index') }}">Quản
+                    lý lô thuốc</a>
             </div>
         </div>
         <div class="card shadow-sm m-4">
             <div class="card-header">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-                    <div class="search-container" title="Tìm kiếm thuốc">
+                    <div class="search-container" title="Tìm kiếm lô thuốc">
                         <form action="{{ route('admin.search', ['type' => 'medicine']) }}" method="GET">
                             <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}">
                             <select name="status" title="Tìm kiếm theo trạng thái">
@@ -43,12 +43,6 @@
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
                         </form>
                     </div>
-                    @can('them-thuoc')
-                        <div class="d-flex justify-content-end my-2">
-                            <a href="{{ route('medicine.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
-                                Thêm thuốc</a>
-                        </div>
-                    @endcan
                 </div>
             </div>
             <div class="card-body">
@@ -57,66 +51,56 @@
                         Kết quả tìm kiếm: {!! implode(', ', $filters) !!}
                     </p>
                 @endif
-                @if ($medicines->count() > 0)
+                @if ($batchs->count() > 0)
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="table-primary">
                                 <tr>
                                     <th scope="col">STT</th>
-                                    <th scope="col">Mã thuốc</th>
+                                    <th scope="col">Lô thuốc</th>
                                     <th scope="col">Tên thuốc</th>
-                                    <th scope="col">Loại thuốc</th>
-                                    <th scope="col">Đơn vị chính</th>
-                                    <th scope="col">Đóng gói</th>
-                                    <th scope="col">Đơn vị cơ sở</th>
-                                    <th scope="col">Giá bán lẻ(VNĐ)</th>
-                                    <th scope="col">Trạng thái</th>
+                                    <th scope="col">Nhà sản xuất</th>
+                                    <th scope="col">Nơi sản xuất</th>
+                                    <th scope="col">Ngày sản xuất</th>
+                                    <th scope="col">Ngày hết hạn</th>
+                                    <th scope="col">Số lượng nhập vào</th>
+                                    <th scope="col">Giá nhập</th>
+                                    <th scope="col">Thuốc tồn</th>
                                     @can(['chinh-sua-thuoc', 'xoa-thuoc'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($medicines as $key => $medicine)
+                                @foreach ($batchs as $key => $batch)
                                     <tr>
-                                        <td>{{ $medicines->firstItem() + $key }}</td>
-                                        <td>{{ $medicine->medicine_code }}</td>
+                                        <td>{{ $batchs->firstItem() + $key }}</td>
+                                        <td>{{ $batch->batch_number }}</td>
                                         <td>{{ $medicine->name }}</td>
-                                        <td>
-                                            @foreach ($medicine->medicineCategories as $category)
-                                                <span class="badge bg-primary">{{ $category->name }}</span>
-                                            @endforeach
-                                        </td>
-                                        <td>{{ $medicine->unit }}</td>
-                                        <td>{{ $medicine->packaging }}</td>
-                                        <td>{{ $medicine->base_unit }}</td>
-                                        <td>{{ number_format($medicine->sale_price, 0, ',', '.') }}</td>
-                                        <td>
-                                            {!! $medicine->status == 1
-                                                ? '<span class="badge badge-success">Hoạt động</span>'
-                                                : '<span class="badge badge-warning">Tạm ngưng</span>' !!}
-                                        </td>
+                                        <td>{{ $batch->manufacturer }}</td>
+                                        <td>{{ $batch->production_address }}</td>
+                                        <td>{{ $batch->manufacture_date }}</td>
+                                        <td>{{ $batch->expiry_date }}</td>
+                                        <td>{{ $batch->quantity_received }}</td>
+                                        <td>{{ number_format($batch->purchase_price, 0, ',', '.') }}</td>
+                                        <td>{{ $batch->total_quantity }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="{{ route('admin.medicine-medicine-batch', $medicine->id) }}"
-                                                    class="btn btn-outline-success btn-xs me-2"
-                                                    title="Danh sách lô thuốc"><i class="fas fa-capsules"
-                                                        data-bs-toggle="tooltip" title="Danh sách lô thuốc"></i></a>
                                                 @can('chinh-sua-thuoc')
-                                                    <a href="{{ route('medicine.edit', $medicine->id) }}"
+                                                    <a href="{{ route('medicine-batch.edit', $batch->id) }}"
                                                         class="btn btn-outline-primary btn-xs me-2" title="Edit"><i
                                                             class="fas fa-edit" data-bs-toggle="tooltip"
-                                                            title="Chỉnh sửa thuốc"></i></a>
+                                                            title="Chỉnh sửa lô thuốc"></i></a>
                                                 @endcan
                                                 @can('xoa-thuoc')
-                                                    <form action="{{ route('medicine.destroy', $medicine->id) }}"
+                                                    <form action="{{ route('medicine-batch.destroy', $batch->id) }}"
                                                         method="POST" class="delete-form">
                                                         @method('DELETE')
                                                         @csrf
                                                         <button type="button" title="Delete"
                                                             class="btn btn-outline-danger btn-xs delete-btn"><i
                                                                 class="fas fa-trash" data-bs-toggle="tooltip"
-                                                                title="Xóa thuốc"></i></button>
+                                                                title="Xóa lô thuốc"></i></button>
                                                     </form>
                                                 @endcan
                                             </div>
@@ -127,11 +111,11 @@
                         </table>
                     </div>
                 @else
-                    <p class="alert alert-danger">Chưa có thuốc nào!</p>
+                    <p class="alert alert-danger">Chưa có lô thuốc nào!</p>
                 @endif
             </div>
             <div class="d-flex justify-content-center ">
-                {{ $medicines->links() }}
+                {{ $batchs->links() }}
             </div>
         </div>
     </div>

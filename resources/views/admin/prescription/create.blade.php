@@ -60,11 +60,13 @@
                                         @if (!empty($medicines))
                                             @foreach ($medicines as $medicine)
                                                 <option value="{{ $medicine->id }}"
-                                                    data-quantity="{{ $medicine->quantity }}">{{ $medicine->name }}
-                                                    ({{ $medicine->quantity }} {{ $medicine->unit }} còn lại)
+                                                    data-quantity="{{ $medicine->batch_quantity_remaining }}">
+                                                    {{ $medicine->name }} ({{ $medicine->batch_quantity_remaining }}
+                                                    {{ $medicine->base_unit }} còn lại)
                                                 </option>
                                             @endforeach
                                         @endif
+
                                     </select>
                                     <div class="message-error" id="medicines_0_medicineError"></div>
                                 </div>
