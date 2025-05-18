@@ -26,15 +26,24 @@
                 $filters[] = 'Chế độ lọc: <strong>' . $label . '</strong>';
             }
         }
+        if (request()->filled('is_viewed')) {
+            if (request('is_viewed') == 1) {
+                $statusText = 'Đã xem';
+            } else {
+                $statusText = 'Chưa xem';
+            }
+
+            $filters[] = 'Trạng thái xem: <strong>' . $statusText . '</strong>';
+        }
         if (request()->filled('status')) {
             if (request('status') == 1) {
-                $statusText = 'Đã xem';
+                $statusText = 'Đã xác nhận';
             } elseif (request('status') == 0) {
-                $statusText = 'Chưa xem';
+                $statusText = 'Chưa xác nhận';
             } else {
-                $statusText = 'Đã phản hồi';
+                $statusText = 'Đã hủy';
             }
-            $filters[] = 'Trạng thái: <strong>' . $statusText . '</strong>';
+            $filters[] = 'Trạng thái phản hồi: <strong>' . $statusText . '</strong>';
         }
     @endphp
     <div class="container">
@@ -59,11 +68,18 @@
                             <input type="text" placeholder="Từ khóa" name="q" value="{{ request('q') }}"
                                 title="Tìm kiếm theo từ khóa">
                             <input type="date" name="date" value="{{ request('date') }}" title="Tìm kiếm theo ngày">
-                            <select name="status" title="Tìm kiếm theo trạng thái">
-                                <option value="">Trạng thái</option>
-                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đã xem</option>
-                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Chưa xem</option>
-                                <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Đã phản hồi</option>
+                            <select name="is_viewed" title="Tìm kiếm theo trạng thái xem">
+                                <option value="">Trạng thái xem</option>
+                                <option value="1" {{ request('is_viewed') == '1' ? 'selected' : '' }}>Đã xem</option>
+                                <option value="0" {{ request('is_viewed') == '0' ? 'selected' : '' }}>Chưa xem</option>
+                            </select>
+                            <select name="status" title="Tìm kiếm theo trạng thái phản hồi">
+                                <option value="">Trạng thái phản hồi</option>
+                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đã xác nhận</option>
+                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Chưa xác nhận
+                                </option>
+                                <option value="2" {{ request('status') == '-1' ? 'selected' : '' }}>Đã hủy
+                                </option>
                             </select>
                             <select name="filter_mode" title="Tìm kiếm theo ngày">
                                 <option value="">Chọn chế độ</option>

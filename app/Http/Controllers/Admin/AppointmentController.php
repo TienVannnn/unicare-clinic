@@ -20,12 +20,6 @@ class AppointmentController extends Controller
     public function index()
     {
         $this->authorize('xem-danh-sach-lich-hen-kham');
-        $admin = auth()->guard('admin')->user();
-        if ($admin->hasRole('Bác sĩ')) {
-            $title = 'Danh sách lịch hẹn khám của Bs ' . $admin->name;
-            $appointments = Appointment::where('doctor_id', $admin->id)->orderByDesc('id')->paginate(15);
-            return view('admin.appointment.list', compact('title', 'appointments'));
-        }
         $title = 'Danh sách lịch hẹn khám';
         $appointments = Appointment::orderByDesc('id')->paginate(15);
         return view('admin.appointment.list', compact('title', 'appointments'));

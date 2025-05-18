@@ -433,6 +433,12 @@ class SearchController extends Controller
             $appointments->where('status', request('status'));
         }
 
+
+        if (request()->filled('is_viewed')) {
+            $appointments->where('is_viewed', request('is_viewed'));
+        }
+
+
         if (request()->filled('filter_mode')) {
             switch (request('filter_mode')) {
                 case 'today':

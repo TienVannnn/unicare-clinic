@@ -19,7 +19,11 @@
                                 <option value="" selected>Chọn bệnh nhận</option>
                                 @if (!empty($patients))
                                     @foreach ($patients as $patient)
-                                        <option value="{{ $patient->id }}">{{ $patient->name }}
+                                        <option value="{{ $patient->id }}">
+                                            {{ $patient->name }}
+                                            ({{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }})
+                                            –
+                                            {{ $patient->phone }}
                                         </option>
                                     @endforeach
                                 @endif
