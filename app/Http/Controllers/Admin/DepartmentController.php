@@ -67,8 +67,7 @@ class DepartmentController extends Controller
     public function edit(string $id)
     {
         $this->authorize('chinh-sua-chuyen-khoa');
-        $department = Department::find($id);
-        if (!$department) abort(404);
+        $department = Department::findOrFail($id);
         $title = 'Chỉnh sửa chuyên khoa ';
         return view('admin.department.edit', compact('title', 'department'));
     }

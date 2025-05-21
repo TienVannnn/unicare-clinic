@@ -11,24 +11,26 @@ class NewsController extends Controller
 {
     public function news($slugCategory)
     {
-        $category = NewsCategory::where('slug', $slugCategory)->firstOrFail();
-        $news = $category->news()->paginate(12);
+        $category = NewsCategory::where('slug', $slugCategory)->where('status', 1)->firstOrFail();
+        $news = $category->news()->where('status', 1)->paginate(12);
         $title = $category->name;
         return view('user.news.news', compact('title', 'news', 'category'));
     }
 
     public function news_detail($slugCategory, $slug)
     {
-        $category = NewsCategory::where('slug', $slugCategory)->firstOrFail();
+        $category = NewsCategory::where('slug', $slugCategory)->where('status', 1)->firstOrFail();
         $blog = News::where('slug', $slug)
             ->whereHas('newsCategories', function ($query) use ($category) {
                 $query->where('category_id', $category->id);
+                $query->where('status', 1);
             })->firstOrFail();
 
         $title = $blog->title;
-        $categories = NewsCategory::orderByDesc('id')->get();
+        $categories = NewsCategory::orderByDesc('id')->where('status', 1)->get();
         $relatedNews = News::whereHas('newsCategories', function ($query) use ($category) {
             $query->where('category_id', $category->id);
+            $query->where('status', 1);
         })
             ->where('id', '!=', $blog->id)
             ->orderByDesc('id')

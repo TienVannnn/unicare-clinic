@@ -28,9 +28,9 @@ class HomeController extends Controller
     public function home()
     {
         $title = 'Trang chủ';
-        $departments = Department::orderByDesc('id')->get();
-        $doctors = Admin::role('Bác sĩ')->orderByDesc('id')->get();
-        $news = News::with('newsCategories')->orderByDesc('id')->take(9)->get();
+        $departments = Department::where('status', 1)->orderByDesc('id')->get();
+        $doctors = Admin::role('Bác sĩ')->where('status', 1)->orderByDesc('id')->get();
+        $news = News::with('newsCategories')->where('status', 1)->orderByDesc('id')->take(9)->get();
         $clinic = Clinic::count();
         $patient = Patient::count();
         return view('user.home.home', compact('title', 'news', 'departments', 'doctors', 'clinic', 'patient'));
@@ -111,7 +111,7 @@ class HomeController extends Controller
     {
         $title = 'Đặt lịch hẹn khám';
         $departments = Department::where('status', 1)->orderByDesc('id')->get();
-        $doctors = Admin::role('Bác sĩ')->orderByDesc('id')->get();
+        $doctors = Admin::role('Bác sĩ')->where('status', 1)->orderByDesc('id')->get();
         $selectedDoctor = null;
         $selectedDepartmentId = null;
         if ($request->has('doctor_id')) {
@@ -156,6 +156,7 @@ class HomeController extends Controller
     {
         $doctors = Admin::role('Bác sĩ')->whereHas('clinic', function ($query) use ($department_id) {
             $query->where('department_id', $department_id);
+            $query->where('status', 1);
         })->get();
 
         return response()->json($doctors);
@@ -177,6 +178,7 @@ class HomeController extends Controller
         $query = $request->input('q');
         $news = News::when($query, function ($q) use ($query) {
             $q->where('title', 'like', '%' . $query . '%');
+            $q->where('status', 1);
         })->orderByDesc('id')->paginate(12)->appends(request()->query());
 
         $title = 'Tìm kiếm bài viết';
@@ -185,9 +187,9 @@ class HomeController extends Controller
 
     public function service_price()
     {
-        $medical_services = MedicalService::orderByDesc('id')->paginate(12);
-        $news = News::with('newsCategories')->orderByDesc('id')->take(5)->get();
-        $categories = NewsCategory::orderByDesc('id')->get();
+        $medical_services = MedicalService::where('status', 1)->orderByDesc('id')->paginate(12);
+        $news = News::with('newsCategories')->where('status', 1)->orderByDesc('id')->take(5)->get();
+        $categories = NewsCategory::where('status', 1)->orderByDesc('id')->get();
         $title = 'Bảng giá dịch vụ';
         return view('user.home.service-price', compact('title', 'medical_services', 'news', 'categories'));
     }

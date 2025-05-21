@@ -130,6 +130,14 @@
                         </a>
                     </li>
                 @endcan
+                @can('xem-danh-sach-tin-tuc')
+                    <li class="nav-item {{ request()->routeIs('faq.*') ? 'active' : '' }}">
+                        <a href="{{ route('faq.index') }}">
+                            <i class="fas fa-tag"></i>
+                            <p class="text-capitalize">Hỏi đáp</p>
+                        </a>
+                    </li>
+                @endcan
                 @can('xem-danh-sach-nhan-vien')
                     <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
                         <a href="{{ route('manager.index') }}">

@@ -5016,6 +5016,13 @@ tbody.collapse.show {
     border-color: #f05a28;
 }
 
+.card-header.active{
+    z-index: 2;
+    color: #fff;
+    background-color: #f05a28;
+    border-color: #f05a28;
+}
+
 .list-group-flush .list-group-item {
     border-right: 0;
     border-left: 0;
@@ -6011,6 +6018,10 @@ a.bg-warning:hover {
 a.bg-danger:focus,
 a.bg-danger:hover {
     background-color: #bd2130 !important;
+}
+
+.bg-orange {
+    background-color: #f05a28 !important;
 }
 
 .bg-light {
@@ -8599,6 +8610,10 @@ a.bg-dark:hover {
 a.text-primary:focus,
 a.text-primary:hover {
     color: #0062cc !important;
+}
+
+.text-orange {
+    color: #f05a28 !important;
 }
 
 .text-secondary {

@@ -12,6 +12,7 @@ use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RecoverPasswordRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Jobs\ForgotPasswordJob;
+use App\Models\Faq;
 use App\Models\MedicalCertificate;
 use App\Models\User;
 use Carbon\Carbon;
@@ -292,5 +293,12 @@ class AuthController extends Controller
 
         $title = 'Chi tiết giấy khám bệnh';
         return view('user.auth.detail-medical-history', compact('title', 'medical_certificate'));
+    }
+
+    public function faq()
+    {
+        $faqs = Faq::where('user_id', auth()->id())->orderByDesc('id')->paginate(5);
+        $title = 'Câu hỏi đã hỏi';
+        return view('user.auth.faq', compact('title', 'faqs'));
     }
 }

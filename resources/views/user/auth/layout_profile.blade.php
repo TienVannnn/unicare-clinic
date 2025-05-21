@@ -22,6 +22,10 @@
                             class="list-group-item list-group-item-action {{ request()->routeIs('user.change-password') ? 'active' : '' }}">
                             Đổi mật khẩu
                         </a>
+                        <a href="{{ route('user.faq-auth') }}"
+                            class="list-group-item list-group-item-action {{ request()->routeIs('user.faq-auth') ? 'active' : '' }}">
+                            Hỏi đáp
+                        </a>
                         <a onclick="return confirm('Bạn có chắc chắn muốn thoát không?')" href="{{ route('user.logout') }}"
                             class="list-group-item list-group-item-action text-danger">
                             Thoát

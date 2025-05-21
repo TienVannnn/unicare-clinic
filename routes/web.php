@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ClinicController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\FaqController as AdminFaqController;
 use App\Http\Controllers\Admin\MedicalCertificateController;
 use App\Http\Controllers\Admin\MedicalServiceController;
 use App\Http\Controllers\Admin\MedicineBatchController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AuthController as AuthUserController;
 use App\Http\Controllers\User\DoctorController;
+use App\Http\Controllers\User\FaqController;
 use App\Http\Controllers\User\NewsController as UserNewsController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -122,6 +124,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/appointment/reply', [AppointmentController::class, 'reply'])->name('admin.handle-reply-appointment');
     Route::get('/appointment/{id}/confirm', [AppointmentController::class, 'confirm'])->name('admin.confirm-appointment');
     Route::get('/appointment/{id}/cancle', [AppointmentController::class, 'cancle'])->name('admin.cancle-appointment');
+
+    Route::resource('/faq', AdminFaqController::class);
 });
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::prefix('/auth')->group(function () {
@@ -148,6 +152,7 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::get('/medical-history/{id}', [AuthUserController::class, 'medical_history_detail'])->name('user.medical-history-detail');
     Route::post('/medical-history/get-patient', [AuthUserController::class, 'handle_get_patient'])->name('user.medical-history.get-patient');
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
+    Route::get('/faq', [AuthUserController::class, 'faq'])->name('user.faq-auth');
 });
 Route::get('/search', [HomeController::class, 'search'])->name('user.search');
 Route::get('/doi-ngu-chuyen-gia', [DoctorController::class, 'doctors'])->name('user.doctors');
@@ -160,6 +165,8 @@ Route::get('/cancel-appointment/{token}', [HomeController::class, 'cancel'])->na
 Route::get('/book-appointment', [HomeController::class, 'book_appointment_page'])->name('user.book-appointment-page');
 Route::post('/book-appointment', [HomeController::class, 'book_appointment'])->name('user.book-appointment');
 Route::get('/get-doctors/{department_id}', [HomeController::class, 'getDoctors'])->name('user.get.doctors');
-
+Route::get('/faq', [FaqController::class, 'faq'])->name('user.faq');
+Route::post('/faq', [FaqController::class, 'ask_question'])->name('user.ask-question');
+Route::get('/faq/{slug}', [FaqController::class, 'faq_department'])->name('user.faq-department');
 Route::get('/{slugCategory}/{slug}', [UserNewsController::class, 'news_detail'])->name('user.news-detail');
 Route::get('/{slugCategory}', [UserNewsController::class, 'news'])->name('user.news');

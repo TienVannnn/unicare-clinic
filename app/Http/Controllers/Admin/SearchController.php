@@ -8,6 +8,7 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Contact;
 use App\Models\Department;
+use App\Models\Faq;
 use App\Models\MedicalCertificate;
 use App\Models\MedicalService;
 use App\Models\Medicine;
@@ -62,6 +63,8 @@ class SearchController extends Controller
                 return $this->searchContacts($query, $title, $perPage);
             case 'appointment':
                 return $this->searchAppointments($query, $title, $perPage);
+            case 'faq':
+                return $this->searchFaqs($query, $title, $perPage);
             default:
                 return abort(404);
         }
@@ -460,5 +463,33 @@ class SearchController extends Controller
         $appointments = $appointments->orderByDesc('id')->paginate($perPage)->appends(request()->query());
         $title = 'Tìm kiếm lịch hẹn khám';
         return view('admin.appointment.list', compact('appointments', 'title'));
+    }
+
+    private function searchFaqs($query, &$title, $perPage)
+    {
+        $faqs = Faq::query();
+        if (request()->filled('q')) {
+            $faqs->where(function ($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                    ->orWhereHas('user', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                        $q->orWhere('email', 'like', '%' . $query . '%');
+                    });
+            });
+        }
+        if (request()->filled('status')) {
+            if (request('status') == 1) {
+                $faqs->whereNotNull('answer');
+            } elseif (request('status') == 0) {
+                $faqs->whereNull('answer');
+            }
+        }
+
+        if (request()->filled('date')) {
+            $faqs->whereDate('created_at', request('date'));
+        }
+        $faqs = $faqs->orderByDesc('id')->paginate(15)->appends(request()->query());
+        $title = 'Tìm kiếm loại thuốc';
+        return view('admin.faq.list', compact('faqs', 'title'));
     }
 }

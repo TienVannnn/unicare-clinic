@@ -13,6 +13,10 @@
             height: 50px;
             border-radius: 5px;
         }
+
+        .overlay::before {
+            background-color: #f5815a;
+        }
     </style>
 @endsection
 @section('js')
@@ -320,7 +324,7 @@
             </div>
         </div>
     </section>
-    <div id="fun-facts" class="fun-facts section overlay">
+    <div id="fun-facts" class="fun-facts section overlay" style="background-color: #f05a28">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-12">
