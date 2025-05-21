@@ -40,7 +40,7 @@ class MedicalCertificateController extends Controller
         $this->authorize('them-giay-kham-benh');
         $title = 'Thêm giấy khám bệnh';
         $patients = Patient::orderByDesc('id')->get();
-        $clinics = Clinic::where('clinic_code', '!=', 'PK005')->get();
+        $clinics = Clinic::where('status', 1)->where('clinic_code', '!=', 'PK005')->get();
         return view('admin.medical-certificate.create', compact('title', 'patients', 'clinics'));
     }
 
@@ -84,7 +84,7 @@ class MedicalCertificateController extends Controller
         $this->authorize('chinh-sua-giay-kham-benh');
         $medical_certificate = MedicalCertificate::findOrFail($id);
         $patients = Patient::orderByDesc('id')->get();
-        $clinics = Clinic::orderByDesc('id')->get();
+        $clinics = Clinic::where('status', 1)->orderByDesc('id')->get();
         $title = 'Chỉnh sửa giấy khám bệnh';
         return view('admin.medical-certificate.edit', compact('title', 'patients', 'clinics', 'medical_certificate'));
     }
@@ -139,9 +139,9 @@ class MedicalCertificateController extends Controller
         }
         $title = 'Khám dịch vụ';
         $patients = Patient::orderByDesc('id')->get();
-        $clinics = Clinic::orderByDesc('id')->get();
-        $doctors = Admin::role('Bác sĩ')->get();
-        $medical_services = MedicalService::orderByDesc('id')->get();
+        $clinics = Clinic::where('status', 1)->orderByDesc('id')->get();
+        $doctors = Admin::role('Bác sĩ')->where('status', 1)->get();
+        $medical_services = MedicalService::where('status', 1)->orderByDesc('id')->get();
         return view('admin.medical-certificate.service', compact('title', 'medical_certificate', 'patients', 'clinics', 'medical_services', 'doctors'));
     }
 
@@ -149,6 +149,7 @@ class MedicalCertificateController extends Controller
     {
         $clinics = Clinic::whereHas('medical_services', function ($query) use ($request) {
             $query->where('medical_services.id', $request->service_id);
+            $query->where('status', 1);
         })->get();
 
         return response()->json($clinics);
@@ -157,7 +158,7 @@ class MedicalCertificateController extends Controller
     public function getDoctorsByClinic(Request $request)
     {
         $clinicId = $request->clinic_id;
-        $doctors = Admin::where('clinic_id', $clinicId)->get();
+        $doctors = Admin::where('status', 1)->where('clinic_id', $clinicId)->get();
 
         return response()->json($doctors);
     }
@@ -190,8 +191,8 @@ class MedicalCertificateController extends Controller
         $medical_certificate = MedicalCertificate::findOrFail($id);
         $title = 'Kết luận khám';
         $patients = Patient::orderByDesc('id')->get();
-        $clinics = Clinic::orderByDesc('id')->get();
-        $medical_services = MedicalService::orderByDesc('id')->get();
+        $clinics = Clinic::where('status', 1)->orderByDesc('id')->get();
+        $medical_services = MedicalService::where('status', 1)->orderByDesc('id')->get();
         return view('admin.medical-certificate.conclude', compact('title', 'medical_certificate', 'patients', 'clinics', 'medical_services'));
     }
 

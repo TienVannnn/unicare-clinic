@@ -134,6 +134,12 @@ class NewsController extends Controller
         $this->authorize('xoa-tin-tuc');
         $news = News::findOrFail($id);
         try {
+            if ($news->thumbnail) {
+                $thumnailPath = public_path($news->thumbnail);
+                if (file_exists($thumnailPath)) {
+                    unlink($thumnailPath);
+                }
+            }
             $news->delete();
             return response()->json(['success' => true, 'message' => 'Xóa tin tức thành công.']);
         } catch (\Exception $e) {

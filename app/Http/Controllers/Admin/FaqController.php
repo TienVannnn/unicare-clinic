@@ -33,11 +33,14 @@ class FaqController extends Controller
         $this->authorize('tra-loi-lien-he');
         $request->validate(
             [
-                'answer' => 'required|string'
+                'answer' => 'required|string',
+                'status' => 'required|in:0,1'
             ],
             [
                 'answer.required' => 'Vui lòng nhập câu trả lời',
-                'answer.string' => 'Câu trả lời là chuỗi'
+                'answer.string' => 'Câu trả lời là chuỗi',
+                'status.required' => 'Trạng thái là bắt buộc',
+                'status.in' => 'Trạng thái không hợp lệ'
             ]
         );
         try {
@@ -45,7 +48,7 @@ class FaqController extends Controller
             $faq->update([
                 'doctor_id' => auth()->guard('admin')->id(),
                 'answer' => $request->answer,
-                'status' => 1
+                'status' => $request->status
             ]);
             Session::flash('success', 'Trả lời câu hỏi thành công');
             return redirect()->route('faq.index');

@@ -39,8 +39,8 @@ class AdminController extends Controller
         $this->authorize('them-nhan-vien');
         $title = 'Thêm mới nhân viên';
         $roles = Role::with('users')->orderByDesc('id')->get();
-        $departments = Department::orderByDesc('id')->get();
-        $clinics = Clinic::with(['doctors.roles'])->get();
+        $departments = Department::where('status', 1)->orderByDesc('id')->get();
+        $clinics = Clinic::where('status', 1)->with(['doctors.roles'])->get();
         foreach ($clinics as $clinic) {
             $roleCounts = [];
             foreach ($clinic->doctors as $doctor) {
@@ -58,7 +58,7 @@ class AdminController extends Controller
 
     public function getClinicsByDepartment($departmentId)
     {
-        $clinics = Clinic::with(['doctors.roles'])->where('department_id', $departmentId)->get();
+        $clinics = Clinic::with(['doctors.roles'])->where('status', 1)->where('department_id', $departmentId)->get();
         $clinics->transform(function ($clinic) {
             $roleSummary = [];
             foreach ($clinic->doctors as $doctor) {
@@ -126,8 +126,8 @@ class AdminController extends Controller
         $title = 'Chỉnh sửa người quản lý';
         $rolesChecked = $manager->roless->pluck('id')->toArray();
         $roles = Role::orderByDesc('id')->get();
-        $departments = Department::orderByDesc('id')->get();
-        $clinics = Clinic::with(['doctors.roles'])->get();
+        $departments = Department::where('status', 1)->orderByDesc('id')->get();
+        $clinics = Clinic::where('status', 1)->with(['doctors.roles'])->get();
         foreach ($clinics as $clinic) {
             $roleCounts = [];
             foreach ($clinic->doctors as $doctor) {
@@ -199,11 +199,14 @@ class AdminController extends Controller
     public function destroy(string $id)
     {
         $this->authorize('xoa-nhan-vien');
-        $manager = Admin::find($id);
-        if (!$manager) {
-            abort('404');
-        }
+        $manager = Admin::findOrFail($id);
         try {
+            if ($manager->avatar) {
+                $avatarPath = public_path($manager->avatar);
+                if (file_exists($avatarPath)) {
+                    unlink($avatarPath);
+                }
+            }
             $manager->delete();
             return response()->json(['success' => true, 'message' => 'Xóa nhân viên thành công.']);
         } catch (\Illuminate\Database\QueryException $e) {

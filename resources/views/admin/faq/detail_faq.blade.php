@@ -63,6 +63,16 @@
                         <div class="message-error">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="mb-3 col-md-6">
+                    <label for="status">Trạng thái</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="1">Công khai</option>
+                        <option value="0">Riêng tư</option>
+                    </select>
+                    @error('answer')
+                        <div class="message-error">{{ $message }}</div>
+                    @enderror
+                </div>
                 <a href="{{ route('faq.index') }}" class="btn btn-primary">Quay lại</a>
                 <button type="submit" class="btn btn-success">Trả lời</button>
             </form>

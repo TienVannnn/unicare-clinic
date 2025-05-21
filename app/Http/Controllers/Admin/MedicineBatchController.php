@@ -35,7 +35,7 @@ class MedicineBatchController extends Controller
     public function edit(string $id)
     {
         $batch = MedicineBatch::with('medicine')->findOrFail($id);
-        $medicines = Medicine::orderByDesc('id')->get();
+        $medicines = Medicine::where('status', 1)->orderByDesc('id')->get();
         $title = 'Chỉnh sửa lô thuốc ' . $batch->batch_number;
         return view('admin.medicine-batch.edit', compact('title', 'batch', 'medicines'));
     }

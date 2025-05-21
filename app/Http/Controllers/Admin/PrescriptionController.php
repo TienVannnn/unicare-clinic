@@ -37,8 +37,7 @@ class PrescriptionController extends Controller
     {
         $this->authorize('them-don-thuoc');
         $title = 'Thêm đơn thuốc';
-        $doctors = Admin::role('Bác sĩ')->get();
-        $medicines = Medicine::with(['batches' => function ($query) {
+        $medicines = Medicine::where('status', 1)->with(['batches' => function ($query) {
             $query->orderBy('expiry_date', 'asc');
         }])->orderByDesc('id')->get();
         $medicines->map(function ($medicine) {
@@ -164,8 +163,7 @@ class PrescriptionController extends Controller
         $title = 'Chỉnh sửa đơn thuốc';
         $prescription = Prescription::with('doctor', 'medicines', 'medical_certificate')->findOrFail($id);
         $medical_certificates = MedicalCertificate::orderByDesc('id')->get();
-        $doctors = Admin::role('Bác sĩ')->get();
-        $medicines = Medicine::with(['batches' => function ($query) {
+        $medicines = Medicine::where('status', 1)->with(['batches' => function ($query) {
             $query->orderBy('expiry_date', 'asc');
         }])->orderByDesc('id')->get();
         $medicines->map(function ($medicine) {

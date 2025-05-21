@@ -67,8 +67,7 @@ class MedicineCategoryController extends Controller
     public function edit(string $id)
     {
         $this->authorize('chinh-sua-loai-thuoc');
-        $category = MedicineCategory::find($id);
-        if (!$category) abort(404);
+        $category = MedicineCategory::findOrFail($id);
         $title = 'Chỉnh sửa loại thuốc';
         return view('admin.medicine-category.edit', compact('title', 'category'));
     }

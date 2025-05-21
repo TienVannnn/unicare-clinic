@@ -69,8 +69,7 @@ class ClinicController extends Controller
     public function edit(string $id)
     {
         $this->authorize('chinh-sua-quyen');
-        $clinic = Clinic::find($id);
-        if (!$clinic) abort(404);
+        $clinic = Clinic::findOrFail($id);
         $title = 'Chỉnh sửa phòng khám ';
         $departments = Department::where('status', 1)->orderByDesc('id')->get();
         return view('admin.clinic.edit', compact('title', 'clinic', 'departments'));
