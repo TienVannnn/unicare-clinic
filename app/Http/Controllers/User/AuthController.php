@@ -12,12 +12,14 @@ use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RecoverPasswordRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Jobs\ForgotPasswordJob;
+use App\Jobs\VerifyEmailJob;
 use App\Models\Faq;
 use App\Models\MedicalCertificate;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -41,18 +43,71 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        DB::beginTransaction();
         try {
+            $token = Str::random(10);
+            $expiration = Carbon::now()->addDay();
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'token' => $token,
+                'token_duration' => $expiration
             ]);
-            Session::flash('success', 'Đăng ký tài khoản thành công');
+            DB::commit();
+            VerifyEmailJob::dispatch($request->name, $request->email, $token)->delay(now()->addSecond(5));
+            Session::flash('success', 'Đăng ký tài khoản thành công, Vui lòng kiểm tra email để xác thực trước khi đăng nhập');
             return redirect()->route('user.login');
         } catch (\Exception $e) {
+            DB::rollBack();
             Session::flash('error', 'Có lỗi khi đăng ký');
         }
         return redirect()->back();
+    }
+
+    public function verify_email(Request $request)
+    {
+        $user = User::where('token', $request->token)->first();
+        if (!$user) {
+            return view('user.auth.email_verify_result', [
+                'status' => 'error',
+                'message' => 'Xác thực thất bại, không tìm thấy email xác thực.',
+                'expired' => false
+            ]);
+        }
+
+        if (Carbon::now()->greaterThan($user->token_duration)) {
+            return view('user.auth.email_verify_result', [
+                'status' => 'error',
+                'message' => 'Liên kết xác thực đã hết hạn, vui lòng yêu cầu mã xác nhận mới.',
+                'expired' => true,
+                'email' => $user->email
+            ]);
+        }
+
+        $user->verify_email = true;
+        $user->token = null;
+        $user->token_duration = null;
+        $user->save();
+        Session::flash('success', 'Xác thực email thành công. Bạn có thể đăng nhập ngay bây giờ');
+        return redirect()->route('user.login');
+    }
+
+
+    public function resend_email(Request $request)
+    {
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Không tìm thấy tài khoản với email này.');
+        }
+        $token = Str::random(10);
+        $expiration = Carbon::now()->addDay();
+        $user->token = $token;
+        $user->token_duration = $expiration;
+        $user->save();
+        VerifyEmailJob::dispatch($user->name, $user->email, $token)->delay(now()->addSeconds(3));
+        return redirect()->route('user.login')->with('success', 'Email xác thực đã được gửi lại, vui lòng kiểm tra hộp thư.');
     }
 
     public function login(LoginRequest $request)
@@ -178,7 +233,7 @@ class AuthController extends Controller
         $expiration = Carbon::now()->addHour();
         $user = User::where('email', $request->email)->first();
         $user->update([
-            'token_reset_password' => $token,
+            'token' => $token,
             'token_duration' => $expiration,
         ]);
         ForgotPasswordJob::dispatch($request->email, $token)->delay(now()->addSecond(5));
@@ -200,14 +255,14 @@ class AuthController extends Controller
         $email = $request->email;
         $password = $request->password;
         $user = User::where('email', $email)->first();
-        if ($user->token_reset_password === $request->code) {
+        if ($user->token === $request->code) {
             if (Carbon::now()->greaterThan($user->token_duration)) {
                 Session::flash('error', 'Mã xác nhận đã hết hạn, vui lòng yêu cầu mã xác nhận mới');
                 return redirect()->back();
             }
             $user->update([
                 'password' => Hash::make($password),
-                'token_reset_password' => null,
+                'token' => null,
                 'token_duration' => null
             ]);
             if (auth()->attempt(['email' => $email, 'password' => $password])) {

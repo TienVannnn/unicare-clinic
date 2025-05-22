@@ -25,9 +25,10 @@ class User extends Authenticatable
         'phone',
         'address',
         'avatar',
-        'token_reset_password',
+        'token',
         'token_duration',
-        'google_id'
+        'google_id',
+        'verify_email'
     ];
 
     /**

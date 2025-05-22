@@ -134,7 +134,9 @@ Route::prefix('/auth')->group(function () {
     Route::get('/login', [AuthUserController::class, 'login_page'])->name('user.login');
     Route::post('/login', [AuthUserController::class, 'login'])->name('user.login');
     Route::get('/register', [AuthUserController::class, 'register_page'])->name('user.register');
+    Route::get('/verify-email', [AuthUserController::class, 'verify_email'])->name('user.verify-email');
     Route::post('/register', [AuthUserController::class, 'register'])->name('user.register');
+    Route::post('/resend-email', [AuthUserController::class, 'resend_email'])->name('user.resend-email');
     Route::get('/forgot-password', [AuthUserController::class, 'page_forgot_password'])->name('user.forgot');
     Route::post('/forgot-password', [AuthUserController::class, 'forgot_password'])->name('user.forgot');
     Route::get('/recovery-password', [AuthUserController::class, 'page_recovery_password'])->name('user.recovery');
