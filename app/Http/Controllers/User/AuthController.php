@@ -356,4 +356,30 @@ class AuthController extends Controller
         $title = 'Câu hỏi đã hỏi';
         return view('user.auth.faq', compact('title', 'faqs'));
     }
+
+    public function update(Request $request, $id)
+    {
+        $faq = Faq::findOrFail($id);
+        if ($faq->answer) {
+            Session::flash('error', 'Câu hỏi này đã được bác sĩ trả lời');
+            return redirect()->back();
+        }
+        $faq->question = $request->input('question');
+        $faq->save();
+
+        return redirect()->back()->with('success', 'Chỉnh sửa câu hỏi thành công!');
+    }
+
+
+    public function faq_delete(string $id)
+    {
+        $faq = Faq::findOrFail($id);
+        if ($faq->answer) {
+            Session::flash('error', 'Câu hỏi này đã được bác sĩ trả lời');
+            return redirect()->back();
+        }
+        $faq->delete();
+        Session::flash('success', 'Xóa câu hỏi thành công');
+        return redirect()->back();
+    }
 }

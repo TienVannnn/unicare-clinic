@@ -474,6 +474,9 @@ class SearchController extends Controller
                     ->orWhereHas('user', function ($q) use ($query) {
                         $q->where('name', 'like', '%' . $query . '%');
                         $q->orWhere('email', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('department', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
                     });
             });
         }

@@ -22,10 +22,11 @@ class FaqController extends Controller
     public function show(string $id)
     {
         $this->authorize('xem-chi-tiet-lien-he');
-        $faq = Faq::findOrFail($id);
+        $faq = Faq::with('user', 'department')->findOrFail($id);
+        $doctor  = auth()->guard('admin')->user();
         if ($faq->is_viewed == 0) $faq->update(['is_viewed' => 1]);
         $title = 'Chi tiết câu hỏi';
-        return view('admin.faq.detail_faq', compact('title', 'faq'));
+        return view('admin.faq.detail_faq', compact('title', 'faq', 'doctor'));
     }
 
     public function update(Request $request, string $id)

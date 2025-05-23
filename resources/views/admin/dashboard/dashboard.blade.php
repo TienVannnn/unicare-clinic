@@ -128,6 +128,76 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6"><canvas id="chartBenhNhan"></canvas></div>
+                <div class="col-md-6"><canvas id="chartDoanhThu"></canvas></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6"><canvas id="chartDichVuPhobien"></canvas></div>
+                <div class="col-md-6 "><canvas id="chartBenhNhanMoiCu"></canvas></div>
+            </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        new Chart(document.getElementById('chartBenhNhan'), {
+            type: 'line',
+            data: {
+                labels: @json($labels),
+                datasets: [{
+                    label: 'Bệnh nhân theo tháng',
+                    data: @json($benhNhanData),
+                    borderColor: 'blue',
+                    fill: false
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('chartDoanhThu'), {
+            type: 'bar',
+            data: {
+                labels: @json($labels),
+                datasets: [{
+                    label: 'Doanh thu theo tháng',
+                    data: @json($doanhThuData),
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        const dvLabels = @json(array_keys($dichVuPhobien->toArray()));
+        const dvCounts = @json(array_values($dichVuPhobien->toArray()));
+
+        new Chart(document.getElementById('chartDichVuPhobien'), {
+            type: 'pie',
+            data: {
+                labels: dvLabels,
+                datasets: [{
+                    label: 'Tỷ lệ sử dụng dịch vụ',
+                    data: dvCounts,
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#8BC34A',
+                        '#FF9800'
+                    ]
+                }]
+            },
+        });
+
+        new Chart(document.getElementById('chartBenhNhanMoiCu'), {
+            type: 'pie',
+            data: {
+                labels: ['Bệnh nhân mới', 'Bệnh nhân quay lại'],
+                datasets: [{
+                    data: [{{ $benhNhanMoi }}, {{ $benhNhanCu }}],
+                    backgroundColor: ['#4CAF50', '#FFC107']
+                }]
+            }
+        });
+    </script>
 @endsection

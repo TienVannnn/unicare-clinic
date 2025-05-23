@@ -70,6 +70,7 @@
                                     <th scope="col">Người gửi</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Tiêu đề</th>
+                                    <th scope="col">Chuyên khoa</th>
                                     <th scope="col">Thời gian</th>
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">Xử lý</th>
@@ -82,6 +83,7 @@
                                         <td>{{ $faq->user->name }}</td>
                                         <td>{{ $faq->user->email }}</td>
                                         <td>{{ $faq->title }}</td>
+                                        <td><span class="badge badge-primary">{{ $faq->department->name }}</span></td>
                                         <td>
                                             @php
                                                 $diffInDays = $faq->created_at->diffInDays(now());

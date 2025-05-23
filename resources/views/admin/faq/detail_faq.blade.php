@@ -40,6 +40,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td style="width: 20%; white-space: nowrap; font-weight: 700;text-transform: capitalize;">Chuyên
+                            khoa
+                        </td>
+                        <td> {{ $faq->department->name }} </td>
+                    </tr>
+                    <tr>
                         <td style="width: 20%; white-space: nowrap; font-weight: 700;text-transform: capitalize;">Chủ đề
                         </td>
                         <td> {{ $faq->title }} </td>
@@ -49,6 +55,14 @@
                         </td>
                         <td> {{ $faq->question }} </td>
                     </tr>
+                    @if ($faq->answer)
+                        <tr>
+                            <td style="width: 20%; white-space: nowrap; font-weight: 700;text-transform: capitalize;">Bác sĩ
+                                trả lời
+                            </td>
+                            <td> {{ $faq->doctor->name }} </td>
+                        </tr>
+                    @endif
                 </table>
             </div>
             <form action="{{ route('faq.update', $faq->id) }}" class="m-4" method="POST">
@@ -69,12 +83,14 @@
                         <option value="1">Công khai</option>
                         <option value="0">Riêng tư</option>
                     </select>
-                    @error('answer')
+                    @error('status')
                         <div class="message-error">{{ $message }}</div>
                     @enderror
                 </div>
                 <a href="{{ route('faq.index') }}" class="btn btn-primary">Quay lại</a>
-                <button type="submit" class="btn btn-success">Trả lời</button>
+                @if ($doctor->department->id == $faq->department->id)
+                    <button type="submit" class="btn btn-success">Trả lời</button>
+                @endif
             </form>
         </div>
     </div>
