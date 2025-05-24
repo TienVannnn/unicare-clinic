@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\DepartmentExport;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DepartmentRequest;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Department;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DepartmentController extends Controller
 {
@@ -110,5 +112,10 @@ class DepartmentController extends Controller
                 : 'Có lỗi khi xóa chuyên khoa: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new DepartmentExport, 'danh_sach_chuyen_khoa.xlsx');
     }
 }

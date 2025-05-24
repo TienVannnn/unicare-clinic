@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\MedicineExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MedicineEditRequest;
 use App\Http\Requests\Admin\MedicineRequest;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MedicineController extends Controller
 {
@@ -172,5 +174,10 @@ class MedicineController extends Controller
                 : 'Có lỗi khi xóa thuốc: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }
+    }
+
+    public function exportMedicines()
+    {
+        return Excel::download(new MedicineExport, 'danh-sach-thuoc.xlsx');
     }
 }

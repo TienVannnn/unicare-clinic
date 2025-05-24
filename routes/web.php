@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\PatientExport;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\AuthController;
@@ -26,8 +27,10 @@ use App\Http\Controllers\User\AuthController as AuthUserController;
 use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\FaqController;
 use App\Http\Controllers\User\NewsController as UserNewsController;
+use App\Models\MedicineBatch;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,6 +129,19 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/appointment/{id}/cancle', [AppointmentController::class, 'cancle'])->name('admin.cancle-appointment');
 
     Route::resource('/faq', AdminFaqController::class);
+
+    Route::get('/patient-export', function () {
+        return Excel::download(new PatientExport, 'danh_sach_benh_nhan.xlsx');
+    })->name('patients.export');
+    Route::get('/medical-certificates/export', [MedicalCertificateController::class, 'exportMedicalCertificates'])->name('medical-certificates.export');
+    Route::get('/prescriptions/export', [PrescriptionController::class, 'exportPrescriptions'])->name('prescriptions.export');
+    Route::get('/medicine-categories/export', [MedicineCategoryController::class, 'exportMedicineCategories'])->name('medicine-categories.export');
+    Route::get('/medicines/export', [MedicineController::class, 'exportMedicines'])->name('medicines.export');
+    Route::get('/medicine-batches/export', [MedicineBatchController::class, 'exportMedicineBatches'])->name('medicine-batches.export');
+    Route::get('/departments/export', [DepartmentController::class, 'export'])->name('departments.export');
+    Route::get('/clinics/export', [ClinicController::class, 'export'])->name('clinics.export');
+    Route::get('/medical-services/export', [MedicalServiceController::class, 'export'])->name('medical-services.export');
+    Route::get('/managers/export', [AdminController::class, 'export'])->name('admins.export');
 });
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::prefix('/auth')->group(function () {

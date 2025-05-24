@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PrescriptionExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PrescriptionRequest;
 use App\Models\Admin;
@@ -15,6 +16,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PrescriptionController extends Controller
 {
@@ -46,7 +48,7 @@ class PrescriptionController extends Controller
             return $medicine;
         });
         $medical_certificates = MedicalCertificate::orderByDesc('id')->get();
-        return view('admin.prescription.create', compact('doctors', 'medicines', 'title', 'medical_certificates'));
+        return view('admin.prescription.create', compact('medicines', 'title', 'medical_certificates'));
     }
 
     public function getLatestBatch($medicineId)
@@ -171,7 +173,7 @@ class PrescriptionController extends Controller
             $medicine->batch_quantity_remaining = $firstBatch ? $firstBatch->total_quantity : 0;
             return $medicine;
         });
-        return view('admin.prescription.edit', compact('prescription', 'doctors', 'medicines', 'title', 'medical_certificates'));
+        return view('admin.prescription.edit', compact('prescription', 'medicines', 'title', 'medical_certificates'));
     }
 
     /**
@@ -337,5 +339,10 @@ class PrescriptionController extends Controller
                 'message' => 'Lỗi server: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function exportPrescriptions()
+    {
+        return Excel::download(new PrescriptionExport, 'don-thuoc.xlsx');
     }
 }

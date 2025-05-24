@@ -25,9 +25,9 @@
                                     </svg>
                                 @else
                                     <span>
-                                        <a href="#" onclick="editQuestion({{ $faq->id }})"><i
-                                                class="fa fa-edit"></i></a>
-                                        <a href="#"
+                                        <a href="#" title="Chỉnh sửa câu hỏi"
+                                            onclick="editQuestion({{ $faq->id }})"><i class="fa fa-edit"></i></a>
+                                        <a href="#" title="Xóa câu hỏi"
                                             onclick="event.preventDefault(); if(confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')) document.getElementById('delete-form-{{ $faq->id }}').submit();">
                                             <i class="fa fa-trash"></i>
                                         </a>

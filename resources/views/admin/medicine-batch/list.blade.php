@@ -32,6 +32,12 @@
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
                         </form>
                     </div>
+                    @if (empty($medicine))
+                        <div class="d-flex justify-content-end my-2 align-items-center">
+                            <a href="{{ route('medicine-batches.export') }}"
+                                class="btn btn-label-success btn-round btn-sm me-2">Excel</a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
@@ -49,7 +55,6 @@
                                     <th scope="col">Lô thuốc</th>
                                     <th scope="col">Tên thuốc</th>
                                     <th scope="col">Nhà sản xuất</th>
-                                    <th scope="col">Nơi sản xuất</th>
                                     <th scope="col">Ngày sản xuất</th>
                                     <th scope="col">Ngày hết hạn</th>
                                     <th scope="col">Số lượng nhập vào</th>
@@ -67,7 +72,6 @@
                                         <td>{{ $batch->batch_number }}</td>
                                         <td>{{ $batch->medicine->name }}</td>
                                         <td>{{ $batch->manufacturer }}</td>
-                                        <td>{{ $batch->production_address }}</td>
                                         <td>{{ $batch->manufacture_date }}</td>
                                         <td>{{ $batch->expiry_date }}</td>
                                         <td>{{ $batch->quantity_received }}</td>

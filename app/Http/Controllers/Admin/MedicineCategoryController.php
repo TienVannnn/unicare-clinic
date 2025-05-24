@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\MedicineCategoryExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MedicineCategoryRequest;
 use App\Models\MedicineCategory;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MedicineCategoryController extends Controller
 {
@@ -111,5 +113,10 @@ class MedicineCategoryController extends Controller
                 : 'Có lỗi khi xóa loại thuốc: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }
+    }
+
+    public function exportMedicineCategories()
+    {
+        return Excel::download(new MedicineCategoryExport, 'loai-thuoc.xlsx');
     }
 }

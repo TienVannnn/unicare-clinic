@@ -45,7 +45,9 @@
                         </form>
                     </div>
                     @can('them-don-thuoc')
-                        <div class="d-flex justify-content-end my-2">
+                        <div class="d-flex justify-content-end my-2 align-items-center">
+                            <a href="{{ route('prescriptions.export') }}"
+                                class="btn btn-label-success btn-round btn-sm me-2">Excel</a>
                             <a href="{{ route('prescription.create') }}" class="btn btn-secondary"><i
                                     class="fas fa-plus me-1"></i>
                                 Thêm đơn thuốc</a>

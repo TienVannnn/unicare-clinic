@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\MedicalServiceExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MedicalServiceRequest;
 use App\Models\Clinic;
@@ -9,6 +10,7 @@ use App\Models\MedicalService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MedicalServiceController extends Controller
 {
@@ -119,5 +121,10 @@ class MedicalServiceController extends Controller
                 : 'Có lỗi khi xóa dịch vụ khám: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new MedicalServiceExport, 'danh_sach_dich_vu_kham.xlsx');
     }
 }

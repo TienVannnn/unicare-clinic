@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\MedicalCertificateExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ConcludeRequest;
 use App\Http\Requests\Admin\MedicalCertificateRequest;
@@ -17,6 +18,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MedicalCertificateController extends Controller
 {
@@ -309,5 +311,9 @@ class MedicalCertificateController extends Controller
                 'message' => 'Có lỗi xảy ra khi thanh toán'
             ]);
         }
+    }
+    public function exportMedicalCertificates()
+    {
+        return Excel::download(new MedicalCertificateExport, 'giay_kham.xlsx');
     }
 }

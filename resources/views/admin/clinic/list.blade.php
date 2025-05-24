@@ -45,7 +45,9 @@
                         </form>
                     </div>
                     @can('them-phong-kham')
-                        <div class="d-flex justify-content-end my-2">
+                        <div class="d-flex justify-content-end my-2 align-items-center">
+                            <a href="{{ route('clinics.export') }}"
+                                class="btn btn-label-success btn-round btn-sm me-2">Excel</a>
                             <a href="{{ route('clinic.create') }}" class="btn btn-secondary"><i class="fas fa-plus me-1"></i>
                                 Thêm phòng khám</a>
                         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ClinicExport;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ClinicRequest;
@@ -10,6 +11,7 @@ use App\Models\Clinic;
 use App\Models\Department;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClinicController extends Controller
 {
@@ -114,5 +116,10 @@ class ClinicController extends Controller
                 : 'Có lỗi khi xóa phòng khám: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new ClinicExport, 'danh_sach_phong_kham.xlsx');
     }
 }

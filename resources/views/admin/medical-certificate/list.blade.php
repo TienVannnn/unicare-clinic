@@ -78,7 +78,10 @@
             </div>
             <div class="card-body">
                 @can('them-giay-kham-benh')
-                    <div class="d-flex justify-content-end my-2">
+                    <div class="d-flex justify-content-end my-2 align-items-center">
+                        <a href="{{ route('medical-certificates.export') }}"
+                            class="btn btn-label-success btn-round btn-sm
+                            me-2">Excel</a>
                         <a href="{{ route('medical-certificate.create') }}" class="btn btn-secondary"><i
                                 class="fas fa-plus me-1"></i>
                             Thêm giấy khám bệnh</a>

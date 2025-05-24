@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\MedicineBatchExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MedicineBatchRequest;
 use App\Models\Medicine;
 use App\Models\MedicineBatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MedicineBatchController extends Controller
 {
@@ -69,5 +71,10 @@ class MedicineBatchController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return  response()->json(['success' => false, 'message' => 'Có lỗi khi xóa lô thuốc']);
         }
+    }
+
+    public function exportMedicineBatches()
+    {
+        return Excel::download(new MedicineBatchExport, 'lo-thuoc.xlsx');
     }
 }
