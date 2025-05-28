@@ -15,7 +15,6 @@ class MedicalCertificate extends Model
         'payment_status',
         'doctor_id',
         'clinic_id',
-        'medical_service_id',
         'symptom',
         'diagnosis',
         'conclude',
@@ -37,9 +36,10 @@ class MedicalCertificate extends Model
     {
         return $this->belongsTo(Clinic::class);
     }
-    public function medical_service()
+    public function services()
     {
-        return $this->belongsTo(MedicalService::class, 'medical_service_id');
+        return $this->belongsToMany(MedicalService::class, 'medical_certificate_service', 'medical_certificate_id', 'medical_service_id')->withPivot('clinic_id', 'doctor_id', 'medical_time', 'note')
+            ->withTimestamps();
     }
 
     public function prescription()

@@ -80,8 +80,8 @@ class DashboardController extends Controller
             ->orderBy('month')
             ->get();
 
-        $dichVuPhobien = MedicalService::select('medical_services.name', DB::raw('COUNT(medical_certificates.id) as count'))
-            ->leftJoin('medical_certificates', 'medical_services.id', '=', 'medical_certificates.medical_service_id')
+        $dichVuPhobien = MedicalService::select('medical_services.name', DB::raw('COUNT(medical_certificate_service.medical_service_id) as count'))
+            ->leftJoin('medical_certificate_service', 'medical_services.id', '=', 'medical_certificate_service.medical_service_id')
             ->groupBy('medical_services.name')
             ->orderByDesc('count')
             ->limit(5)

@@ -20,6 +20,10 @@ class MedicalService extends Model
     {
         return $this->belongsToMany(Clinic::class, 'clinic_medical_service', 'medical_service_id', 'clinic_id');
     }
+    public function medical_certificates()
+    {
+        return $this->belongsToMany(MedicalCertificate::class, 'medical_certificate_service', 'medical_service_id ', 'medical_certificate_id');
+    }
     protected static function boot()
     {
         parent::boot();

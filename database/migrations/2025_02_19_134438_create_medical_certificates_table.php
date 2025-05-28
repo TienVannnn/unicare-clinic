@@ -22,7 +22,6 @@ return new class extends Migration
             $table->unsignedBigInteger('medical_service_id')->nullable();
             $table->foreign('doctor_id')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('clinic_id')->references('id')->on('clinics')->onDelete('set null');
-            $table->foreign('medical_service_id')->references('id')->on('medical_services')->onDelete('set null');
             $table->text('symptom')->nullable();
             $table->text('diagnosis')->nullable();
             $table->text('conclude')->nullable();

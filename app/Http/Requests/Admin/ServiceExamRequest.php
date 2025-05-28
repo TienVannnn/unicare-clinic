@@ -23,12 +23,14 @@ class ServiceExamRequest extends FormRequest
     {
         return [
             'patient_id' => 'required|exists:patients,id',
-            'medical_service_id' => 'required|exists:medical_services,id',
-            'clinic_id' => 'required|exists:clinics,id',
-            'doctor_id' => 'required|exists:admins,id',
-            'medical_time' => 'nullable|date|after_or_equal:today|before_or_equal:' . now()->addDays(10)->toDateString(),
-            'symptom' => 'required',
-            'diagnosis' => 'required'
+            'symptom' => 'required|string|max:255',
+            'diagnosis' => 'required|string|max:255',
+            'services' => 'required|array|min:1',
+            'services.*.medical_service_id' => 'required|exists:medical_services,id',
+            'services.*.clinic_id' => 'required|exists:clinics,id',
+            'services.*.doctor_id' => 'required|exists:admins,id',
+            'services.*.medical_time' => 'required',
+            'services.*.note' => 'nullable|string',
         ];
     }
 
@@ -36,22 +38,32 @@ class ServiceExamRequest extends FormRequest
     {
         return [
             'patient_id.required' => 'Vui lòng chọn bệnh nhân.',
-            'patient_id.exists' => 'Bệnh nhân không tồn tại.',
+            'patient_id.exists' => 'Bệnh nhân không hợp lệ.',
 
-            'medical_service_id.required' => 'Vui lòng chọn dịch vụ khám.',
-            'medical_service_id.exists' => 'Dịch vụ khám không hợp lệ.',
+            'symptom.required' => 'Vui lòng nhập triệu chứng.',
+            'symptom.string' => 'Triệu chứng phải là chuỗi văn bản.',
+            'symptom.max' => 'Triệu chứng không được vượt quá 255 ký tự.',
 
-            'doctor_id.required' => 'Vui lòng chọn bác sĩ.',
-            'doctor_id.exists' => 'Bác sĩ không hợp lệ.',
+            'diagnosis.required' => 'Vui lòng nhập chẩn đoán.',
+            'diagnosis.string' => 'Chẩn đoán phải là chuỗi văn bản.',
+            'diagnosis.max' => 'Chẩn đoán không được vượt quá 255 ký tự.',
 
-            'clinic_id.required' => 'Vui lòng chọn phòng khám.',
-            'clinic_id.exists' => 'Phòng khám không hợp lệ.',
+            'services.required' => 'Vui lòng thêm ít nhất một dịch vụ khám.',
+            'services.array' => 'Dữ liệu dịch vụ không hợp lệ.',
+            'services.min' => 'Cần ít nhất một dịch vụ khám.',
 
-            'medical_time.date' => 'Thời gian khám phải là ngày hợp lệ.',
-            'medical_time.after_or_equal' => 'Thời gian khám không thể là ngày trong quá khứ.',
-            'medical_time.before_or_equal' => 'Thời gian khám phải trong vòng 10 ngày kể từ hôm nay.',
-            'symptom.required' => 'Triệu chứng không được để trống',
-            'diagnosis.required' => 'Chuẩn đoán ban đầu không được để trống',
+            'services.*.medical_service_id.required' => 'Vui lòng chọn loại dịch vụ.',
+            'services.*.medical_service_id.exists' => 'Dịch vụ được chọn không hợp lệ.',
+
+            'services.*.clinic_id.required' => 'Vui lòng chọn phòng khám.',
+            'services.*.clinic_id.exists' => 'Phòng khám không hợp lệ.',
+
+            'services.*.doctor_id.required' => 'Vui lòng chọn bác sĩ thực hiện.',
+            'services.*.doctor_id.exists' => 'Bác sĩ không hợp lệ.',
+
+            'services.*.medical_time.required' => 'Vui lòng chọn thời gian khám.',
+
+            'services.*.note.string' => 'Ghi chú phải là chuỗi văn bản.',
         ];
     }
 }

@@ -172,20 +172,33 @@ class MedicalCertificateController extends Controller
         $medical_certificate = MedicalCertificate::findOrFail($id);
         try {
             $medical_certificate->update([
-                'medical_service_id' => $request->medical_service_id,
-                'clinic_id' => $request->clinic_id,
-                'doctor_id' => $request->doctor_id,
-                'medical_time' => $request->medical_time,
+                'patient_id' => $request->patient_id,
+                'insurance' => $request->has('insurance'),
                 'symptom' => $request->symptom,
                 'diagnosis' => $request->diagnosis,
                 'medical_status' => 1
             ]);
-            Session::flash('success', 'Chọn dịch vụ khám thành công');
-            return redirect()->route('medical-certificate.index');
+            $medical_certificate->services()->detach();
+
+            foreach ($request->services as $service) {
+                $medical_certificate->services()->attach(
+                    $service['medical_service_id'],
+                    [
+                        'clinic_id' => $service['clinic_id'],
+                        'doctor_id' => $service['doctor_id'],
+                        'medical_time' => $service['medical_time'],
+                        'note' => $service['note'] ?? null,
+                    ]
+                );
+            }
+            Session::flash('success', 'Thêm dịch vụ khám thành công');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            Session::flash('error', 'Có lỗi khi sử dụng dịch vụ');
+            return response()->json([
+                'success' => false,
+                'message' => 'Lưu thất bại: ' . $e->getMessage()
+            ]);
         }
-        return redirect()->back();
     }
 
     public function conclude($id)
