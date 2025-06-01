@@ -58,10 +58,15 @@ class DashboardController extends Controller
         $appointments = Appointment::when($from_date && $to_date, function ($query) use ($from_date, $to_date) {
             return $query->whereBetween('created_at', [$from_date, $to_date]);
         })->count();
-
-        $totalRevenue = Prescription::when($from_date && $to_date, function ($query) use ($from_date, $to_date) {
+        $totalPrescriptionRevenue = Prescription::when($from_date && $to_date, function ($query) use ($from_date, $to_date) {
             return $query->whereBetween('created_at', [$from_date, $to_date]);
         })->sum('total_payment');
+
+        $totalMedicalRevenue = MedicalCertificate::when($from_date && $to_date, function ($query) use ($from_date, $to_date) {
+            return $query->whereBetween('created_at', [$from_date, $to_date]);
+        })->sum('total_price');
+
+        $totalRevenue = $totalPrescriptionRevenue + $totalMedicalRevenue;
 
         $medical_certificates = MedicalCertificate::when($from_date && $to_date, function ($query) use ($from_date, $to_date) {
             return $query->whereBetween('created_at', [$from_date, $to_date]);
@@ -74,8 +79,20 @@ class DashboardController extends Controller
             ->orderBy('month')
             ->get();
 
-        $doanhThuTheoThang = Prescription::selectRaw('MONTH(created_at) as month, SUM(total_payment) as total')
+        $doanhThuThuoc = DB::table('prescriptions')
+            ->selectRaw('MONTH(created_at) as month, SUM(total_payment) as total')
             ->whereYear('created_at', $currentYear)
+            ->groupBy('month');
+
+        $doanhThuGiayKham = DB::table('medical_certificates')
+            ->selectRaw('MONTH(created_at) as month, SUM(total_price) as total')
+            ->whereYear('created_at', $currentYear)
+            ->groupBy('month');
+
+        $doanhThuTheoThang = DB::table(DB::raw("({$doanhThuThuoc->toSql()} UNION ALL {$doanhThuGiayKham->toSql()}) as combined"))
+            ->mergeBindings($doanhThuThuoc)
+            ->mergeBindings($doanhThuGiayKham)
+            ->selectRaw('month, SUM(total) as total')
             ->groupBy('month')
             ->orderBy('month')
             ->get();

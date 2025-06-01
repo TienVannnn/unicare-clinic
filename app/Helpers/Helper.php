@@ -20,4 +20,11 @@ class Helper
         $slug = trim($slug, '-');
         return $slug;
     }
+
+    public static function convertNumberToWord($number)
+    {
+        $formatter = new \NumberFormatter('vi', \NumberFormatter::SPELLOUT);
+        $text = $formatter->format($number);
+        return ucfirst($text) . ' đồng';
+    }
 }

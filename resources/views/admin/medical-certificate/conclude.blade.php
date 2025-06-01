@@ -51,7 +51,8 @@
                             <div class="mb-3 col-md-6">
                                 <label for="clinic_id" class="form-label">Phòng khám </label>
                                 <input type="text" class="form-control" name="clinic_id"
-                                    value="{{ $medical_certificate->clinic->name }}" disabled>
+                                    value="{{ $medical_certificate->clinic ? $medical_certificate->clinic->name : '' }}"
+                                    disabled>
                             </div>
                         @else
                             <div class="mb-3 col-md-6">
@@ -62,7 +63,7 @@
                                     @if (!empty($clinics))
                                         @foreach ($clinics as $clinic)
                                             <option value="{{ $clinic->id }}"
-                                                {{ $clinic->id === $medical_certificate->clinic->id ? 'selected' : '' }}>
+                                                {{ $clinic->id === optional($medical_certificate->clinic)->id ? 'selected' : '' }}>
                                                 {{ $clinic->name }}
                                             </option>
                                         @endforeach

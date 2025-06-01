@@ -29,6 +29,8 @@ return new class extends Migration
             $table->date('discharge_date')->nullable();
             $table->timestamp('medical_time')->nullable();
             $table->date('re_examination_date')->nullable();
+            $table->tinyInteger('insurance');
+            $table->integer('total_price')->default(0);
             $table->timestamps();
         });
     }

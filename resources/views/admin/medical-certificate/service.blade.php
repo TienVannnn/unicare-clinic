@@ -42,7 +42,6 @@
                         <div class="mt-4">
                             <div id="service-rows-container">
                                 @if ($medical_certificate->services->count() > 0)
-                                    {{-- {{ dd($medical_certificate->services) }} --}}
                                     @foreach ($medical_certificate->services as $index => $service)
                                         <div class="row service-row mb-3">
                                             <div class="col-md-4">

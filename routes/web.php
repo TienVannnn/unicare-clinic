@@ -88,6 +88,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('medical-certificate/{id}/payment-advance', [MedicalCertificateController::class, 'payment_advance'])->name('medical-certificate.pay-advance');
     Route::get('medical-certificate/{id}/print', [MedicalCertificateController::class, 'print'])->name('medical-certificate.print');
     Route::get('medical-certificate/{id}/print_advance', [MedicalCertificateController::class, 'print_advance'])->name('medical-certificate.print-advance');
+    Route::get('medical-certificate/{id}/print-re-exam', [MedicalCertificateController::class, 'print_re_exam'])->name('medical-certificate.print-re-exam');
     Route::get('medical-certificate/{id}/service', [MedicalCertificateController::class, 'service'])->name('medical-certificate.service');
     Route::post('medical-certificate/{id}/service', [MedicalCertificateController::class, 'service_exam'])->name('medical-certificate.service-exam');
     Route::get('medical-certificate/{id}/conclude', [MedicalCertificateController::class, 'conclude'])->name('medical-certificate.conclude');

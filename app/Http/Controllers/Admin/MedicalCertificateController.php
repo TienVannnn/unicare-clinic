@@ -134,7 +134,7 @@ class MedicalCertificateController extends Controller
 
     public function service($id)
     {
-        $medical_certificate = MedicalCertificate::findOrFail($id);
+        $medical_certificate = MedicalCertificate::with('services')->findOrFail($id);
         if ($medical_certificate->medical_status == 2) {
             Session::flash('error', 'Giấy khám bệnh đã khám hoàn tất');
             return redirect()->back();
@@ -165,8 +165,6 @@ class MedicalCertificateController extends Controller
         return response()->json($doctors);
     }
 
-
-
     public function service_exam(ServiceExamRequest $request, $id)
     {
         $medical_certificate = MedicalCertificate::findOrFail($id);
@@ -179,18 +177,26 @@ class MedicalCertificateController extends Controller
                 'medical_status' => 1
             ]);
             $medical_certificate->services()->detach();
-
+            $total_price = 0;
             foreach ($request->services as $service) {
-                $medical_certificate->services()->attach(
-                    $service['medical_service_id'],
-                    [
-                        'clinic_id' => $service['clinic_id'],
-                        'doctor_id' => $service['doctor_id'],
-                        'medical_time' => $service['medical_time'],
-                        'note' => $service['note'] ?? null,
-                    ]
-                );
+                $serviceModel = MedicalService::find($service['medical_service_id']);
+                if ($serviceModel) {
+                    $price = $medical_certificate->insurance ? $serviceModel->insurance_price : $serviceModel->price;
+                    $total_price += $price;
+                    $medical_certificate->services()->attach(
+                        $service['medical_service_id'],
+                        [
+                            'clinic_id' => $service['clinic_id'],
+                            'doctor_id' => $service['doctor_id'],
+                            'medical_time' => $service['medical_time'],
+                            'note' => $service['note'] ?? null,
+                            'service_price' => $price,
+                        ]
+                    );
+                }
             }
+            $medical_certificate->total_price = $total_price;
+            $medical_certificate->save();
             Session::flash('success', 'Thêm dịch vụ khám thành công');
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
@@ -293,6 +299,17 @@ class MedicalCertificateController extends Controller
         $auth = auth()->guard('admin')->user();
         $pdf = Pdf::loadView('admin.medical-certificate.advance', compact('medical_certificate', 'auth'));
         return $pdf->stream('phieu-thu-tam-ung.pdf');
+    }
+
+    public function print_re_exam($id)
+    {
+        $medical_certificate = MedicalCertificate::findOrFail($id);
+        if ($medical_certificate->re_examination_date && now()->lt($medical_certificate->re_examination_date)) {
+            Session::flash('error', 'Không tồn tại giấy hẹn khám lại');
+            return redirect()->back();
+        }
+        $pdf = Pdf::loadView('admin.medical-certificate.print-re-exam', compact('medical_certificate'));
+        return $pdf->stream('giay-hen-kham-lai.pdf');
     }
 
     public function payment_advance($id)

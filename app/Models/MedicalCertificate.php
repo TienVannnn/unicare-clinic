@@ -22,7 +22,8 @@ class MedicalCertificate extends Model
         'medical_time',
         'discharge_date',
         're_examination_date',
-        'insurance'
+        'insurance',
+        'total_price'
     ];
     public function patient()
     {
@@ -38,13 +39,13 @@ class MedicalCertificate extends Model
     }
     public function services()
     {
-        return $this->belongsToMany(MedicalService::class, 'medical_certificate_service', 'medical_certificate_id', 'medical_service_id')->withPivot('clinic_id', 'doctor_id', 'medical_time', 'note')
+        return $this->belongsToMany(MedicalService::class, 'medical_certificate_service', 'medical_certificate_id', 'medical_service_id')->withPivot('service_price', 'clinic_id', 'doctor_id', 'medical_time', 'note')
             ->withTimestamps();
     }
 
-    public function prescription()
+    public function prescriptions()
     {
-        return $this->hasOne(Prescription::class);
+        return $this->hasMany(Prescription::class);
     }
 
     protected static function boot()

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('medical_certificate_id')->constrained('medical_certificates')->onDelete('cascade');
             $table->unsignedBigInteger('medical_service_id')->nullable();
             $table->foreign('medical_service_id')->references('id')->on('medical_services')->onDelete('set null');
+            $table->integer('service_price');
             $table->unsignedBigInteger('clinic_id')->nullable();
             $table->foreign('clinic_id')->references('id')->on('clinics')->onDelete('set null');
             $table->unsignedBigInteger('doctor_id')->nullable();

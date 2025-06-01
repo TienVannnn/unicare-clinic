@@ -9,42 +9,18 @@
             font-family: DejaVu Sans, sans-serif;
             max-width: 800px;
             margin: auto;
-            line-height: 1.2;
-        }
-
-
-        body {
             line-height: 0.8;
         }
 
         .header {
             width: 100%;
+            line-height: 1px;
         }
 
         .header div {
             display: inline-block;
             width: 49%;
             vertical-align: top;
-        }
-
-
-        .info,
-        .footer {
-            margin-top: 20px;
-        }
-
-        .signatures {
-            width: 100%;
-        }
-
-        .signature-box {
-            display: inline-block;
-            width: 49%;
-            vertical-align: top;
-        }
-
-        .signature-box p {
-            margin: 5px 0;
         }
 
         table {
@@ -55,20 +31,19 @@
 
         th,
         td {
-            border: 1px solid black;
+            border: none;
             padding: 8px;
             text-align: left;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0
         }
     </style>
 </head>
 
 <body>
-    @php
-        $price = $medical_certificate->medical_service->price;
-        if ($medical_certificate->insurance) {
-            $price *= 0.8;
-        }
-    @endphp
     <div class="header">
         <div>
             <h5 class="title">Phòng khám đa khoa Unicare</h5>
@@ -80,34 +55,67 @@
             <small><strong>Độc lập - Tự do - Hạnh phúc</strong></small>
         </div>
     </div>
-    <div style="text-align: center">
+    <div style="text-align: center; line-height: 1px; margin-top: 30px">
         <h2>PHIẾU THU TẠM ỨNG</h2>
+        <p>Số phiếu: {{ $medical_certificate->medical_certificate_code }}</p>
     </div>
 
-    <div class="info">
-        <p><strong>Họ và tên BN:</strong> {{ $medical_certificate->patient->name }} - <strong>Mã số BN:</strong>
-            {{ $medical_certificate->patient->patient_code }}
-        </p>
-        <p><strong>Địa chỉ:</strong> {{ $medical_certificate->patient->address }}</p>
-        <p><strong>Khoa:</strong> {{ $medical_certificate->clinic->name }}</p>
-        <p><strong>Tạm ứng:</strong> {{ number_format($price, 0, ',', '.') }} VND</p>
-    </div>
+    <table style="width: 100%; border: none; border-collapse: collapse">
+        <tr>
+            <td><strong>Họ và tên BN:</strong></td>
+            <td>{{ $medical_certificate->patient->name }}</td>
+            <td><strong>Mã số BN:</strong></td>
+            <td>{{ $medical_certificate->patient->patient_code }}</td>
+        </tr>
+        <tr>
+            <td><strong>Ngày sinh:</strong></td>
+            <td colspan="3">{{ \Carbon\Carbon::parse($medical_certificate->patient->dob)->format('d/m/Y') }}</td>
+        </tr>
+        <tr>
+            <td><strong>Địa chỉ:</strong></td>
+            <td colspan="3">{{ $medical_certificate->patient->address }}</td>
+        </tr>
+        <tr>
+            <td><strong>Phòng khám:</strong></td>
+            <td colspan="3">{{ $medical_certificate->clinic->name }}</td>
+        </tr>
+        <tr>
+            <td><strong>Lý do thu:</strong></td>
+            <td colspan="3">Tạm ứng tiền dịch vụ</td>
+        </tr>
+        <tr>
+            <td><strong>Số tiền:</strong></td>
+            <td colspan="3"><strong>{{ number_format($medical_certificate->total_price) }} đồng</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Viết bằng chữ:</strong></td>
+            <td colspan="3">
+                <strong>{{ App\Helpers\Helper::convertNumberToWord($medical_certificate->total_price) }}</strong>
+            </td>
+        </tr>
+    </table>
 
-    <div class="signatures">
-        <div class="signature-box">
-            <p><strong>Người nộp tiền</strong></p>
-            <p>(Ký và ghi rõ họ tên)</p>
-            <br><br>
-            <p>....................................</p>
-        </div>
-        <div class="signature-box" style="text-align: right">
-            <p>Ngày {{ now()->format('d') }} tháng {{ now()->format('m') }} năm {{ now()->format('Y') }}</p>
-            <p><strong>Người thu tiền</strong></p>
-            <p>(Ký và ghi rõ họ tên)</p>
-            <br><br>
-            <p><strong>TN. {{ $auth->name }}</strong></p>
-        </div>
-    </div>
+
+    <table style="width: 100%; margin-top: 40px; text-align: center;">
+        <tr>
+            <td colspan="2" style="text-align: right; padding-bottom: 10px;">
+                Ngày {{ now()->format('d') }} tháng {{ now()->format('m') }} năm {{ now()->format('Y') }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Người nộp tiền</strong><br>
+                (Ký và ghi rõ họ tên)<br><br><br><br>
+                ....................................
+            </td>
+            <td style="text-align: right">
+                <strong>Người thu tiền</strong><br>
+                (Ký và ghi rõ họ tên)<br><br><br><br>
+                <strong>TN. {{ $auth->name }}</strong>
+            </td>
+        </tr>
+    </table>
+
 
     <div class="footer">
         <p><strong>Lưu ý:</strong></p>

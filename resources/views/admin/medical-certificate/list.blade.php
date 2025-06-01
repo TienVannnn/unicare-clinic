@@ -159,7 +159,7 @@
                                                     @if ($medical_certificate->payment_status != 1)
                                                         @if (
                                                             $medical_certificate->conclude ||
-                                                                ($medical_certificate->medical_service_id && $medical_certificate->payment_status == 2))
+                                                                ($medical_certificate->services->count() > 0 && $medical_certificate->payment_status == 2))
                                                             <button type="button"
                                                                 class="btn btn-outline-success btn-xs pay-btn me-2"
                                                                 title="Xác nhận thanh toán"
@@ -167,7 +167,7 @@
                                                                 <i class="fas fa-check" data-bs-toggle="tooltip"
                                                                     title="Xác nhận thanh toán"></i>
                                                             </button>
-                                                        @elseif($medical_certificate->medical_service_id && $medical_certificate->payment_status == 0)
+                                                        @elseif($medical_certificate->services->count() > 0 && $medical_certificate->payment_status == 0)
                                                             <button type="button"
                                                                 class="btn btn-outline-warning btn-xs pay-advance-btn me-2"
                                                                 title="Thu tiền tạm ứng"
@@ -178,7 +178,7 @@
                                                         @endif
                                                     @endif
                                                 @endcan
-                                                @if ($medical_certificate->medical_service_id && $medical_certificate->payment_status != 1)
+                                                @if ($medical_certificate->services->count() > 0 && $medical_certificate->payment_status != 1)
                                                     <a href="{{ route('medical-certificate.print-advance', $medical_certificate->id) }}"
                                                         target="_blank" class="btn btn-outline-warning btn-xs me-2"
                                                         title="In phiếu tạm ứng">
@@ -212,6 +212,15 @@
                                                             title="Kết luận khám"></i>
                                                     </a>
                                                 @endcan
+                                                @if ($medical_certificate->re_examination_date && now()->lt($medical_certificate->re_examination_date))
+                                                    <a href="{{ route('medical-certificate.print-re-exam', $medical_certificate->id) }}"
+                                                        target="_blank" class="btn btn-outline-primary btn-xs me-2"
+                                                        title="In giấy khám lại">
+                                                        <i class="icon-printer" data-bs-toggle="tooltip"
+                                                            title="In giấy khám lại"></i>
+                                                    </a>
+                                                @endif
+
                                                 <a href="{{ route('medical-certificate.print', $medical_certificate->id) }}"
                                                     target="_blank" class="btn btn-outline-success btn-xs me-2"
                                                     title="In giấy khám bệnh">
