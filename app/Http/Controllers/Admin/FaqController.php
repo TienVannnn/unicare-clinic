@@ -14,6 +14,7 @@ class FaqController extends Controller
      */
     public function index()
     {
+        $this->authorize('xem-danh-sach-hoi-dap');
         $faqs = Faq::orderByDesc('id')->with('user', 'department')->paginate(12);
         $title = 'Danh sách câu hỏi';
         return view('admin.faq.list', compact('title', 'faqs'));
@@ -21,7 +22,7 @@ class FaqController extends Controller
 
     public function show(string $id)
     {
-        $this->authorize('xem-chi-tiet-lien-he');
+        $this->authorize('xem-danh-sach-hoi-dap');
         $faq = Faq::with('user', 'department')->findOrFail($id);
         $doctor  = auth()->guard('admin')->user();
         if ($faq->is_viewed == 0) $faq->update(['is_viewed' => 1]);
@@ -31,7 +32,6 @@ class FaqController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $this->authorize('tra-loi-lien-he');
         $request->validate(
             [
                 'answer' => 'required|string',
@@ -61,7 +61,7 @@ class FaqController extends Controller
 
     public function destroy(string $id)
     {
-        $this->authorize('xoa-lien-he');
+        $this->authorize('xoa-hoi-dap');
         $faq = Faq::findOrFail($id);
         try {
             $faq->delete();

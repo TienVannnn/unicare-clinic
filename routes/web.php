@@ -22,13 +22,12 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PrescriptionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AuthController as AuthUserController;
 use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\FaqController;
 use App\Http\Controllers\User\NewsController as UserNewsController;
-use App\Models\MedicineBatch;
-use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -65,6 +64,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('/permission', PermissionController::class);
     Route::resource('/role', RoleController::class);
     Route::resource('/manager', AdminController::class);
+    Route::resource('/user', AdminUserController::class);
     Route::get('/department/{id}/clinics', [AdminController::class, 'getClinicsByDepartment'])->name('admin.getClinicsByDepartment');
     Route::resource('/medicine-category', MedicineCategoryController::class);
     Route::resource('/medicine', MedicineController::class);

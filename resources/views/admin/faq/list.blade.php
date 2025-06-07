@@ -99,13 +99,11 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                @can('xem-chi-tiet-lien-he')
-                                                    <a href="{{ route('faq.show', $faq->id) }}"
-                                                        class="btn btn-outline-primary btn-xs me-2"
-                                                        title="Xem tin nhắn câu hỏi"><i class="far fa-comments"
-                                                            data-bs-toggle="tooltip" title="Xem tin nhắn câu hỏi"></i></a>
-                                                @endcan
-                                                @can('xoa-lien-he')
+                                                <a href="{{ route('faq.show', $faq->id) }}"
+                                                    class="btn btn-outline-primary btn-xs me-2"
+                                                    title="Xem tin nhắn câu hỏi"><i class="far fa-comments"
+                                                        data-bs-toggle="tooltip" title="Xem tin nhắn câu hỏi"></i></a>
+                                                @can('xoa-hoi-dap')
                                                     <form action="{{ route('faq.destroy', $faq->id) }}" method="POST"
                                                         class="delete-form">
                                                         @method('DELETE')

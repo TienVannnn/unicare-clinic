@@ -19,6 +19,7 @@ use App\Models\NewsCategory;
 use App\Models\Patient;
 use App\Models\Permission;
 use App\Models\Prescription;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -37,6 +38,8 @@ class SearchController extends Controller
                 return $this->searchPermissions($query, $title, $perPage);
             case 'manager':
                 return $this->searchManagers($query, $title, $perPage);
+            case 'user':
+                return $this->searchUsers($query, $title, $perPage);
             case 'category':
                 return $this->searchCategories($query, $title, $perPage);
             case 'medicine':
@@ -106,6 +109,18 @@ class SearchController extends Controller
         })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
         $title = 'Tìm kiếm nhân viên';
         return view('admin.manager.list', compact('managers', 'title'));
+    }
+
+    private function searchUsers($query, &$title, $perPage)
+    {
+        $users = User::when($query, function ($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->orWhere('phone', 'like', '%' . $query . '%')
+                ->orWhere('address', 'like', '%' . $query . '%');
+        })->orderByDesc('id')->paginate($perPage)->appends(request()->query());
+        $title = 'Tìm kiếm người dùng';
+        return view('admin.user.list', compact('users', 'title'));
     }
 
     private function searchCategories($query, &$title, $perPage)

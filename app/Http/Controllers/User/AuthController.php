@@ -113,12 +113,16 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            $cre = $request->only('email', 'password');
+            $cre = [
+                'email' => $request->email,
+                'password' => $request->password,
+                'verify_email' => 1,
+            ];
             if (auth()->attempt($cre, $request->has('remember'))) {
                 Session::flash('success', 'Đăng nhập thành công');
                 return redirect()->route('home');
             }
-            Session::flash('error', 'Email hoặc mật khẩu không đúng');
+            Session::flash('error', 'Tài khoản không hợp lệ hoặc chưa được xác thực');
             return redirect()->back();
         } catch (\Exception $e) {
             Session::flash('error', 'Có lỗi khi đăng nhập');

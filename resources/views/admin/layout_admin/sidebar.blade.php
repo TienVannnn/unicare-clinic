@@ -138,10 +138,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('xem-danh-sach-nguoi-dung')
+                    <li class="nav-item {{ request()->routeIs('user.*') ? 'active' : '' }}">
+                        <a href="{{ route('user.index') }}">
+                            <i class="fas fa-users"></i>
+                            <p class="text-capitalize">Người dùng</p>
+                        </a>
+                    </li>
+                @endcan
                 @can('xem-danh-sach-nhan-vien')
                     <li class="nav-item {{ request()->routeIs('manager.*') ? 'active' : '' }}">
                         <a href="{{ route('manager.index') }}">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-user"></i>
                             <p class="text-capitalize">Nhân viên</p>
                         </a>
                     </li>
