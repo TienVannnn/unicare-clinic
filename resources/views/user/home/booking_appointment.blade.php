@@ -5,52 +5,51 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Đặt lịch hẹn khám</h2>
-                        <img src="/user/assets/img/section-img.png" alt="#" />
+                    <div class="section-title mt-3" style="margin-bottom: 0">
+                        <h2>Đặt lịch hẹn khám ngay</h2>
                     </div>
                 </div>
             </div>
             <div class="row d-flex justify-content-center">
-                <div class="col-lg-6 col-md-12 col-12 mb-3" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                <div class="col-12 mb-3">
                     <form class="form" id="book-appointment-form" action="{{ route('user.book-appointment') }}"
                         method="POST">
                         @csrf
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="name" class="form-label">Họ tên</label>
                                     <input name="name" id="name" type="text" placeholder="Nhập tên" />
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="email" class="form-label">Email</label>
                                     <input name="email" id="email" type="email" placeholder="Nhập email" />
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="phone" class="form-label">Điện thoại</label>
                                     <input name="phone" id="phone" type="text" placeholder="Nhập số điện thoại" />
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="dob" class="form-label">Ngày sinh</label>
                                     <input name="dob" id="dob" type="date" />
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="gender" class="form-label">Giới tính</label>
                                     <select name="gender" id="gender" class="form-custom">
                                         <option value="1">Nam</option>
-                                        <option value="2">Nam</option>
+                                        <option value="2">Nữ</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <label for="department" class="form-label">Chuyên khoa</label>
                                 <select name="department_id" class="form-custom">
                                     <option value="" selected>Chọn chuyên khoa</option>
@@ -64,7 +63,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="doctor" class="form-label">Bác sĩ</label>
                                     <select name="doctor_id" class="form-custom" id="doctor_id">
@@ -80,13 +79,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="appointment_date" class="form-label">Ngày khám</label>
                                     <input type="date" name="appointment_date" id="appointment_date">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="slot_list" class="form-label">Khung giờ khám</label>
                                     <select id="slot_select" name="start_time" class="form-custom">

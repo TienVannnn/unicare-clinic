@@ -40,22 +40,47 @@
                         <a href="{{ route('user.forgot') }}" class="text-decoration-none">Quên mật khẩu?</a>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Đăng nhập</button>
+                    <button type="submit" class="btn w-100 mb-3">Đăng nhập</button>
 
                     <p class="text-center">Bạn chưa có tài khoản?
                         <a class="text-danger" href="{{ route('user.register') }}">Đăng ký</a>
                     </p>
                     <div class="text-center">
                         <p>Hoặc đăng nhập với:</p>
-                        <button type="button" class="btn btn-secondary mx-1">
-                            <i class="icofont-facebook"></i>
-                        </button>
-                        <a href="{{ route('user.google-login') }}" class="btn btn-secondary mx-1">
-                            <i class="icofont-google-plus"></i> Google
+                        <a title="Đăng nhập với Google" href="{{ route('user.google-login') }}" class="btn-social mx-1">
+                            <img class="img-social" src="{{ asset('user/assets/img/gg.png') }}" alt="">
                         </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+@endsection
+@section('css')
+    <style>
+        .img-social {
+            width: 30px
+        }
+
+        .btn-social {
+            background-color: #ffffff;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid #ddd;
+        }
+
+        .btn-social:hover {
+            background-color: #ffffff;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 10px 20px;
+            transform: translateY(-3px);
+            color: #007bff;
+        }
+    </style>
 @endsection

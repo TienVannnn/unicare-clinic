@@ -12,13 +12,6 @@
     </div>
 </div>
 
-{{-- <div class="item-social-network" id="item-social-network">
-    <a href="#" class="linkSocial" title="Message">
-        <img data-src="/user/assets/img/icon-message.png" class="glowing lazyloaded" alt="Messenger"
-            src="/user/assets/img/icon-message.png">
-    </a>
-</div> --}}
-
 <!-- Footer Area -->
 <footer id="footer" class="footer">
     <!-- Footer Top -->
@@ -33,25 +26,7 @@
                             đầu, UNI CARE đã được định hướng phát triển mô hình đa dạng các lĩnh vực như: Y tế, Dược
                             phẩm, Trang thiết bị, Công nghệ và Dịch vụ y tế số.
                         </p>
-                        <!-- Social -->
-                        <ul class="social">
-                            <li>
-                                <a href="#"><i class="icofont-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icofont-google-plus"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icofont-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icofont-vimeo"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icofont-pinterest"></i></a>
-                            </li>
-                        </ul>
-                        <!-- End Social -->
+
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12">
@@ -64,19 +39,17 @@
                                         <a href="/"></i>Trang chủ</a>
                                     </li>
                                     <li>
-                                        <a href="#">Chương
+                                        <a href="/chuong-trinh-uu-dai">Chương
                                             trình ưu đãi</a>
                                     </li>
                                     <li>
-                                        <a href="#">Quy trình
-                                            khám chữa bệnh</a>
+                                        <a href="/bang-gia-dich-vu">Bảng giá dịch vụ</a>
                                     </li>
                                     <li>
-                                        <a href="#"></i>Đội ngũ chuyên gia</a>
+                                        <a href="/doi-ngu-chuyen-gia"></i>Đội ngũ chuyên gia</a>
                                     </li>
                                     <li>
-                                        <a href="#"></i>Other
-                                            Links</a>
+                                        <a href="/faq"></i>Hỏi đáp</a>
                                     </li>
                                 </ul>
                             </div>
@@ -99,17 +72,17 @@
                         <h2>Dịch vụ</h2>
                         <div>
                             <ul>
-                                <li>
-                                    <a href="/"></i>Đặt lịch khám</a>
+                                <li style="padding: 0 8px 0 0">
+                                    <a href="/book-appointment"></i>Đặt lịch khám</a>
                                 </li>
-                                <li>
-                                    <a href="/"></i>Dịch vụ y tế</a>
+                                <li style="padding: 8px 0">
+                                    <a href="/dich-vu-y-te"></i>Dịch vụ y tế</a>
                                 </li>
-                                <li>
-                                    <a href="/"></i>Gói khám sức khỏe</a>
+                                <li style="padding: 8px 0">
+                                    <a href="/goi-kham-suc-khoe"></i>Gói khám sức khỏe</a>
                                 </li>
-                                <li>
-                                    <a href="/"></i>Dịch vụ bảo hiểm</a>
+                                <li style="padding: 8px 0">
+                                    <a href="/tin-tuc-phong-kham"></i>Tin tức phòng khám</a>
                                 </li>
                             </ul>
                         </div>

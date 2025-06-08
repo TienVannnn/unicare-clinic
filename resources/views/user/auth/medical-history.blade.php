@@ -5,7 +5,7 @@
             <p class="text-capitalize font-weight-bold">Thông tin bệnh nhân</p>
             <p>{{ $auth->patient->name }} - {{ \Carbon\Carbon::parse($auth->patient->dob)->format('d/m/Y') }}</p>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" style="color: black">
             <table class="table">
                 <thead class="table-primary">
                     <tr>

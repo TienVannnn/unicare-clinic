@@ -27,9 +27,6 @@
                                 </div>
                             </form>
                         </li>
-                        <li>
-                            <i class="fa fa-envelope mr-1"></i><a href="mailto:support@yourmail.com">Vi</a>
-                        </li>
                         @if (Auth::check())
                             <li>
                                 <a href="{{ route('user.overview') }}"><i

@@ -199,7 +199,7 @@
                                     <label for="gender" class="form-label">Giới tính</label>
                                     <select name="gender" id="gender" class="form-custom">
                                         <option value="1">Nam</option>
-                                        <option value="2">Nam</option>
+                                        <option value="2">Nữ</option>
                                     </select>
                                 </div>
                             </div>
@@ -403,7 +403,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-service">
                         <i class="icofont icofont-heart-alt"></i>
-                        <h4><a href="service-details.html">Bảng giá</a></h4>
+                        <h4><a href="/bang-gia-dich-vu">Bảng giá</a></h4>
                         <p>
                             Bảng giá dịch vụ sẽ của UNI CARE sẽ được hiển thị trên website của chúng tôi hoặc gọi qua
                             hotline (0258) 3871 134
