@@ -17,14 +17,11 @@ document.getElementById("avatar-input").addEventListener("change", function () {
                     "Thành công"
                 );
             } else {
-                toastr.success(
-                    "Ảnh đại diện đã được cập nhật thành công!",
-                    "Thành công"
-                );
+                toastr.error("Ảnh đại diện cập nhật thất bại!", "Thất bại");
             }
         })
         .catch((error) => {
             console.error("Error:", error);
-            alert("Đã xảy ra lỗi. Vui lòng thử lại.");
+            toastr.error("Ảnh đại diện cập nhật thất bại!", "Thất bại");
         });
 });

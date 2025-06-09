@@ -118,6 +118,8 @@ class HomeController extends Controller
             $selectedDoctor = Admin::role('Bác sĩ')->with('department')->find($request->doctor_id);
             if ($selectedDoctor) {
                 $selectedDepartmentId = $selectedDoctor->department->id;
+            } else {
+                abort(403);
             }
         }
 

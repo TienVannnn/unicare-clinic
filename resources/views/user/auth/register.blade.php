@@ -45,7 +45,7 @@
                             name="password_confirmation">
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Đăng ký</button>
+                    <button type="submit" class="btn w-100 mb-3">Đăng ký</button>
 
                     <p class="text-center">Bạn đã có tài khoản?
                         <a class="text-danger" href="{{ route('user.login') }}">Đăng nhập</a>

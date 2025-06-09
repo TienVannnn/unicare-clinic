@@ -15,6 +15,7 @@ use App\Jobs\ForgotPasswordJob;
 use App\Jobs\VerifyEmailJob;
 use App\Models\Faq;
 use App\Models\MedicalCertificate;
+use App\Models\Prescription;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -139,7 +140,14 @@ class AuthController extends Controller
 
     public function delete_account()
     {
-        auth()->delete();
+        $user = auth()->user();
+        if ($user->avatar) {
+            $avatarPath = public_path($user->avatar);
+            if (file_exists($avatarPath)) {
+                unlink($avatarPath);
+            }
+        }
+        $user->delete();
         Session::flash('success', 'Xóa tài khoản thành công');
         return redirect()->route('home');
     }
@@ -354,6 +362,25 @@ class AuthController extends Controller
         return view('user.auth.detail-medical-history', compact('title', 'medical_certificate'));
     }
 
+    public function prescription_detail($id)
+    {
+        $auth = auth()->user();
+
+        $prescription = Prescription::where('id', $id)
+            ->whereHas('medical_certificate.patient', function ($query) use ($auth) {
+                $query->where('id', $auth->patient->id);
+            })
+            ->first();
+
+        if (!$prescription) {
+            abort(403);
+        }
+
+        $title = 'Chi tiết đơn thuốc';
+        return view('user.auth.prescription-detail', compact('title', 'prescription'));
+    }
+
+
     public function faq()
     {
         $faqs = Faq::where('user_id', auth()->id())->orderByDesc('id')->paginate(5);
@@ -361,7 +388,7 @@ class AuthController extends Controller
         return view('user.auth.faq', compact('title', 'faqs'));
     }
 
-    public function update(Request $request, $id)
+    public function update_faq(Request $request, $id)
     {
         $faq = Faq::findOrFail($id);
         if ($faq->answer) {

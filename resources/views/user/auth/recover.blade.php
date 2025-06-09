@@ -45,7 +45,7 @@
                             name="password_confirmation">
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Khôi phục</button>
+                    <button type="submit" class="btn w-100 mb-3">Khôi phục</button>
                 </form>
             </div>
         </div>

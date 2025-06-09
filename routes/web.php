@@ -169,11 +169,12 @@ Route::prefix('/profile')->middleware('auth.user')->group(function () {
     Route::get('/delete-account', [AuthUserController::class, 'delete_account'])->name('user.delete-account');
     Route::get('/medical-history', [AuthUserController::class, 'medical_history'])->name('user.medical-history');
     Route::get('/medical-history/{id}', [AuthUserController::class, 'medical_history_detail'])->name('user.medical-history-detail');
+    Route::get('/prescription/{id}', [AuthUserController::class, 'prescription_detail'])->name('user.prescription-detail');
     Route::post('/medical-history/get-patient', [AuthUserController::class, 'handle_get_patient'])->name('user.medical-history.get-patient');
     Route::post('/change-avatar', [AuthUserController::class, 'change_avatar'])->name('user.change-avatar');
     Route::get('/faq', [AuthUserController::class, 'faq'])->name('user.faq-auth');
     Route::delete('/faq/{id}/delete', [AuthUserController::class, 'faq_delete'])->name('user.faq-delete');
-    Route::put('/faq/{id}', [AuthUserController::class, 'update'])->name('user.faq-update');
+    Route::put('/faq/{id}', [AuthUserController::class, 'update_faq'])->name('user.faq-update');
 });
 Route::get('/search', [HomeController::class, 'search'])->name('user.search');
 Route::get('/doi-ngu-chuyen-gia', [DoctorController::class, 'doctors'])->name('user.doctors');

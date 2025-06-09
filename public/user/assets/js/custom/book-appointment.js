@@ -66,8 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     departmentSelect.addEventListener("change", function () {
         const departmentId = this.value;
-        const slotSelect = document.getElementById("slot_select");
-        slotSelect.innerHTML = '<option value="">-- Chọn giờ khám --</option>';
         if (departmentId) {
             fetch(`/get-doctors/${departmentId}`)
                 .then((response) => response.json())
@@ -115,10 +113,6 @@ function fetchSlots() {
                 select.appendChild(opt);
                 return;
             }
-            const defaultOption = document.createElement("option");
-            defaultOption.text = "-- Chọn giờ khám --";
-            defaultOption.value = "";
-            select.appendChild(defaultOption);
 
             slots.forEach((slot) => {
                 const opt = document.createElement("option");

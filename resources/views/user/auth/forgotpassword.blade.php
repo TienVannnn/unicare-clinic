@@ -26,7 +26,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Gửi mã xác nhận</button>
+                    <button type="submit" class="btn w-100 mb-3">Gửi mã xác nhận</button>
 
                 </form>
             </div>

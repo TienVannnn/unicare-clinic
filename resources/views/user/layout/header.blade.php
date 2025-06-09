@@ -15,7 +15,7 @@
                     <ul class="top-link">
                         <li class="search-wrapper">
                             <button id="toggle-search" class="search-btn">
-                                <i class="fa fa-search"></i>
+                                <i class="fa fa-search" title="Tìm kiếm"></i>
                             </button>
                             <form action="{{ route('user.search') }}" method="GET">
                                 <div id="search-box" class="search-box">
@@ -29,7 +29,7 @@
                         </li>
                         @if (Auth::check())
                             <li>
-                                <a href="{{ route('user.overview') }}"><i
+                                <a href="{{ route('user.overview') }}" title="Xem hồ sơ"><i
                                         class="fa fa-user
                                     mr-1"></i>{{ Auth::user()->name }}</a>
                             </li>
