@@ -234,6 +234,7 @@ class SearchController extends Controller
                 $q->where('patient_code', 'like', '%' . $query . '%')
                     ->orWhere('name', 'like', '%' . $query . '%')
                     ->orWhere('phone', 'like', '%' . $query . '%')
+                    ->orWhere('cccd', 'like', '%' . $query . '%')
                     ->orWhere('address', 'like', '%' . $query . '%');
             });
         }

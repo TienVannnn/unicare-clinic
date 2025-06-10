@@ -22,8 +22,6 @@ class ConcludeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => 'required|exists:patients,id',
-            'clinic_id' => 'nullable|exists:clinics,id',
             'symptom' => 'required',
             'diagnosis' => 'required',
             'conclude' => 'required',
@@ -35,10 +33,6 @@ class ConcludeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'patient_id.required' => 'Vui lòng chọn bệnh nhân.',
-            'patient_id.exists' => 'Bệnh nhân không hợp lệ.',
-            'clinic_id.required' => 'Vui lòng chọn phòng khám.',
-            'clinic_id.exists' => 'Phòng khám không hợp lệ.',
             'symptom.required' => 'Vui lòng nhập triệu chứng.',
             'diagnosis.required' => 'Vui lòng nhập chuẩn đoán.',
             'conclude.required' => 'Vui lòng nhập kết luận.',

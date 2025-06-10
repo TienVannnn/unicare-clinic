@@ -19,75 +19,63 @@
                     @csrf
                     <div class="row">
                         <div class="mb-3 col-md-6">
-                            <label for="patient_id" class="form-label">Bệnh nhân <span class="text-danger">*</span></label>
-                            <select class="form-control tag-select"id="patient_id" name="patient_id">
-                                @if (!empty($patients))
-                                    @foreach ($patients as $patient)
-                                        <option value="{{ $patient->id }}"
-                                            {{ $patient->id === $medical_certificate->patient->id ? 'selected' : '' }}>
-                                            {{ $patient->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
-                            </select>
-                            @error('patient_id')
-                                <div class="message-error">{{ $message }}</div>
-                            @enderror
+                            <label for="patient_id" class="form-label">Bệnh nhân </label>
+                            <input type="text" class="form-control" value="{{ $medical_certificate->patient->name }}"
+                                disabled>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="" class="form-label">BHYT</label>
-                            <div style="margin-top: 10px">
-                                <input type="checkbox" name="insurance" id="insurance"
-                                    {{ $medical_certificate->insurance ? 'checked' : '' }}>
-                                <label for="insurance">Miễn phí 1 phần dịch vụ khám</label>
-                            </div>
+                            <label for="" class="form-label">Căn cước công dân</label>
+                            <input type="text" class="form-control" value="{{ $medical_certificate->patient->cccd }}"
+                                disabled>
                         </div>
-                        @if ($medical_certificate->medical_service_id)
-                            <div class="mb-3 col-md-6">
-                                <label for="medical_service_id" class="form-label">Dịch vụ khám </label>
-                                <input type="text" class="form-control"
-                                    value="{{ $medical_certificate->medical_service->name }}" disabled>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="clinic_id" class="form-label">Phòng khám </label>
-                                <input type="text" class="form-control" name="clinic_id"
-                                    value="{{ $medical_certificate->clinic ? $medical_certificate->clinic->name : '' }}"
-                                    disabled>
-                            </div>
-                        @else
-                            <div class="mb-3 col-md-6">
-                                <label for="clinic_id" class="form-label">Phòng khám <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-control tag-select3"id="clinic_id" name="clinic_id">
-                                    <option value="" selected>Chọn phòng khám</option>
-                                    @if (!empty($clinics))
-                                        @foreach ($clinics as $clinic)
-                                            <option value="{{ $clinic->id }}"
-                                                {{ $clinic->id === optional($medical_certificate->clinic)->id ? 'selected' : '' }}>
-                                                {{ $clinic->name }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('clinic_id')
-                                    <div class="message-error">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        @endif
+                        <div class="mb-3 col-md-6">
+                            <label for="clinic_id" class="form-label">Phòng khám</label>
+                            <input type="text" class="form-control" value="{{ $medical_certificate->clinic->name }}"
+                                disabled>
+                        </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Ngày đăng ký</label>
                             <input type="datetime" class="form-control"
                                 value="{{ $medical_certificate->created_at->format('H:i d/m/Y') }}" disabled>
                         </div>
-                        @if ($medical_certificate->medical_time)
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label">Thời gian khám</label>
-                                <input type="datetime" class="form-control"
-                                    value="{{ \Carbon\Carbon::parse($medical_certificate->medical_time)->format('H:i d/m/Y') }}"
-                                    disabled>
+                        @if ($medical_certificate->services->count() > 0)
+                            <div class="mb-3">
+                                <label class="form-label">Dịch vụ khám</label>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Dịch vụ</th>
+                                            <th>Phòng khám</th>
+                                            <th>Bác sĩ</th>
+                                            <th>Giá tiền (đ)</th>
+                                            <th>Thời gian</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($medical_certificate->services as $index => $service)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $service->name }}</td>
+                                                <td>
+                                                    {{ optional(\App\Models\Clinic::find($service->pivot->clinic_id))->name }}
+                                                    -
+                                                    {{ optional(\App\Models\Clinic::find($service->pivot->clinic_id))->clinic_code }}
+                                                </td>
+                                                <td>{{ optional(\App\Models\Admin::find($service->pivot->doctor_id))->name ?? 'N/A' }}
+                                                </td>
+                                                <td>
+                                                    {{ number_format($medical_certificate->insurance ? $service->insurance_price : $service->price) }}
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($service->pivot->medical_time)->format('H:i d/m/Y') }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         @endif
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3">
                             <label for="symptom" class="form-label">Triệu chứng <span class="text-danger">*</span></label>
                             <input type="text"
                                 class="form-control @error('symptom')
@@ -124,8 +112,8 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="re-examination_date" class="form-label">Ngày tái khám</label>
-                            <input type="date" class="form-control" id="re-examination_date"
-                                name="re_examination_date" value="{{ $medical_certificate->re_examination_date }}">
+                            <input type="date" class="form-control" id="re-examination_date" name="re_examination_date"
+                                value="{{ $medical_certificate->re_examination_date }}">
                             @error('re_examination_date')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
@@ -142,6 +130,20 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/custom/select2.css') }}">
     <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet'
         type='text/css' />
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 @endsection
 
 @section('js')

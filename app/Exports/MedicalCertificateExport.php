@@ -10,7 +10,7 @@ class MedicalCertificateExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
-        return MedicalCertificate::with(['patient', 'doctor', 'clinic', 'medical_service'])
+        return MedicalCertificate::with(['patient', 'doctor', 'clinic', 'services'])
             ->get()
             ->map(function ($item) {
                 return [
@@ -20,7 +20,7 @@ class MedicalCertificateExport implements FromCollection, WithHeadings
                     'Ngày sinh' => $item->patient->dob ?? '',
                     'Bác sĩ' => $item->doctor->name ?? '',
                     'Phòng khám' => $item->clinic->name ?? '',
-                    'Dịch vụ khám' => $item->medical_service->name ?? '',
+                    'Dịch vụ khám' => $item->services->pluck('name')->implode(', '), // ✅ lấy danh sách dịch vụ
                     'Triệu chứng' => $item->symptom,
                     'Chuẩn đoán' => html_entity_decode(strip_tags($item->diagnosis), ENT_QUOTES, 'UTF-8'),
                     'Kết luận' => html_entity_decode(strip_tags($item->conclude), ENT_QUOTES, 'UTF-8'),

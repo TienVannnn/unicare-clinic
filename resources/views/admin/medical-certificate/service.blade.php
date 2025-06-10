@@ -19,25 +19,14 @@
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label for="patient_id" class="form-label">Bệnh nhân <span class="text-danger">*</span></label>
-                            <select class="form-control tag-select"id="patient_id" name="patient_id">
-                                @if (!empty($patients))
-                                    @foreach ($patients as $patient)
-                                        <option value="{{ $patient->id }}"
-                                            {{ $patient->id === $medical_certificate->patient->id ? 'selected' : '' }}>
-                                            {{ $patient->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <input type="text" class="form-control" value="{{ $medical_certificate->patient->name }}"
+                                disabled>
                             <div class="message-error" id="patient_idError"></div>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="" class="form-label">BHYT</label>
-                            <div style="margin-top: 10px">
-                                <input type="checkbox" name="insurance" id="insurance"
-                                    {{ $medical_certificate->insurance ? 'checked' : '' }}>
-                                <label for="insurance">Miễn phí 1 phần dịch vụ khám</label>
-                            </div>
+                            <label for="" class="form-label">Căn cước công dân</label>
+                            <input type="text" class="form-control" value="{{ $medical_certificate->patient->cccd }}"
+                                disabled>
                         </div>
                         <div class="mt-4">
                             <div id="service-rows-container">
@@ -207,7 +196,7 @@
                         <div class="mb-3">
                             <label for="diagnosis" class="form-label">Chuẩn đoán ban đầu <span
                                     class="text-danger">*</span></label>
-                            <textarea class="form-control" id="diagnosis" name="diagnosis">{{ $medical_certificate->diagnosis }}</textarea>
+                            <textarea class="form-control" id="diagnosis" name="diagnosis" placeholder="Nhập chuẩn đoán ban đầu">{{ $medical_certificate->diagnosis }}</textarea>
                             <div class="message-error" id="diagnosisError"></div>
                         </div>
                     </div>

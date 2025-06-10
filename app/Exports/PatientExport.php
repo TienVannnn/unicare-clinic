@@ -13,7 +13,7 @@ class PatientExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        $patients = Patient::select('patient_code', 'name', 'dob', 'gender', 'address', 'phone')->get();
+        $patients = Patient::select('patient_code', 'name', 'dob', 'gender', 'address', 'phone', 'cccd')->get();
         $patients->transform(function ($item) {
             $item->gender = $item->gender == 1 ? 'Nam' : 'Nữ';
             return $item;
@@ -23,6 +23,6 @@ class PatientExport implements FromCollection, WithHeadings
     }
     public function headings(): array
     {
-        return ['Mã BN', 'Tên', 'Ngày sinh', 'Giới tính', 'Địa chỉ', 'SĐT'];
+        return ['Mã BN', 'Tên', 'Ngày sinh', 'Giới tính', 'Địa chỉ', 'SĐT', 'CCCD'];
     }
 }

@@ -24,6 +24,7 @@ class MedicalCertificateRequest extends FormRequest
         return [
             'patient_id' => 'required|exists:patients,id',
             'clinic_id' => 'required|exists:clinics,id',
+            'symptom' => 'required|string|max:255',
         ];
     }
 
@@ -33,7 +34,10 @@ class MedicalCertificateRequest extends FormRequest
             'patient_id.required' => 'Bệnh nhân không được bỏ trống',
             'patient_id.exists' => 'Bệnh nhân không tồn tại',
             'clinic_id.required' => 'Phòng khám không được bỏ trống',
-            'clinic_id.exists' => 'Phòng khám không tồn tại'
+            'clinic_id.exists' => 'Phòng khám không tồn tại',
+            'symptom.required' => 'Vui lòng nhập triệu chứng.',
+            'symptom.string' => 'Triệu chứng phải là chuỗi văn bản.',
+            'symptom.max' => 'Triệu chứng không được vượt quá 255 ký tự.',
         ];
     }
 }

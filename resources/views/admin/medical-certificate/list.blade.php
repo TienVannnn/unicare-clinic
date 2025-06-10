@@ -178,7 +178,10 @@
                                                         @endif
                                                     @endif
                                                 @endcan
-                                                @if ($medical_certificate->services->count() > 0 && $medical_certificate->payment_status != 1)
+                                                @if (
+                                                    $medical_certificate->services->count() > 0 &&
+                                                        $medical_certificate->payment_status != 1 &&
+                                                        $medical_certificate->medical_status != 2)
                                                     <a href="{{ route('medical-certificate.print-advance', $medical_certificate->id) }}"
                                                         target="_blank" class="btn btn-outline-warning btn-xs me-2"
                                                         title="In phiếu tạm ứng">

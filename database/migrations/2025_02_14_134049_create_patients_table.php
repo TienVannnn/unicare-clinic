@@ -19,6 +19,10 @@ return new class extends Migration
             $table->integer('gender');
             $table->string('phone', 11);
             $table->mediumText('address');
+            $table->string('cccd', 13)->nullable();
+            $table->string('bhyt_number', 20)->nullable();
+            $table->string('hospital_registered', 100)->nullable();
+            $table->date('bhyt_expired_date')->nullable();
             $table->timestamps();
         });
     }

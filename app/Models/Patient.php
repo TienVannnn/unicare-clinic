@@ -14,7 +14,11 @@ class Patient extends Model
         'dob',
         'gender',
         'phone',
-        'address'
+        'address',
+        'cccd',
+        'bhyt_number',
+        'hospital_registered',
+        'bhyt_expired_date'
     ];
     protected static function boot()
     {

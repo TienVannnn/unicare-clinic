@@ -481,7 +481,7 @@
                         </div>
                     @endforeach
                 @endif
-                @if ($news->count() == 9)
+                @if ($news->count() >= 9)
                     <div class="mx-auto mt-3">
                         <a href="{{ route('user.news', 'tin-tuc-y-hoc') }}" class="btn primary text-white">Xem thêm</a>
                     </div>

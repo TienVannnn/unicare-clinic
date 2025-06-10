@@ -140,7 +140,7 @@
                         <p>
                             {{ $medical_certificate->medical_time
                                 ? \Carbon\Carbon::parse($medical_certificate->medical_time)->format('H:i d/m/Y')
-                                : 'Chưa khám' }}
+                                : 'Chưa khám xong' }}
                         </p>
 
                     </div>

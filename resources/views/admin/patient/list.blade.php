@@ -74,10 +74,10 @@
                                     <th scope="col">STT</th>
                                     <th scope="col">Mã</th>
                                     <th scope="col">Tên</th>
+                                    <th scope="col">CCCD</th>
                                     <th scope="col">Giới tính</th>
                                     <th scope="col">Ngày sinh</th>
                                     <th scope="col">SĐT</th>
-                                    <th scope="col">Địa chỉ</th>
                                     @can(['chinh-sua-nhan-vien', 'xoa-nhan-vien'])
                                         <th scope="col">Xử lý</th>
                                     @endcan
@@ -89,6 +89,7 @@
                                         <td>{{ $patients->firstItem() + $key }}</td>
                                         <td>{{ $patient->patient_code }}</td>
                                         <td>{{ $patient->name }}</td>
+                                        <td>{{ $patient->cccd }}</td>
                                         <td>
                                             @if ($patient->gender == 1)
                                                 Nam
@@ -100,9 +101,6 @@
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }}</td>
                                         <td>{{ $patient->phone }}</td>
-                                        <td class="text-truncate" style="display: block; width: 200px">
-                                            {{ $patient->address }}
-                                        </td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 @can('chinh-sua-nhan-vien')

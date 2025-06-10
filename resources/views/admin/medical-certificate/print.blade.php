@@ -92,7 +92,7 @@
         </tr>
         <tr>
             <td style="border: none"><strong>Bác sĩ điều trị:</strong></td>
-            <td style="border: none" colspan="5">{{ $medical_certificate->doctor->name }}</td>
+            <td style="border: none" colspan="5">{{ $medical_certificate->doctor->name ?? 'Chưa khám' }}</td>
         </tr>
         <tr>
             <td style="border: none"><strong>Triệu chứng:</strong></td>

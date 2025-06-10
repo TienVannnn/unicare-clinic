@@ -56,16 +56,23 @@ class MedicalCertificateController extends Controller
             $med = MedicalCertificate::create([
                 'patient_id' => $request->patient_id,
                 'clinic_id' => $request->clinic_id,
+                'symptom' => $request->symptom
             ]);
-            if ($request->insurance) {
+            $patient = Patient::find($request->patient_id);
+            if (
+                $patient &&
+                $patient->bhyt_number &&
+                $patient->bhyt_expired_date &&
+                Carbon::parse($patient->bhyt_expired_date)->gte(Carbon::today())
+            ) {
                 $med->update(['insurance' => true]);
             }
             Session::flash('success', 'Tạo giấy khám bệnh thành công');
             return redirect()->route('medical-certificate.index');
         } catch (\Exception $e) {
             Session::flash('error', 'Có lỗi khi tạo');
+            return redirect()->back();
         }
-        return redirect()->back();
     }
 
     /**
@@ -101,9 +108,16 @@ class MedicalCertificateController extends Controller
         try {
             $medical_certificate->update([
                 'patient_id' => $request->patient_id,
-                'clinic_id' => $request->clinic_id
+                'clinic_id' => $request->clinic_id,
+                'symptom' => $request->symptom
             ]);
-            if ($request->insurance) {
+            $patient = Patient::find($request->patient_id);
+            if (
+                $patient &&
+                $patient->bhyt_number &&
+                $patient->bhyt_expired_date &&
+                Carbon::parse($patient->bhyt_expired_date)->gte(Carbon::today())
+            ) {
                 $medical_certificate->update(['insurance' => true]);
             }
             Session::flash('success', 'Cập nhật giấy khám bệnh thành công');
@@ -170,8 +184,6 @@ class MedicalCertificateController extends Controller
         $medical_certificate = MedicalCertificate::findOrFail($id);
         try {
             $medical_certificate->update([
-                'patient_id' => $request->patient_id,
-                'insurance' => $request->has('insurance'),
                 'symptom' => $request->symptom,
                 'diagnosis' => $request->diagnosis,
                 'medical_status' => 1
@@ -222,7 +234,6 @@ class MedicalCertificateController extends Controller
         $medical_certificate = MedicalCertificate::findOrFail($id);
         try {
             $medical_certificate->update([
-                'patient_id' => $request->patient_id,
                 'symptom' => $request->symptom,
                 'diagnosis' => $request->diagnosis,
                 'conclude' => $request->conclude,

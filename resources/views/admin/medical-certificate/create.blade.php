@@ -23,7 +23,7 @@
                                             {{ $patient->name }}
                                             ({{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }})
                                             –
-                                            {{ $patient->phone }}
+                                            {{ $patient->cccd }}
                                         </option>
                                     @endforeach
                                 @endif
@@ -31,13 +31,6 @@
                             @error('patient_id')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="" class="form-label">BHYT</label>
-                            <div style="margin-top: 10px">
-                                <input type="checkbox" name="insurance" id="insurance">
-                                <label for="insurance">Miễn phí 1 phần dịch vụ khám</label>
-                            </div>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="clinic_id" class="form-label">Phòng khám <span class="text-danger">*</span></label>
@@ -51,6 +44,14 @@
                                 @endif
                             </select>
                             @error('clinic_id')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="symptom" class="form-label">Triệu chứng<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('symptom') is-invalid @enderror" id="symptom"
+                                name="symptom" placeholder="Nhập triệu chứng" value="{{ old('symptom') }}">
+                            @error('symptom')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>

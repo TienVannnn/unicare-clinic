@@ -22,7 +22,6 @@ class ServiceExamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => 'required|exists:patients,id',
             'symptom' => 'required|string|max:255',
             'diagnosis' => 'required|string|max:255',
             'services' => 'required|array|min:1',
@@ -37,9 +36,6 @@ class ServiceExamRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'patient_id.required' => 'Vui lòng chọn bệnh nhân.',
-            'patient_id.exists' => 'Bệnh nhân không hợp lệ.',
-
             'symptom.required' => 'Vui lòng nhập triệu chứng.',
             'symptom.string' => 'Triệu chứng phải là chuỗi văn bản.',
             'symptom.max' => 'Triệu chứng không được vượt quá 255 ký tự.',

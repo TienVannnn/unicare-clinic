@@ -63,6 +63,41 @@
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="cccd" class="form-label">Căn cước công dân <span
+                                    class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('cccd') is-invalid @enderror" id="cccd"
+                                name="cccd" placeholder="Nhập căn cước công dân" value="{{ old('cccd') }}">
+                            @error('cccd')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="bhyt_number" class="form-label">Bảo hiểm y tế </label>
+                            <input type="text" class="form-control @error('bhyt_number') is-invalid @enderror"
+                                id="bhyt_number" name="bhyt_number" placeholder="Nhập số BHYT"
+                                value="{{ old('bhyt_number') }}">
+                            @error('bhyt_number')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="hospital_registered" class="form-label">Bệnh viện đăng ký </label>
+                            <input type="text" class="form-control @error('hospital_registered') is-invalid @enderror"
+                                id="hospital_registered" name="hospital_registered" placeholder="Nơi đăng ký thẻ"
+                                value="{{ old('hospital_registered') }}">
+                            @error('hospital_registered')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="bhyt_expired_date" class="form-label">Ngày hết hạn thẻ </label>
+                            <input type="date" class="form-control @error('bhyt_expired_date') is-invalid @enderror"
+                                id="bhyt_expired_date" name="bhyt_expired_date" value="{{ old('bhyt_expired_date') }}">
+                            @error('bhyt_expired_date')
+                                <div class="message-error">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Lưu lại</button>
                 </form>
