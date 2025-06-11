@@ -195,7 +195,8 @@
                                 <div class="form-group">
                                     <label for="dob" class="form-label">Ngày sinh <span
                                             class="text-danger">*</span></label>
-                                    <input name="dob" id="dob" type="date" />
+                                    <input name="dob" id="dob" type="date"
+                                        max="{{ \Carbon\Carbon::now()->toDateString() }}" />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">

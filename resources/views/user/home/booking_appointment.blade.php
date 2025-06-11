@@ -37,7 +37,8 @@
                             <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="dob" class="form-label">Ngày sinh</label>
-                                    <input name="dob" id="dob" type="date" />
+                                    <input name="dob" id="dob" type="date"
+                                        max="{{ \Carbon\Carbon::now()->toDateString() }}" />
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6 col-12">
@@ -82,7 +83,8 @@
                             <div class="col-lg-4 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="appointment_date" class="form-label">Ngày khám</label>
-                                    <input type="date" name="appointment_date" id="appointment_date">
+                                    <input type="date" name="appointment_date" id="appointment_date"
+                                        min="{{ \Carbon\Carbon::now()->toDateString() }}">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6 col-12">

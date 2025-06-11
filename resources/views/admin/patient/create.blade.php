@@ -25,7 +25,8 @@
                         <div class="mb-3 col-md-6">
                             <label for="dob" class="form-label">Ngày sinh <span class="text-danger">*</span></label>
                             <input type="date" class="form-control @error('dob') is-invalid @enderror" id="dob"
-                                name="dob" placeholder="Nhập ngày sinh" value="{{ old('dob') }}">
+                                name="dob" placeholder="Nhập ngày sinh" value="{{ old('dob') }}"
+                                max="{{ \Carbon\Carbon::now()->toDateString() }}">
                             @error('dob')
                                 <div class="message-error">{{ $message }}</div>
                             @enderror
