@@ -85,9 +85,13 @@
                                         <td>{{ $medicine->medicine_code }}</td>
                                         <td>{{ $medicine->name }}</td>
                                         <td>
-                                            @foreach ($medicine->medicineCategories as $category)
-                                                <span class="badge bg-primary">{{ $category->name }}</span>
-                                            @endforeach
+                                            @if ($medicine->medicineCategories->count() > 0)
+                                                @foreach ($medicine->medicineCategories as $category)
+                                                    <span class="badge bg-primary">{{ $category->name }}</span>
+                                                @endforeach
+                                            @else
+                                                <span class="text-muted">Chưa có loại thuốc</span>
+                                            @endif
                                         </td>
                                         <td>{{ $medicine->unit }}</td>
                                         <td>{{ $medicine->packaging }}</td>

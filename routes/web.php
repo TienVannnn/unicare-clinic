@@ -143,6 +143,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/clinics/export', [ClinicController::class, 'export'])->name('clinics.export');
     Route::get('/medical-services/export', [MedicalServiceController::class, 'export'])->name('medical-services.export');
     Route::get('/managers/export', [AdminController::class, 'export'])->name('admins.export');
+    Route::get('/dashboard/export', [DashboardController::class, 'exportExcel'])->name('dashboard.export');
 });
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::prefix('/auth')->group(function () {

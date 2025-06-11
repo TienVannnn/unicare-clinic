@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\DashboardExport;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\MedicalCertificate;
@@ -11,6 +12,7 @@ use App\Models\Prescription;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -124,5 +126,43 @@ class DashboardController extends Controller
             'benhNhanMoi',
             'benhNhanCu'
         ));
+    }
+
+    public function exportExcel()
+    {
+        $currentYear = Carbon::now()->year;
+        $benhNhanTheoThang = Patient::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->whereYear('created_at', $currentYear)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $doanhThuThuoc = DB::table('prescriptions')
+            ->selectRaw('MONTH(created_at) as month, SUM(total_payment) as total')
+            ->whereYear('created_at', $currentYear)
+            ->groupBy('month');
+
+        $doanhThuGiayKham = DB::table('medical_certificates')
+            ->selectRaw('MONTH(created_at) as month, SUM(total_price) as total')
+            ->whereYear('created_at', $currentYear)
+            ->groupBy('month');
+
+        $doanhThuTheoThang = DB::table(DB::raw("({$doanhThuThuoc->toSql()} UNION ALL {$doanhThuGiayKham->toSql()}) as combined"))
+            ->mergeBindings($doanhThuThuoc)
+            ->mergeBindings($doanhThuGiayKham)
+            ->selectRaw('month, SUM(total) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $data = collect(range(1, 12))->map(function ($month) use ($benhNhanTheoThang, $doanhThuTheoThang) {
+            return [
+                "Tháng $month",
+                $benhNhanTheoThang->firstWhere('month', $month)->count ?? 0,
+                $doanhThuTheoThang->firstWhere('month', $month)->total ?? 0,
+            ];
+        })->toArray();
+
+        return Excel::download(new DashboardExport($data), "thong_ke_$currentYear.xlsx");
     }
 }

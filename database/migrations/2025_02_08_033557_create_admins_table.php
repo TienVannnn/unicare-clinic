@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->integer('gender')->nullable();
             $table->mediumText('experience');
-            $table->foreignId('clinic_id')->constrained('clinics')->onDelete('restrict');
+            $table->unsignedBigInteger('clinic_id')->nullable();
+            $table->foreignId('clinic_id')->constrained('clinics')->onDelete('set null');
             $table->string('token_reset_password')->nullable();
             $table->timestamp('token_duration')->nullable();
             $table->rememberToken();

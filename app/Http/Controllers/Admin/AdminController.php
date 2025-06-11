@@ -213,7 +213,7 @@ class AdminController extends Controller
             return response()->json(['success' => true, 'message' => 'Xóa nhân viên thành công.']);
         } catch (\Illuminate\Database\QueryException $e) {
             $message = ($e->getCode() == 23000)
-                ? 'Không thể xóa nhân viên vì có dữ liệu liên quan.'
+                ? 'Không thể xóa bác sĩ vì có đơn thuốc liên quan.'
                 : 'Có lỗi khi xóa nhân viên: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }

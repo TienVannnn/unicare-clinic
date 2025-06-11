@@ -107,9 +107,11 @@
                                         <td>{{ $news->firstItem() + $key }}</td>
                                         <td>{{ $new->title }}</td>
                                         <td>
-                                            @foreach ($new->newsCategories as $category)
-                                                <span class="badge bg-primary">{{ $category->name }}</span>
-                                            @endforeach
+                                            @if ($new->newsCategories->count() > 0)
+                                                @foreach ($new->newsCategories as $category)
+                                                    <span class="badge bg-primary">{{ $category->name }}</span>
+                                                @endforeach
+                                            @endif
                                         </td>
                                         <td>
                                             @if ($new->status == 1)

@@ -35,7 +35,7 @@ document
 
 function displayErrors(errors) {
     clearErrors();
-
+    let firstInvalidInput = null;
     for (const [field, messages] of Object.entries(errors)) {
         const input = document.querySelector(`[name="${field}"]`);
         const errorContainer = document.createElement("div");
@@ -45,7 +45,14 @@ function displayErrors(errors) {
         if (input) {
             input.classList.add("is-invalid");
             input.parentNode.appendChild(errorContainer);
+
+            if (!firstInvalidInput) {
+                firstInvalidInput = input;
+            }
         }
+    }
+    if (firstInvalidInput) {
+        firstInvalidInput.focus();
     }
 }
 

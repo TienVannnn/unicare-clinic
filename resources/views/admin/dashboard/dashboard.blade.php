@@ -128,6 +128,10 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <a href="{{ route('dashboard.export') }}" class="btn btn-label-success btn-round btn-sm me-2">Xuất
+                    Excel</a>
+            </div>
             <div class="row">
                 <div class="col-md-6"><canvas id="chartBenhNhan"></canvas></div>
                 <div class="col-md-6"><canvas id="chartDoanhThu"></canvas></div>
@@ -192,7 +196,7 @@
         new Chart(document.getElementById('chartBenhNhanMoiCu'), {
             type: 'pie',
             data: {
-                labels: ['Bệnh nhân mới', 'Bệnh nhân quay lại'],
+                labels: ['Bệnh nhân mới', 'Bệnh nhân cũ'],
                 datasets: [{
                     data: [{{ $benhNhanMoi }}, {{ $benhNhanCu }}],
                     backgroundColor: ['#4CAF50', '#FFC107']

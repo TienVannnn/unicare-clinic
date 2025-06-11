@@ -38,11 +38,23 @@
                         <div class="row">
                             <div class="col-md-6 col-6 text-center">
                                 <p class="fw-bold mb-0">{{ auth()->guard('admin')->user()->name }}</p>
-                                <span class="badge badge-primary">Admin</span>
+                                <span class="badge badge-primary">
+                                    @foreach (auth()->guard('admin')->user()->roles as $role)
+                                        <span class="badge badge-primary">{{ $role->name }}</span>
+                                    @endforeach
+                                </span>
                             </div>
                             <div class="col-md-6 col-6 text-center">
                                 <p class="fw-bold mb-0">Giới tính</p>
-                                <p class="text-muted">{{ auth()->guard('admin')->user()->gender == 1 ? 'Nam' : 'Nữ' }}</p>
+                                <p class="text-muted">
+                                    @if (auth()->guard('admin')->user()->gender == 1)
+                                        Nam
+                                    @elseif(auth()->guard('admin')->user()->gender == 2)
+                                        Nữ
+                                    @else
+                                        Chưa cập nhật
+                                    @endif
+                                </p>
                             </div>
                         </div>
                     </div>

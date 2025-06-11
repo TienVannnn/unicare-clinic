@@ -109,7 +109,7 @@
                             <form method="POST" action="{{ route('user.ask-question') }}">
                                 @csrf
                                 <div class="mb-3">
-                                    <label class="form-label">Chuyên Khoa</label>
+                                    <label class="form-label">Chuyên Khoa <span class="text-danger">*</span></label>
                                     <select style="font-size: 14px" class="form-control" name="department">
                                         <option value="">Chọn chuyên khoa</option>
                                         @foreach ($departments as $department)
@@ -121,14 +121,14 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Tiêu Đề</label>
+                                    <label class="form-label">Tiêu Đề <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề">
                                     @error('title')
                                         <div class="message-error">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Câu Hỏi</label>
+                                    <label class="form-label">Câu Hỏi <span class="text-danger">*</span></label>
                                     <textarea style="font-size: 14px" class="form-control" name="question" placeholder="Nhập nội dung câu hỏi"
                                         rows="4"></textarea>
                                     @error('question')

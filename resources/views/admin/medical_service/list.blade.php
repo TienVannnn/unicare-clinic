@@ -89,9 +89,11 @@
                                         <td>{{ number_format($medical_service->price, 0, ',', '.') }}</td>
                                         <td>{{ number_format($medical_service->insurance_price, 0, ',', '.') }}</td>
                                         <td>
-                                            @foreach ($medical_service->clinics as $clinic)
-                                                <span class="badge badge-info">{{ $clinic->name }}</span>
-                                            @endforeach
+                                            @if ($medical_service->clinics->count() > 0)
+                                                @foreach ($medical_service->clinics as $clinic)
+                                                    <span class="badge badge-info">{{ $clinic->name }}</span>
+                                                @endforeach
+                                            @endif
                                         </td>
                                         <td>
                                             {!! $medical_service->status == 1

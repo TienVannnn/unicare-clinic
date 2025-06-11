@@ -21,7 +21,7 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        $this->authorize('xem-danh-sach-quyen');
+        $this->authorize('xem-danh-sach-phong-kham');
         $title = 'Danh sách phòng khám';
         $clinics = Clinic::orderByDesc('id')->with('department')->paginate(15);
         return view('admin.clinic.list', compact('title', 'clinics'));
@@ -32,7 +32,7 @@ class ClinicController extends Controller
      */
     public function create()
     {
-        $this->authorize('them-quyen');
+        $this->authorize('them-phong-kham');
         $title = 'Thêm mới phòng khám';
         $departments = Department::where('status', 1)->orderByDesc('id')->get();
         return view('admin.clinic.create', compact('title', 'departments'));
@@ -43,7 +43,7 @@ class ClinicController extends Controller
      */
     public function store(ClinicRequest $request)
     {
-        $this->authorize('them-quyen');
+        $this->authorize('them-phong-kham');
         try {
             Clinic::create([
                 'name' => $request->name,
@@ -70,7 +70,7 @@ class ClinicController extends Controller
      */
     public function edit(string $id)
     {
-        $this->authorize('chinh-sua-quyen');
+        $this->authorize('chinh-sua-phong-kham');
         $clinic = Clinic::findOrFail($id);
         $title = 'Chỉnh sửa phòng khám ';
         $departments = Department::where('status', 1)->orderByDesc('id')->get();
@@ -82,7 +82,7 @@ class ClinicController extends Controller
      */
     public function update(ClinicRequest $request, string $id)
     {
-        $this->authorize('chinh-sua-quyen');
+        $this->authorize('chinh-sua-phong-kham');
         try {
             $clinic = Clinic::find($id);
             if (!$clinic) abort(404);
@@ -103,7 +103,7 @@ class ClinicController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->authorize('xoa-quyen');
+        $this->authorize('xoa-phong-kham');
         $clinic = Clinic::find($id);
         if (!$clinic) abort(404);
 

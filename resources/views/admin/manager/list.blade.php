@@ -74,12 +74,15 @@
                                         </td>
                                         <td>{{ $manager->name }}</td>
                                         <td>
-                                            @foreach ($manager->roles as $role)
-                                                <span class="badge badge-primary">{{ $role->name }}</span>
-                                            @endforeach
+                                            @if ($manager->roles->count() > 0)
+                                                @foreach ($manager->roles as $role)
+                                                    <span class="badge badge-primary">{{ $role->name }}</span>
+                                                @endforeach
+                                            @endif
                                         </td>
                                         <td>
-                                            <span class="badge badge-warning">{{ $manager->clinic->name }}</span>
+                                            <span
+                                                class="badge badge-warning">{{ optional($manager->clinic)->name ?? 'Chưa cập nhật' }}</span>
                                         </td>
                                         <td>{{ $manager->email }}</td>
                                         <td>

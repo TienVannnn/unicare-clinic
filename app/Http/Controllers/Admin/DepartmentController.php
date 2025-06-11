@@ -108,7 +108,7 @@ class DepartmentController extends Controller
             return response()->json(['success' => true, 'message' => 'Xóa chuyên khoa thành công.']);
         } catch (\Illuminate\Database\QueryException $e) {
             $message = ($e->getCode() == 23000)
-                ? 'Không thể xóa chuyên khoa vì có dữ liệu liên quan.'
+                ? 'Không thể xóa chuyên khoa vì có phòng khám liên quan.'
                 : 'Có lỗi khi xóa chuyên khoa: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }

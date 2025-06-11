@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookAppointmentRequest extends FormRequest
@@ -29,10 +30,28 @@ class BookAppointmentRequest extends FormRequest
             'gender' => 'in:1,2',
             'department_id' => 'required|exists:departments,id',
             'doctor_id' => 'required|exists:admins,id',
-            'appointment_date' => 'required|after:today',
-            'start_time' => 'required',
+            'appointment_date' => 'required|after_or_equal:today',
+            'start_time' => 'required|date_format:H:i',
             'note' => 'required'
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $date = $this->input('appointment_date');
+            $time = $this->input('start_time');
+
+            if ($date && $time) {
+                $appointment = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
+                $now = Carbon::now();
+
+                // Nếu chọn hôm nay thì giờ phải sau thời gian hiện tại
+                if ($appointment->isToday() && $appointment->lt($now)) {
+                    $validator->errors()->add('start_time', 'Giờ khám phải nằm sau thời điểm hiện tại.');
+                }
+            }
+        });
     }
     public function messages(): array
     {

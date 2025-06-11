@@ -74,7 +74,7 @@ class SearchController extends Controller
         return abort(404);
     }
 
-    private function searchRoles($query, &$title, $perPage)
+    private function searchRoles($query, $title, $perPage)
     {
         $roles = Role::when($query, function ($q) use ($query) {
             $q->where('name', 'like', '%' . $query . '%');
@@ -84,7 +84,7 @@ class SearchController extends Controller
         return view('admin.role.list', compact('roles', 'title'));
     }
 
-    private function searchPermissions($query, &$title, $perPage)
+    private function searchPermissions($query, $title, $perPage)
     {
         $permissions = Permission::when($query, function ($q) use ($query) {
             $q->where('name_permission', 'like', '%' . $query . '%');
@@ -94,7 +94,7 @@ class SearchController extends Controller
         return view('admin.permission.list', compact('permissions', 'title'));
     }
 
-    private function searchManagers($query, &$title, $perPage)
+    private function searchManagers($query, $title, $perPage)
     {
         $managers = Admin::when($query, function ($q) use ($query) {
             $q->where('name', 'like', '%' . $query . '%')
@@ -111,7 +111,7 @@ class SearchController extends Controller
         return view('admin.manager.list', compact('managers', 'title'));
     }
 
-    private function searchUsers($query, &$title, $perPage)
+    private function searchUsers($query, $title, $perPage)
     {
         $users = User::when($query, function ($q) use ($query) {
             $q->where('name', 'like', '%' . $query . '%')
@@ -123,7 +123,7 @@ class SearchController extends Controller
         return view('admin.user.list', compact('users', 'title'));
     }
 
-    private function searchCategories($query, &$title, $perPage)
+    private function searchCategories($query, $title, $perPage)
     {
         $categories = MedicineCategory::query();
         if (request()->filled('q')) {
@@ -140,7 +140,7 @@ class SearchController extends Controller
         return view('admin.medicine-category.list', compact('categories', 'title'));
     }
 
-    private function searchMedicines($query, &$title, $perPage)
+    private function searchMedicines($query, $title, $perPage)
     {
         $medicines = Medicine::query();
         if (request()->filled('q')) {
@@ -164,7 +164,7 @@ class SearchController extends Controller
         return view('admin.medicine.list', compact('medicines', 'title'));
     }
 
-    private function searchMedicineBatch($query, &$title, $perPage)
+    private function searchMedicineBatch($query, $title, $perPage)
     {
         $batchs = MedicineBatch::query();
         if (request()->filled('q')) {
@@ -186,7 +186,7 @@ class SearchController extends Controller
         return view('admin.medicine-batch.list', compact('batchs', 'title'));
     }
 
-    private function searchDepartments($query, &$title, $perPage)
+    private function searchDepartments($query, $title, $perPage)
     {
         $departments = Department::query();
         if (request()->filled('q')) {
@@ -203,7 +203,7 @@ class SearchController extends Controller
         return view('admin.department.list', compact('departments', 'title'));
     }
 
-    private function searchClinics($query, &$title, $perPage)
+    private function searchClinics($query, $title, $perPage)
     {
         $clinics = Clinic::query();
         if (request()->filled('q')) {
@@ -226,7 +226,7 @@ class SearchController extends Controller
         return view('admin.clinic.list', compact('clinics', 'title'));
     }
 
-    private function searchPatients($query, &$title, $perPage)
+    private function searchPatients($query, $title, $perPage)
     {
         $patients = Patient::query();
         if (request()->filled('q')) {
@@ -249,7 +249,7 @@ class SearchController extends Controller
         return view('admin.patient.list', compact('patients', 'title'));
     }
 
-    private function searchMedicalCertificates($query, &$title, $perPage)
+    private function searchMedicalCertificates($query, $title, $perPage)
     {
         $certificates = MedicalCertificate::query();
         if (request()->filled('q')) {
@@ -281,7 +281,7 @@ class SearchController extends Controller
         return view('admin.medical-certificate.list', compact('medical_certificates', 'title'));
     }
 
-    private function searchMedicalServices($query, &$title, $perPage)
+    private function searchMedicalServices($query, $title, $perPage)
     {
         $medical_services = MedicalService::query();
         if (request()->filled('q')) {
@@ -302,7 +302,7 @@ class SearchController extends Controller
         return view('admin.medical_service.list', compact('medical_services', 'title'));
     }
 
-    private function searchPrescriptions($query, &$title, $perPage)
+    private function searchPrescriptions($query, $title, $perPage)
     {
         $prescriptions = Prescription::query();
         if (request()->filled('q')) {
@@ -327,7 +327,7 @@ class SearchController extends Controller
         return view('admin.prescription.list', compact('prescriptions', 'title'));
     }
 
-    private function searchNewsCategory($query, &$title, $perPage)
+    private function searchNewsCategory($query, $title, $perPage)
     {
         $categories = NewsCategory::query();
         if (request()->filled('q')) {
@@ -343,7 +343,7 @@ class SearchController extends Controller
         return view('admin.news-category.list', compact('categories', 'title'));
     }
 
-    private function searchNews($query, &$title, $perPage)
+    private function searchNews($query, $title, $perPage)
     {
         $news = News::query();
         if (request()->filled('q')) {
@@ -382,7 +382,7 @@ class SearchController extends Controller
         return view('admin.news.list', compact('news', 'title'));
     }
 
-    private function searchContacts($query, &$title, $perPage)
+    private function searchContacts($query, $title, $perPage)
     {
         $contacts = Contact::query();
         if (request()->filled('q')) {
@@ -426,7 +426,7 @@ class SearchController extends Controller
     }
 
 
-    private function searchAppointments($query, &$title, $perPage)
+    private function searchAppointments($query, $title, $perPage)
     {
         $appointments = Appointment::query();
         if (request()->filled('q')) {
@@ -481,7 +481,7 @@ class SearchController extends Controller
         return view('admin.appointment.list', compact('appointments', 'title'));
     }
 
-    private function searchFaqs($query, &$title, $perPage)
+    private function searchFaqs($query, $title, $perPage)
     {
         $faqs = Faq::query();
         if (request()->filled('q')) {
@@ -508,7 +508,7 @@ class SearchController extends Controller
             $faqs->whereDate('created_at', request('date'));
         }
         $faqs = $faqs->orderByDesc('id')->paginate(15)->appends(request()->query());
-        $title = 'Tìm kiếm loại thuốc';
+        $title = 'Tìm kiếm câu hỏi';
         return view('admin.faq.list', compact('faqs', 'title'));
     }
 }
