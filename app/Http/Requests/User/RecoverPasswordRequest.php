@@ -23,7 +23,7 @@ class RecoverPasswordRequest extends FormRequest
     {
         return [
             'email' => 'required|exists:users,email',
-            'code' => 'required|exists:users,token_reset_password',
+            'code' => 'required|exists:users,token',
             'password' => 'required|min:6|confirmed'
         ];
     }

@@ -125,6 +125,7 @@
                                     <th scope="col">Số điện thoại</th>
                                     <th scope="col">Chuyên khoa</th>
                                     <th scope="col">Bác sĩ</th>
+                                    <th scope="col">Trạng thái</th>
                                     <th scope="col">Thời gian</th>
                                     <th scope="col">Xử lý</th>
                                 </tr>
@@ -141,6 +142,15 @@
                                         <td>{{ $appointment->phone }}</td>
                                         <td>{{ $appointment->department->name }}</td>
                                         <td>{{ $appointment->doctor->name }}</td>
+                                        <td>
+                                            @if ($appointment->status == 1)
+                                                <span class="badge badge-success"> Đã xác nhận</span>
+                                            @elseif($appointment->status == 0)
+                                                <span class="badge badge-warning"> Chờ xác nhận</span>
+                                            @else
+                                                <span class="badge badge-danger"> Đã hủy</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             @php
                                                 $diffInDays = $appointment->created_at->diffInDays(now());

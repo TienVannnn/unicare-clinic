@@ -170,6 +170,7 @@ class AuthController extends Controller
         try {
             if (Hash::check($request->old_pass, $admin->password)) {
                 $admin->password = Hash::make($request->password);
+                $admin->save();
                 Session::flash('success', 'Đổi mật khẩu thành công');
                 return redirect()->route('admin.dashboard');
             } else {

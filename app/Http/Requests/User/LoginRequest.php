@@ -31,7 +31,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email.required' => 'Email không được bỏ trống',
-            'email.exists' => 'Email không hợp lệ',
+            'email.exists' => 'Email không tồn tại',
             'password.required' => 'Mật khẩu không được bỏ trống'
         ];
     }
