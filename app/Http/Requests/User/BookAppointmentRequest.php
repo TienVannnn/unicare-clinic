@@ -46,7 +46,6 @@ class BookAppointmentRequest extends FormRequest
                 $appointment = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
                 $now = Carbon::now();
 
-                // Nếu chọn hôm nay thì giờ phải sau thời gian hiện tại
                 if ($appointment->isToday() && $appointment->lt($now)) {
                     $validator->errors()->add('start_time', 'Giờ khám phải nằm sau thời điểm hiện tại.');
                 }

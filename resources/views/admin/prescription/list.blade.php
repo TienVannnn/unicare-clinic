@@ -73,9 +73,7 @@
                                     <th scope="col">Bác sĩ</th>
                                     <th scope="col">Tổng tiền (VNĐ)</th>
                                     <th scope="col">Trạng thái</th>
-                                    @can(['chinh-sua-don-thuoc', 'xoa-don-thuoc'])
-                                        <th scope="col">Hành động</th>
-                                    @endcan
+                                    <th scope="col">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>

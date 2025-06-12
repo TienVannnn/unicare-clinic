@@ -20,6 +20,7 @@ use App\Models\NewsCategory;
 use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -129,6 +130,16 @@ class HomeController extends Controller
     public function book_appointment(BookAppointmentRequest $request)
     {
         try {
+            DB::beginTransaction();
+            $exists = Appointment::where('doctor_id', $request->doctor_id)
+                ->where('appointment_date', $request->appointment_date)
+                ->where('start_time', $request->start_time)
+                ->first();
+
+            if ($exists) {
+                DB::rollBack();
+                return response()->json(['success' => false, 'message' => 'Khung giờ này đã được đặt. Vui lòng chọn giờ khác.']);
+            }
             $data = Appointment::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -144,6 +155,7 @@ class HomeController extends Controller
                 'status' => 0,
                 'cancel_token' => Str::uuid(),
             ]);
+            DB::commit();
             AppointmentJob::dispatch($data->email, $data->cancel_token)->delay(now()->addSecond(10));
             $count = Appointment::where('is_viewed', false)->count();
             $doctor = Admin::find($data['doctor_id']);

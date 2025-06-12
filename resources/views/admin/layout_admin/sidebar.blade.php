@@ -130,7 +130,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('xem-danh-sach-tin-tuc')
+                @can('xem-danh-sach-hoi-dap')
                     <li class="nav-item {{ request()->routeIs('faq.*') ? 'active' : '' }}">
                         <a href="{{ route('faq.index') }}">
                             <i class="fas fa-tag"></i>

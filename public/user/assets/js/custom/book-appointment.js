@@ -25,11 +25,13 @@ document
                 if (data.success) {
                     toastr.success(data.message, "Thành công");
                     clearErrors();
+                } else {
+                    toastr.error(data.message, "Lỗi");
                 }
             })
             .catch((error) => {
                 // console.error("Lỗi:", error);
-                // toastr.error("Có lỗi xảy ra. Vui lòng thử lại!", "Thất bại");
+                // toastr.error(error.message, "Thất bại");
             });
     });
 
@@ -104,7 +106,7 @@ function fetchSlots() {
     const select = document.getElementById("slot_select");
 
     if (!doctorId || !date) return;
-
+    select.innerHTML = "";
     const url = route("appointments.slots", {
         doctor_id: doctorId,
         date: date,

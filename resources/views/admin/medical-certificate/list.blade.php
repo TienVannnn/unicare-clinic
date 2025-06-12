@@ -105,9 +105,7 @@
                                     <th scope="col">Thời gian khám</th>
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">Thanh toán</th>
-                                    @can(['chinh-sua-giay-kham-benh', 'xoa-giay-kham-benh'])
-                                        <th scope="col">Hành động</th>
-                                    @endcan
+                                    <th scope="col">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
