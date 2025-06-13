@@ -6,7 +6,10 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
             <div class="text-uppercase fw-bold">
-                {{ $patient->name }} - {{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }}
+                {{ $patient->name }} -
+                {{ \Carbon\Carbon::parse($patient->dob)->format('d/m/Y') }} -
+                {{ $patient->gender == 1 ? 'Nam' : 'Nữ' }} -
+                {{ $patient->phone }}
             </div>
             <div class="fw-bold text-capitalize">
                 <a href="{{ route('patient.index') }}">Danh sách bệnh nhân</a> / Lịch sử khám bệnh
@@ -51,7 +54,7 @@
                                     <tr>
                                         <td>{{ $medical_history->firstItem() + $key }}</td>
                                         <td>{{ $his->created_at->format('H:i d:m:Y') }}</td>
-                                        <td>BS. {{ $his->doctor->name }}</td>
+                                        <td>{{ $his->doctor->name ?? 'Chưa khám xong' }}</td>
                                         <td>{!! $his->diagnosis !!}</td>
                                         <td><a href="{{ route('medical-certificate.show', $his->id) }}"
                                                 class="btn btn-info btn-sm">Xem chi tiết</a></td>

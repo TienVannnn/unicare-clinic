@@ -317,7 +317,7 @@ class MedicalCertificateController extends Controller
     public function print_re_exam($id)
     {
         $medical_certificate = MedicalCertificate::findOrFail($id);
-        if ($medical_certificate->re_examination_date && now()->lt($medical_certificate->re_examination_date)) {
+        if ($medical_certificate->re_examination_date && now()->gt($medical_certificate->re_examination_date)) {
             Session::flash('error', 'Không tồn tại giấy hẹn khám lại');
             return redirect()->back();
         }
@@ -355,8 +355,9 @@ class MedicalCertificateController extends Controller
             ]);
         }
     }
-    public function exportMedicalCertificates()
+    public function exportMedicalCertificates(Request $request)
     {
-        return Excel::download(new MedicalCertificateExport, 'giay_kham.xlsx');
+        $filterMode = $request->get('filter_mode');
+        return Excel::download(new MedicalCertificateExport($filterMode), 'danh_sach_giay_kham.xlsx');
     }
 }

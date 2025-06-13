@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\AppointmentExport;
 use App\Http\Controllers\Controller;
 use App\Jobs\ContactReplyJob;
 use App\Models\Admin;
@@ -10,6 +11,7 @@ use App\Models\AppointmentReply;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AppointmentController extends Controller
 {
@@ -185,5 +187,11 @@ class AppointmentController extends Controller
         $title = 'Danh sách lịch hẹn khám chưa đọc';
         $appointments = Appointment::where('is_viewed', 0)->orderByDesc('id')->paginate(15);
         return view('admin.appointment.unreadList', compact('title', 'appointments'));
+    }
+
+    public function export(Request $request)
+    {
+        $filterMode = $request->input('filter_mode');
+        return Excel::download(new AppointmentExport($filterMode), 'danh_sach_lich_hen_kham.xlsx');
     }
 }

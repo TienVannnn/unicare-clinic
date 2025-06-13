@@ -17,6 +17,19 @@
             $genderText = request('gender') == '1' ? 'Nam' : 'Nữ';
             $filters[] = 'Giới tính: <strong>' . $genderText . '</strong>';
         }
+        if (request()->filled('filter_mode')) {
+            $mode = request('filter_mode');
+            $label = match ($mode) {
+                'today' => 'Hôm nay',
+                'this_week' => 'Tuần này',
+                'this_month' => 'Tháng này',
+                'this_year' => 'Năm nay',
+                default => null,
+            };
+            if ($label) {
+                $filters[] = 'Chế độ lọc: <strong>' . $label . '</strong>';
+            }
+        }
     @endphp
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
@@ -46,6 +59,21 @@
                                 <option value="1" {{ request('gender') == '1' ? 'selected' : '' }}>Nam</option>
                                 <option value="0" {{ request('gender') == '0' ? 'selected' : '' }}>Nữ</option>
                             </select>
+                            <select name="filter_mode" title="Tìm kiếm theo ngày">
+                                <option value="">Chọn chế độ</option>
+                                <option value="today" {{ request('filter_mode') == 'today' ? 'selected' : '' }}>Hôm nay
+                                </option>
+                                <option value="this_week" {{ request('filter_mode') == 'this_week' ? 'selected' : '' }}>
+                                    Tuần này
+                                </option>
+                                <option value="this_month" {{ request('filter_mode') == 'this_month' ? 'selected' : '' }}>
+                                    Tháng này
+                                </option>
+                                <option value="this_year" {{ request('filter_mode') == 'this_year' ? 'selected' : '' }}>
+                                    Năm
+                                    này
+                                </option>
+                            </select>
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
                         </form>
                     </div>
@@ -55,7 +83,8 @@
             <div class="card-body">
                 @can('them-nhan-vien')
                     <div class="d-flex justify-content-end my-2 align-items-center">
-                        <a href="{{ route('patients.export') }}" class="btn btn-label-success btn-round btn-sm me-2">Excel</a>
+                        <a href="{{ route('patients.export', ['filter_mode' => request('filter_mode')]) }}"
+                            class="btn btn-label-success btn-round btn-sm me-2">Excel</a>
                         <a href="{{ route('patient.create') }}" class="btn btn-secondary">
                             <i class="fas fa-plus me-1"></i> Thêm bệnh nhân
                         </a>

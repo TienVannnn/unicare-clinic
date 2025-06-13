@@ -99,6 +99,11 @@
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
                         </form>
                     </div>
+                    <div class="d-flex justify-content-end my-2 align-items-center">
+                        <a href="{{ route('appointment.export', ['filter_mode' => request('filter_mode')]) }}"
+                            class="btn btn-label-success btn-round btn-sm
+                            me-2">Excel</a>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-end my-2">
                     <button id="mark-read-btn" class="btn btn-success btn-sm d-none"><i

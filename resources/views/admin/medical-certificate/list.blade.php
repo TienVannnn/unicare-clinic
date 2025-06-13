@@ -29,6 +29,19 @@
             $payments = ['0' => 'Chưa thanh toán', '1' => 'Đã thanh toán', '2' => 'Đã tạm ứng'];
             $filters[] = 'Thanh toán: <strong>' . ($payments[request('payment_status')] ?? 'Không rõ') . '</strong>';
         }
+        if (request()->filled('filter_mode')) {
+            $mode = request('filter_mode');
+            $label = match ($mode) {
+                'today' => 'Hôm nay',
+                'this_week' => 'Tuần này',
+                'this_month' => 'Tháng này',
+                'this_year' => 'Năm nay',
+                default => null,
+            };
+            if ($label) {
+                $filters[] = 'Chế độ lọc: <strong>' . $label . '</strong>';
+            }
+        }
     @endphp
     <div class="container">
         <div class="d-flex justify-content-between align-items-center m-4">
@@ -71,6 +84,21 @@
                                 <option value="2" {{ request('payment_status') == '0' ? 'selected' : '' }}>Đã tạm ứng
                                 </option>
                             </select>
+                            <select name="filter_mode" title="Tìm kiếm theo ngày">
+                                <option value="">Chọn chế độ</option>
+                                <option value="today" {{ request('filter_mode') == 'today' ? 'selected' : '' }}>Hôm nay
+                                </option>
+                                <option value="this_week" {{ request('filter_mode') == 'this_week' ? 'selected' : '' }}>
+                                    Tuần này
+                                </option>
+                                <option value="this_month" {{ request('filter_mode') == 'this_month' ? 'selected' : '' }}>
+                                    Tháng này
+                                </option>
+                                <option value="this_year" {{ request('filter_mode') == 'this_year' ? 'selected' : '' }}>
+                                    Năm
+                                    này
+                                </option>
+                            </select>
                             <button type="submit"><i class="fas fa-search search-icon"></i></button>
                         </form>
                     </div>
@@ -79,7 +107,7 @@
             <div class="card-body">
                 @can('them-giay-kham-benh')
                     <div class="d-flex justify-content-end my-2 align-items-center">
-                        <a href="{{ route('medical-certificates.export') }}"
+                        <a href="{{ route('medical-certificates.export', ['filter_mode' => request('filter_mode')]) }}"
                             class="btn btn-label-success btn-round btn-sm
                             me-2">Excel</a>
                         <a href="{{ route('medical-certificate.create') }}" class="btn btn-secondary"><i
@@ -113,7 +141,9 @@
                                     <tr>
                                         <td>{{ $medical_certificates->firstItem() + $key }}</td>
                                         <td>{{ $medical_certificate->medical_certificate_code }}</td>
-                                        <td>{{ $medical_certificate->patient->name }}</td>
+                                        <td><a href="{{ route('patient.show', $medical_certificate->patient->id) }}"
+                                                title="{{ $medical_certificate->patient->name . ' | ' . \Carbon\Carbon::parse($medical_certificate->patient->dob)->format('d/m/Y') }}">{{ $medical_certificate->patient->name }}</a>
+                                        </td>
                                         <td>{{ $medical_certificate->doctor->name ?? 'Chưa khám' }}</td>
                                         <td>{{ $medical_certificate->clinic->name ?? 'Chưa có' }}</td>
                                         <td>
@@ -189,8 +219,8 @@
                                                 @endif
                                                 <a href="{{ route('medical-certificate.show', $medical_certificate->id) }}"
                                                     class="btn btn-outline-success btn-xs me-2"
-                                                    title="Xem giấy khám bệnh"><i class="icon-eye" data-bs-toggle="tooltip"
-                                                        title="Xem giấy khám bệnh"></i></a>
+                                                    title="Xem giấy khám bệnh"><i class="icon-eye"
+                                                        data-bs-toggle="tooltip" title="Xem giấy khám bệnh"></i></a>
                                                 @can('chinh-sua-giay-kham-benh')
                                                     @if ($medical_certificate->medical_status == 0)
                                                         <a href="{{ route('medical-certificate.edit', $medical_certificate->id) }}"

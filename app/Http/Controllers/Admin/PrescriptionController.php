@@ -341,8 +341,9 @@ class PrescriptionController extends Controller
         }
     }
 
-    public function exportPrescriptions()
+    public function exportPrescriptions(Request $request)
     {
-        return Excel::download(new PrescriptionExport, 'don-thuoc.xlsx');
+        $filterMode = $request->input('filter_mode');
+        return Excel::download(new PrescriptionExport($filterMode), 'don-thuoc.xlsx');
     }
 }

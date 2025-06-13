@@ -109,7 +109,7 @@
             <td><strong>Ngày ra viện:</strong></td>
             <td colspan="5">
                 @if ($medical_certificate->discharge_date)
-                    {{ $medical_certificate->discharge_date->format('d/m/Y') }}
+                    {{ \Carbon\Carbon::parse($medical_certificate->discharge_date)->format('d/m/Y') }}
                 @endif
             </td>
         </tr>

@@ -115,7 +115,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/contact/{id}/mark-read', [ContactController::class, 'markRead'])->name('contact.markRead');
     Route::delete('/contact/{id}/delete', [ContactController::class, 'delete'])->name('admin.contact-delete');
     Route::get('/contact/{id}/reply', [ContactController::class, 'page_reply'])->name('admin.reply-contact');
-
+    Route::get('/appointment/export', [AppointmentController::class, 'export'])->name('appointment.export');
     Route::get('/appointment/unread', [AppointmentController::class, 'unreadAppointments'])->name('appointment.unread');
     Route::resource('/appointment', AppointmentController::class);
     Route::post('/appointment/bulk-delete', [AppointmentController::class, 'allDelete'])->name('appointment.bulkDelete');
@@ -131,11 +131,10 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::resource('/faq', AdminFaqController::class);
 
-    Route::get('/patient-export', function () {
-        return Excel::download(new PatientExport, 'danh_sach_benh_nhan.xlsx');
-    })->name('patients.export');
+    Route::get('/patient/export', [PatientController::class, 'export'])->name('patients.export');
     Route::get('/medical-certificates/export', [MedicalCertificateController::class, 'exportMedicalCertificates'])->name('medical-certificates.export');
     Route::get('/prescriptions/export', [PrescriptionController::class, 'exportPrescriptions'])->name('prescriptions.export');
+
     Route::get('/medicine-categories/export', [MedicineCategoryController::class, 'exportMedicineCategories'])->name('medicine-categories.export');
     Route::get('/medicines/export', [MedicineController::class, 'exportMedicines'])->name('medicines.export');
     Route::get('/medicine-batches/export', [MedicineBatchController::class, 'exportMedicineBatches'])->name('medicine-batches.export');

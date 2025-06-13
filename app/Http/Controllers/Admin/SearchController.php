@@ -244,6 +244,23 @@ class SearchController extends Controller
         if (request()->filled('gender')) {
             $patients->where('gender', request('gender'));
         }
+        if (request()->filled('filter_mode')) {
+            switch (request('filter_mode')) {
+                case 'today':
+                    $patients->whereDate('created_at', today());
+                    break;
+                case 'this_week':
+                    $patients->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'this_month':
+                    $patients->whereMonth('created_at', now()->month)
+                        ->whereYear('created_at', now()->year);
+                    break;
+                case 'this_year':
+                    $patients->whereYear('created_at', now()->year);
+                    break;
+            }
+        }
         $patients = $patients->orderByDesc('id')->paginate(15)->appends(request()->query());;
         $title = 'Tìm kiếm bệnh nhân';
         return view('admin.patient.list', compact('patients', 'title'));
@@ -275,6 +292,23 @@ class SearchController extends Controller
         }
         if (request()->filled('payment_status')) {
             $certificates->where('payment_status', request('payment_status'));
+        }
+        if (request()->filled('filter_mode')) {
+            switch (request('filter_mode')) {
+                case 'today':
+                    $certificates->whereDate('created_at', today());
+                    break;
+                case 'this_week':
+                    $certificates->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'this_month':
+                    $certificates->whereMonth('created_at', now()->month)
+                        ->whereYear('created_at', now()->year);
+                    break;
+                case 'this_year':
+                    $certificates->whereYear('created_at', now()->year);
+                    break;
+            }
         }
         $medical_certificates = $certificates->orderByDesc('id')->paginate(15)->appends(request()->query());
         $title = 'Tìm kiếm giấy khám bệnh';
@@ -321,6 +355,23 @@ class SearchController extends Controller
         }
         if (request()->filled('status')) {
             $prescriptions->where('status', request('status'));
+        }
+        if (request()->filled('filter_mode')) {
+            switch (request('filter_mode')) {
+                case 'today':
+                    $prescriptions->whereDate('created_at', today());
+                    break;
+                case 'this_week':
+                    $prescriptions->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'this_month':
+                    $prescriptions->whereMonth('created_at', now()->month)
+                        ->whereYear('created_at', now()->year);
+                    break;
+                case 'this_year':
+                    $prescriptions->whereYear('created_at', now()->year);
+                    break;
+            }
         }
         $prescriptions = $prescriptions->orderByDesc('id')->paginate(15)->appends(request()->query());
         $title = 'Tìm kiếm đơn thuốc';

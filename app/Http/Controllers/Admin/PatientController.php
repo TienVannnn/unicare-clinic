@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PatientExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PatientRequest;
 use App\Models\Patient;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PatientController extends Controller
 {
@@ -104,5 +106,11 @@ class PatientController extends Controller
                 : 'Có lỗi khi xóa bệnh nhân: ' . $e->getMessage();
             return  response()->json(['success' => false, 'message' => $message]);
         }
+    }
+
+    public function export(Request $request)
+    {
+        $filterMode = $request->input('filter_mode');
+        return Excel::download(new PatientExport($filterMode), 'danh_sach_benh_nhan.xlsx');
     }
 }
