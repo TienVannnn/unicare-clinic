@@ -131,7 +131,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::resource('/faq', AdminFaqController::class);
 
-    Route::get('/patient/export', [PatientController::class, 'export'])->name('patients.export');
+    Route::get('/patient-export', [PatientController::class, 'export'])->name('patients.export');
     Route::get('/medical-certificates/export', [MedicalCertificateController::class, 'exportMedicalCertificates'])->name('medical-certificates.export');
     Route::get('/prescriptions/export', [PrescriptionController::class, 'exportPrescriptions'])->name('prescriptions.export');
 

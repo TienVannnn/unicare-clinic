@@ -36,8 +36,13 @@ class Prescription extends Model
     protected static function boot()
     {
         parent::boot();
+
         static::created(function ($prescription) {
-            $prescription->prescription_code = 'DT' . str_pad($prescription->id, 5, '0', STR_PAD_LEFT);
+            $date = \Carbon\Carbon::parse($prescription->created_at);
+            $datePart = $date->format('ymd');
+            $countToday = \App\Models\Prescription::whereDate('created_at', $date)->count();
+            $orderPart = str_pad($countToday, 5, '0', STR_PAD_LEFT);
+            $prescription->prescription_code = 'DT-' . $datePart . '-' . $orderPart;
             $prescription->save();
         });
     }

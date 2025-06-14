@@ -51,8 +51,12 @@ class MedicalCertificate extends Model
     protected static function boot()
     {
         parent::boot();
+
         static::created(function ($medical_certificate) {
-            $medical_certificate->medical_certificate_code = 'GK' . str_pad($medical_certificate->id, 8, '0', STR_PAD_LEFT);
+            $date = \Carbon\Carbon::parse($medical_certificate->created_at)->format('ymd');
+            $countToday = self::whereDate('created_at', $medical_certificate->created_at)->count();
+            $orderPart = str_pad($countToday, 5, '0', STR_PAD_LEFT);
+            $medical_certificate->medical_certificate_code = 'GK-' . $date . '-' . $orderPart;
             $medical_certificate->save();
         });
     }
