@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\AppointmentMail;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,23 +14,23 @@ use Illuminate\Support\Facades\Mail;
 class AppointmentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $user, $token, $isNew, $pass;
-    /**
-     * Create a new job instance.
-     */
-    public function __construct($user, $token, $isNew, $pass)
+
+    protected $userId, $token, $isNew, $pass;
+
+    public function __construct($userId, $token, $isNew, $pass)
     {
-        $this->user = $user;
+        $this->userId = $userId;
         $this->token = $token;
         $this->isNew = $isNew;
         $this->pass = $pass;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        Mail::to($this->user->email)->send(new AppointmentMail($this->user, $this->token, $this->isNew, $this->pass));
+        $user = User::find($this->userId);
+
+        if ($user && $user->email) {
+            Mail::to($user->email)->send(new AppointmentMail($user, $this->token, $this->isNew, $this->pass));
+        }
     }
 }
