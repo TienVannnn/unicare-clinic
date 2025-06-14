@@ -92,7 +92,8 @@
                                     </div>
                                     <div class="notif-content">
                                         <span class="block"> <span
-                                                style="color: dodgerblue">{{ $appointment->name }}</span> đã đặt lịch hẹn
+                                                style="color: dodgerblue">{{ $appointment->user->name }}</span> đã đặt lịch
+                                            hẹn
                                             khám</span>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="time">{{ $appointment->created_at->diffForHumans() }}</span>

@@ -37,50 +37,11 @@
                             <form class="form" method="post" action="{{ route('user.contact') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input type="text"
-                                                class="@error('name')
-                                                is-invalid
-                                            @enderror"
-                                                value="{{ old('name') }}" name="name" placeholder="Nhập tên" />
-                                            @error('name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="email"
-                                                class="@error('email')
-                                            is-invalid
-                                        @enderror"
-                                                value="{{ old('email') }}" name="email" placeholder="Nhập email" />
-                                            @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text"
-                                                class="@error('phone')
-                                            is-invalid
-                                        @enderror"
-                                                value="{{ old('phone') }}" name="phone"
-                                                placeholder="Nhập số điện thoại" />
-                                            @error('phone')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text"
-                                                class="@error('title')
-                                            is-invalid
-                                        @enderror"
-                                                value="{{ old('title') }}" name="title" placeholder="Nhập tiêu đề" />
+                                            <input type="text" class="@error('title') is-invalid @enderror"
+                                                value="{{ old('title') }}" name="title" placeholder="Nhập tiêu đề"
+                                                @guest disabled @endguest />
                                             @error('title')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -88,23 +49,28 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <textarea name="message"
-                                                class="@error('message')
-                                            is-invalid
-                                        @enderror"
-                                                placeholder="Nhập nội dung">{{ old('message') }}</textarea>
+                                            <textarea name="message" class="@error('message') is-invalid @enderror" placeholder="Nhập nội dung"
+                                                @guest disabled @endguest>{{ old('message') }}</textarea>
                                             @error('message')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
+
                                     <div class="col-12">
                                         <div class="form-group login-btn">
-                                            <button class="btn" type="submit">Gửi</button>
+                                            @auth
+                                                <button class="btn" type="submit">Gửi</button>
+                                            @endauth
+
+                                            @guest
+                                                <a href="{{ route('user.login') }}" class="btn btn-primary">Đăng nhập để gửi</a>
+                                            @endguest
                                         </div>
                                     </div>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>

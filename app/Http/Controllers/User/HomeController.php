@@ -18,6 +18,7 @@ use App\Models\WorkSchedule;
 use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Patient;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,16 +47,15 @@ class HomeController extends Controller
     public function contact(ContactRequest $request)
     {
         try {
+            $user = auth()->user();
             $data = Contact::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
+                'user_id' => $user->id,
                 'title' => $request->title,
                 'message' => $request->message,
                 'status' => 0
             ]);
             $count = Contact::where('status', 0)->count();
-            event(new ContactEvent($data['title'], $data['name'], $data['id'], $count));
+            event(new ContactEvent($data['title'], $user->name, $data['id'], $count));
             Session::flash('success', 'Gửi liên hệ thành công');
         } catch (\Exception $e) {
             Session::flash('error', 'Có lỗi khi liên hệ' . $e->getMessage());
@@ -131,6 +131,32 @@ class HomeController extends Controller
     {
         try {
             DB::beginTransaction();
+            $user = User::where('email', $request->email)->first();
+            $isNewUser = false;
+            $randomPassword = null;
+
+            if ($user) {
+                if (
+                    $user->name !== $request->name ||
+                    $user->phone !== $request->phone
+                ) {
+                    DB::rollBack();
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Email đã được sử dụng với thông tin khác. Vui lòng kiểm tra lại họ tên và số điện thoại hoặc đăng nhập bằng tài khoản được gửi vào email của bạn lần đặt lịch trước'
+                    ]);
+                }
+            } else {
+                $isNewUser = true;
+                $randomPassword = Str::random(10);
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'password' => bcrypt($randomPassword),
+                ]);
+            }
+
             $exists = Appointment::where('doctor_id', $request->doctor_id)
                 ->where('appointment_date', $request->appointment_date)
                 ->where('start_time', $request->start_time)
@@ -140,10 +166,10 @@ class HomeController extends Controller
                 DB::rollBack();
                 return response()->json(['success' => false, 'message' => 'Khung giờ này đã được đặt. Vui lòng chọn giờ khác.']);
             }
+
             $data = Appointment::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
+                'user_id' => $user->id,
+                'patient_name' => $request->patient_name,
                 'dob' => $request->dob,
                 'gender' => $request->gender,
                 'department_id' => $request->department_id,
@@ -156,10 +182,10 @@ class HomeController extends Controller
                 'cancel_token' => Str::uuid(),
             ]);
             DB::commit();
-            AppointmentJob::dispatch($data->email, $data->cancel_token)->delay(now()->addSecond(10));
+            AppointmentJob::dispatch($user, $data->cancel_token, $isNewUser, $randomPassword)->delay(now()->addSecond(10));
             $count = Appointment::where('is_viewed', false)->count();
             $doctor = Admin::find($data['doctor_id']);
-            event(new AppointmentEvent($data['name'], $data['id'], $count, $doctor->name));
+            event(new AppointmentEvent($user->name, $data['id'], $count, $doctor->name));
             return response()->json(['success' => true, 'message' => 'Đặt lịch khám thành công']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Có lỗi khi đặt lịch khám!']);

@@ -26,36 +26,38 @@ class BookAppointmentRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'phone' => ['required', 'regex:/^(0|\+84)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$/'],
+            'patient_name' => 'required',
             'dob' => 'required|before:today',
             'gender' => 'in:1,2',
             'department_id' => 'required|exists:departments,id',
             'doctor_id' => 'required|exists:admins,id',
-            'appointment_date' => 'required|after_or_equal:today',
+            'appointment_date' => 'required|after:today',
             'start_time' => 'required|date_format:H:i',
             'note' => 'required'
         ];
     }
 
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            $date = $this->input('appointment_date');
-            $time = $this->input('start_time');
+    // public function withValidator($validator)
+    // {
+    //     $validator->after(function ($validator) {
+    //         $date = $this->input('appointment_date');
+    //         $time = $this->input('start_time');
 
-            if ($date && $time) {
-                $appointment = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
-                $now = Carbon::now();
+    //         if ($date && $time) {
+    //             $appointment = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
+    //             $now = Carbon::now();
 
-                if ($appointment->isToday() && $appointment->lt($now)) {
-                    $validator->errors()->add('start_time', 'Giờ khám phải nằm sau thời điểm hiện tại.');
-                }
-            }
-        });
-    }
+    //             if ($appointment->isToday() && $appointment->lt($now)) {
+    //                 $validator->errors()->add('start_time', 'Giờ khám phải nằm sau thời điểm hiện tại.');
+    //             }
+    //         }
+    //     });
+    // }
     public function messages(): array
     {
         return [
-            'name.required' => 'Vui lòng nhập tên.',
+            'name.required' => 'Vui lòng nhập tên người đăng ký.',
+            'patient_name.required' => 'Vui lòng nhập tên người khám.',
             'email.required' => 'Vui lòng nhập email.',
             'email.email' => 'Email không đúng định dạng.',
             'phone.required' => 'Vui lòng nhập số điện thoại.',

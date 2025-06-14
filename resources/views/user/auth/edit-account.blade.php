@@ -16,7 +16,7 @@
                 @enderror
             </div>
             <div class="form-outline mb-3 col-lg-6">
-                <label class="form-label" for="phone">Điện thoại</label>
+                <label class="form-label" for="phone">Điện thoại <span class="text-danger">*</span></label>
                 <input type="number" id="phone" class="form-control @error('phone') is-invalid @enderror"
                     name="phone" value="{{ $user->phone ? $user->phone : old('phone') }}"
                     placeholder="Nhập số điện thoại" />

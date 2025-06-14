@@ -61,9 +61,9 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th><input type="checkbox" id="select-all"></th>
-                                    <th scope="col">Người gửi</th>
+                                    <th scope="col">Người đăng ký</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Số điện thoại</th>
+                                    <th scope="col">Người khám/th>
                                     <th scope="col">Chuyên khoa</th>
                                     <th scope="col">Bác sĩ</th>
                                     <th scope="col">Thời gian</th>
@@ -77,9 +77,9 @@
                                                 value="{{ $appointment->id }}"
                                                 data-is-viewed="{{ $appointment->is_viewed }}">
                                         </td>
-                                        <td>{{ $appointment->name }}</td>
-                                        <td>{{ $appointment->email }}</td>
-                                        <td>{{ $appointment->phone }}</td>
+                                        <td>{{ $appointment->user->name }}</td>
+                                        <td>{{ $appointment->user->email }}</td>
+                                        <td>{{ $appointment->patient_name }}</td>
                                         <td>{{ $appointment->department->name }}</td>
                                         <td>{{ $appointment->doctor->name }}</td>
                                         <td>

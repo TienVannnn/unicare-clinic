@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Mail;
 class AppointmentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $email, $token;
+    protected $user, $token, $isNew, $pass;
     /**
      * Create a new job instance.
      */
-    public function __construct($email, $token)
+    public function __construct($user, $token, $isNew, $pass)
     {
-        $this->email = $email;
+        $this->user = $user;
         $this->token = $token;
+        $this->isNew = $isNew;
+        $this->pass = $pass;
     }
 
     /**
@@ -28,6 +30,6 @@ class AppointmentJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->email)->send(new AppointmentMail($this->email, $this->token));
+        Mail::to($this->user->email)->send(new AppointmentMail($this->user, $this->token, $this->isNew, $this->pass));
     }
 }

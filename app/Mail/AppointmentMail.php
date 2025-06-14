@@ -12,17 +12,23 @@ use Illuminate\Queue\SerializesModels;
 class AppointmentMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $email, $token;
-    public function __construct($email, $token)
+    protected $user, $token, $isNew, $pass;
+    public function __construct($user, $token, $isNew, $pass)
     {
-        $this->email = $email;
+        $this->user = $user;
         $this->token = $token;
+        $this->isNew = $isNew;
+        $this->pass = $pass;
     }
 
     public function build()
     {
-        return $this->subject($this->email)
+        return $this->subject('Thông báo đặt lịch hẹn khám')
             ->view('admin.mail.appointment')
-            ->with(['token' => $this->token]);
+            ->with([
+                'token' => $this->token,
+                'isNew' => $this->isNew,
+                'pass' => $this->pass,
+            ]);
     }
 }

@@ -18,11 +18,20 @@
                 <table class="table table-bordered ">
                     <tr>
                         <td style="width: 20%; white-space: nowrap; font-weight: 600;text-transform: capitalize;">Thông
-                            tin người dùng</td>
-                        <td>{{ $appointment->name }} <i class="fas fa-angle-left"></i>{{ $appointment->email }}<i
+                            tin người đăng ký</td>
+                        <td>{{ $appointment->user->name }} <i
+                                class="fas fa-angle-left"></i>{{ $appointment->user->email }}<i
                                 class="fas fa-angle-right"></i> <br> Điện thoại:
-                            {{ $appointment->phone }} <br>
+                            {{ $appointment->user->phone }} <br>
                             Thời gian gửi yêu cầu: {{ $appointment->created_at->format('H:i d/m/Y') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; white-space: nowrap; font-weight: 600;text-transform: capitalize;">Thông
+                            tin người khám</td>
+                        <td>{{ $appointment->patient_name }}<br>Giới tính:
+                            {{ $appointment->gender == 1 ? 'Nam' : 'Nữ' }} <br>
+                            Ngày sinh: {{ \Carbon\Carbon::parse($appointment->dob)->format('d/m/Y') }}
                         </td>
                     </tr>
                     <tr>

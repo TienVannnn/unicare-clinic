@@ -24,7 +24,7 @@ class EditAccountRequest extends FormRequest
         $user  = auth()->id();
         return [
             'name' => 'required',
-            'phone' => ['nullable', 'unique:users,phone,' .  $user, 'regex:/^(0|\+84)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$/'],
+            'phone' => ['required', 'unique:users,phone,' .  $user, 'regex:/^(0|\+84)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$/'],
             'address' => 'nullable|string',
             'patient_code' => 'nullable|exists:patients,patient_code'
         ];
@@ -34,6 +34,7 @@ class EditAccountRequest extends FormRequest
     {
         return [
             'name.required' => 'Vui lòng nhập tên.',
+            'phone.required' => 'Vui lòng nhập số điện thoại',
             'phone.unique' => 'Số điện thoại này đã tồn tại',
             'phone.regex' => 'Số điện thoại không hợp lệ',
             'patient_code.exists' => 'Mã bệnh nhân không tồn tại'

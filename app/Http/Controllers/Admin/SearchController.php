@@ -439,8 +439,10 @@ class SearchController extends Controller
         if (request()->filled('q')) {
             $contacts->where(function ($q) use ($query) {
                 $q->where('title', 'like', '%' . $query . '%')
-                    ->orWhere('name', 'like', '%' . $query . '%')
-                    ->orWhere('email', 'like', '%' . $query . '%');
+                    ->orWhereHas('user', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                        $q->orWhere('email', 'like', '%' . $query . '%');
+                    });
             });
         }
 
@@ -482,11 +484,15 @@ class SearchController extends Controller
         $appointments = Appointment::query();
         if (request()->filled('q')) {
             $appointments->where(function ($q) use ($query) {
-                $q->where('phone', 'like', '%' . $query . '%')
-                    ->orWhere('name', 'like', '%' . $query . '%')
-                    ->orWhere('email', 'like', '%' . $query . '%')
+
+                $q->where('patient_name', 'like', '%' . $query . '%')
+
                     ->orWhereHas('department', function ($q) use ($query) {
                         $q->where('name', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('user', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                        $q->orWhere('email', 'like', '%' . $query . '%');
                     })
                     ->orWhereHas('doctor', function ($q) use ($query) {
                         $q->where('name', 'like', '%' . $query . '%');

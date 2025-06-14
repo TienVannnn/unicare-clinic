@@ -107,6 +107,15 @@
                 </a>
             </p>
         </div>
+        @if ($isNew)
+            <div>
+                <div>Hệ thống đã tạo cho bạn tài khoản để đăng nhập hệ thống. Bạn có thể đăng nhập để đặt lịch dễ dàng
+                    hơn!</div>
+                <p><strong>Email đăng nhập:</strong> {{ $user->email }}</p>
+                <p><strong>Mật khẩu tạm:</strong> {{ $pass }}</p>
+                <p>Vui lòng đăng nhập và đổi mật khẩu sau lần đăng nhập đầu tiên.</p>
+            </div>
+        @endif
         <div class="info-block">
             <div class="section-title">HỆ THỐNG PHÒNG KHÁM UNICARE</div>
             <p><strong>Phòng khám Nha Trang:</strong> 59 Lê Thành Phương, Phường Phương Sài, TP. Nha Trang</p>

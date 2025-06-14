@@ -10,9 +10,8 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
+        'user_id',
+        'patient_name',
         'dob',
         'gender',
         'department_id',
@@ -38,5 +37,10 @@ class Appointment extends Model
     public function appointmentReplies()
     {
         return $this->hasMany(AppointmentReply::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

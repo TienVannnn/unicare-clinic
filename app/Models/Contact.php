@@ -10,9 +10,7 @@ class Contact extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
+        'user_id',
         'title',
         'message',
         'status'
@@ -21,5 +19,10 @@ class Contact extends Model
     public function contactReplies()
     {
         return $this->hasMany(ContactReply::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

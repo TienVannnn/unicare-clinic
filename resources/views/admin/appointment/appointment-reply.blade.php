@@ -18,13 +18,13 @@
                         <tr>
                             <td style="width: 20%; white-space: nowrap;">Tiêu đề gửi</td>
                             <td><input type="text" name="title"
-                                    value="Re:{{ $appointment->name }} - {{ $appointment->phone }}" readonly
+                                    value="Re:{{ $appointment->user->name }} - {{ $appointment->user->phone }}" readonly
                                     class="readonly form-control w-auto">
                             </td>
                         </tr>
                         <tr>
                             <td style="width: 20%; white-space: nowrap;">Gửi tới email</td>
-                            <td><input type="email" name="email" value="{{ $appointment->email }} "
+                            <td><input type="email" name="email" value="{{ $appointment->user->email }} "
                                     class="readonly form-control w-auto" readonly></td>
                         </tr>
                         <tr>
@@ -77,30 +77,48 @@
             heightMax: 500
         });
         const confirmContent = `
-        <div class="header" style="font-weight: bold; font-size: 25px">XÁC NHẬN ĐẶT LỊCH HẸN</div>
-        <p>Kính chào quý khách: {{ $appointment->name }}</p>
-        <p>Cảm ơn quý khách đã đặt lịch hẹn tại <a href="https://unicaremedic.ntu264.vpsttt.vn">Unicare medic</a></p>
-        <p>Chúng tôi đã nhận được lịch hẹn của quý khách với thông tin như dưới đây:</p>
+    <div class="header" style="font-weight: bold; font-size: 25px">XÁC NHẬN ĐẶT LỊCH HẸN</div>
+    <p>Kính chào quý khách: {{ $appointment->name }}</p>
+    <p>Cảm ơn quý khách đã đặt lịch hẹn tại <a href="https://unicaremedic.ntu264.vpsttt.vn">Unicare medic</a></p>
+    <p>Chúng tôi đã nhận được lịch hẹn của quý khách với thông tin như dưới đây:</p>
 
-        <div class="info-block">
-            <div class="section-title">THÔNG TIN LỊCH HẸN KHÁM</div>
-            <p><strong>NGÀY ĐẶT HẸN:</strong> {{ $appointment->start_time }} -
-                {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d/m/Y') }}</p>
-            <p><strong>BÁC SĨ:</strong> Bs. {{ $appointment->doctor->name }}</p>
-            <p><strong>CHUYÊN KHOA:</strong> {{ $appointment->department->name }}</p>
-        </div>
+    <div class="info-block">
+        <div class="section-title">THÔNG TIN LỊCH HẸN KHÁM</div>
+        <p><strong>NGÀY ĐẶT HẸN:</strong> {{ $appointment->start_time }} -
+            {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d/m/Y') }}</p>
+        <p><strong>BÁC SĨ:</strong> Bs. {{ $appointment->doctor->name }}</p>
+        <p><strong>CHUYÊN KHOA:</strong> {{ $appointment->department->name }}</p>
+    </div>
 
-        <div class="info-block">
-            <p><strong>Thông tin bệnh nhân:</strong></p>
-            <p>Họ và tên: {{ $appointment->name }}</p>
-            <p>Ngày sinh: {{ $appointment->dob }}</p>
-            <p>Giới tính: {{ $appointment->gender == 1 ? 'Nam' : 'Nữ' }}</p>
-            <p><strong>Điện thoại:</strong> {{ $appointment->phone }}</p>
-            <p><strong>Email:</strong> <a href="mailto:{{ $appointment->email }}">{{ $appointment->email }}</a></p>
-            <p><strong>Lời nhắn:</strong> {{ $appointment->note }}</p>
-            <p class="text-center text-danger">Vui lòng đến đúng giờ để được hướng dẫn khám, chữa bệnh.</p>
-        </div>
-    `;
+    <div class="section-title">THÔNG TIN LỊCH HẸN KHÁM</div>
+    <div style="display: flex; gap: 40px; margin-top: 20px;">
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 48%;">
+            <thead>
+                <tr><th colspan="2" style="background-color: #f0f0f0;">Thông tin người đăng ký</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Họ và tên</td><td>{{ $appointment->user->name }}</td></tr>
+                <tr><td>Điện thoại</td><td>{{ $appointment->user->phone }}</td></tr>
+                <tr><td>Email</td><td><a href="mailto:{{ $appointment->user->email }}">{{ $appointment->user->email }}</a></td></tr>
+                <tr><td>Lời nhắn</td><td>{{ $appointment->note }}</td></tr>
+            </tbody>
+        </table>
+
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 48%;">
+            <thead>
+                <tr><th colspan="2" style="background-color: #f0f0f0;">Thông tin bệnh nhân</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Họ và tên</td><td>{{ $appointment->patient_name }}</td></tr>
+                <tr><td>Ngày sinh</td><td>{{ $appointment->dob }}</td></tr>
+                <tr><td>Giới tính</td><td>{{ $appointment->gender == 1 ? 'Nam' : 'Nữ' }}</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-center text-danger" style="margin-top: 30px;">Vui lòng đến đúng giờ để được hướng dẫn khám, chữa bệnh.</p>
+`;
+
 
         const cancelContent = `
         <div class="header" style="font-weight: bold; font-size: 25px">HỦY LỊCH HẸN</div>

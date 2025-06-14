@@ -28,6 +28,14 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="phone">Điện thoại <span class="text-danger">*</span></label>
+                        <input type="phone" id="phone" class="form-control @error('phone') is-invalid @enderror"
+                            name="phone" value="{{ old('phone') }}" placeholder="Nhập số điện thoại">
+                        @error('phone')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="password">Mật khẩu <span class="text-danger">*</span></label>

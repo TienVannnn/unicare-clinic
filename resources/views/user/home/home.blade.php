@@ -171,24 +171,34 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="name" class="form-label">Họ tên <span
+                                    <label for="name" class="form-label">Họ tên người đăng ký <span
                                             class="text-danger">*</span></label>
-                                    <input name="name" id="name" type="text" placeholder="Nhập tên" />
+                                    <input name="name" id="name" type="text" placeholder="Tên người đăng ký"
+                                        value="{{ auth()->check() ? auth()->user()->name : '' }}" />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="email" class="form-label">Email <span
                                             class="text-danger">*</span></label>
-                                    <input name="email" id="email" type="email" placeholder="Nhập email" />
+                                    <input name="email" id="email" type="email" placeholder="Nhập email"
+                                        value="{{ auth()->check() ? auth()->user()->email : '' }}" />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="phone" class="form-label">Điện thoại <span
                                             class="text-danger">*</span></label>
-                                    <input name="phone" id="phone" type="text"
-                                        placeholder="Nhập số điện thoại" />
+                                    <input name="phone" id="phone" type="text" placeholder="Nhập số điện thoại"
+                                        value="{{ auth()->check() ? auth()->user()->phone : '' }}" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="patient_name" class="form-label">Họ tên người khám <span
+                                            class="text-danger">*</span></label>
+                                    <input name="patient_name" id="patient_name" type="text"
+                                        placeholder="Tên người khám" />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
@@ -242,7 +252,7 @@
                                     <label for="appointment_date" class="form-label">Ngày khám <span
                                             class="text-danger">*</span></label>
                                     <input type="date" name="appointment_date" id="appointment_date"
-                                        min="{{ \Carbon\Carbon::now()->toDateString() }}">
+                                        min="{{ \Carbon\Carbon::tomorrow()->toDateString() }}">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">

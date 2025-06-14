@@ -23,7 +23,7 @@ class AppointmentController extends Controller
     {
         $this->authorize('xem-danh-sach-lich-hen-kham');
         $title = 'Danh sách lịch hẹn khám';
-        $appointments = Appointment::orderByDesc('id')->paginate(15);
+        $appointments = Appointment::with('user')->orderByDesc('id')->paginate(15);
         return view('admin.appointment.list', compact('title', 'appointments'));
     }
 

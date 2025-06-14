@@ -117,8 +117,8 @@
                                         <td><input type="checkbox" class="contact-checkbox" value="{{ $contact->id }}"
                                                 data-status="{{ $contact->status }}">
                                         </td>
-                                        <td>{{ $contact->name }}</td>
-                                        <td>{{ $contact->email }}</td>
+                                        <td>{{ $contact->user->name }}</td>
+                                        <td>{{ $contact->user->email }}</td>
                                         <td>{{ $contact->title }}</td>
                                         <td>
                                             @php
