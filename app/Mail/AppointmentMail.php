@@ -12,10 +12,10 @@ use Illuminate\Queue\SerializesModels;
 class AppointmentMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $user, $token, $isNew, $pass;
-    public function __construct($user, $token, $isNew, $pass)
+    protected $email, $token, $isNew, $pass;
+    public function __construct($email, $token, $isNew, $pass)
     {
-        $this->user = $user;
+        $this->email = $email;
         $this->token = $token;
         $this->isNew = $isNew;
         $this->pass = $pass;

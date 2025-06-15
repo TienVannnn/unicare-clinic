@@ -15,11 +15,11 @@ class AppointmentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $userId, $token, $isNew, $pass;
+    protected $email, $token, $isNew, $pass;
 
-    public function __construct($userId, $token, $isNew, $pass)
+    public function __construct($email, $token, $isNew, $pass)
     {
-        $this->userId = $userId;
+        $this->email = $email;
         $this->token = $token;
         $this->isNew = $isNew;
         $this->pass = $pass;
@@ -27,10 +27,6 @@ class AppointmentJob implements ShouldQueue
 
     public function handle(): void
     {
-        $user = User::find($this->userId);
-
-        if ($user && $user->email) {
-            Mail::to($user->email)->send(new AppointmentMail($user, $this->token, $this->isNew, $this->pass));
-        }
+        Mail::to($this->email)->send(new AppointmentMail($this->email, $this->token, $this->isNew, $this->pass));
     }
 }
